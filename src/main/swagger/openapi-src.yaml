@@ -1,5 +1,6 @@
 resourcePackages:
-  - cj.software.genetics.schedule.server
+  - cj.software.genetics.schedule.server.api
+  - cj.software.genetics.schedule.server.api.entity
 prettyPrint: true
 cacheTTL: 0
 openAPI:

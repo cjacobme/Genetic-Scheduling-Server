@@ -83,7 +83,8 @@
                 <configuration>
                     <outputPath>${project.basedir}/target/generated-resources/swagger</outputPath>
                     <resourcePackages>
-                        <resourcePackage>cj.software.genetics.schedule.server</resourcePackage>
+                        <resourcePackage>cj.software.genetics.schedule.server.api</resourcePackage>
+                        <resourcePackage>cj.software.genetics.schedule.server.api.entity</resourcePackage>
                     </resourcePackages>
                     <prettyPrint>true</prettyPrint>
                     <outputFormat>YAML</outputFormat>
