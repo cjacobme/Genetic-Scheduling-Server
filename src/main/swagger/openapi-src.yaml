@@ -1,0 +1,20 @@
+resourcePackages:
+  - cj.software.genetics.schedule.server
+prettyPrint: true
+cacheTTL: 0
+openAPI:
+  info:
+    version: '${project.version}'
+    title: ${project.name}
+    description: >
+      This is the API for calculating scheduling solutions with the help of genetic algorithms
+    contact:
+      email: christian.jacob@eon.com
+      name: Christian Jacob
+      url: http://www.eon.de
+    license:
+      name: Apache 2.0
+      url: http://www.apache.org/licenses/LICENSE-2.0.html
+  tags:
+    - name: operations
+      description: operations to generate Edifact messages
