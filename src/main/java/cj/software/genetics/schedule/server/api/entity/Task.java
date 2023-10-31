@@ -42,12 +42,8 @@ public class Task implements Serializable {
     @NotNull
     @Schema(
             title = "identifier of the task",
-            requiredMode = Schema.RequiredMode.REQUIRED,
-            description = """
-                    identifies all tasks from each other. Of course it is in theory possible to use different
-                    types for the identifier, this is not recommended.
-                    """)
-    private Serializable identifier;
+            requiredMode = Schema.RequiredMode.REQUIRED)
+    private Integer identifier;
 
     private Task() {
     }
@@ -60,7 +56,7 @@ public class Task implements Serializable {
         return durationUnit;
     }
 
-    public Serializable getIdentifier() {
+    public Integer getIdentifier() {
         return identifier;
     }
 
@@ -112,7 +108,7 @@ public class Task implements Serializable {
             return result;
         }
 
-        public Builder withIdentifier(Serializable identifier) {
+        public Builder withIdentifier(Integer identifier) {
             instance.identifier = identifier;
             return this;
         }

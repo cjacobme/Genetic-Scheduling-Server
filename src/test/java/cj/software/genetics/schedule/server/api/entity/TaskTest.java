@@ -53,7 +53,7 @@ class TaskTest {
     void constructFilled() {
         Integer durationValue = -10;
         TimeUnit durationUnit = TimeUnit.DAYS;
-        Serializable identifier = 1L;
+        Integer identifier = 1;
         Task instance = Task.builder()
                 .withIdentifier(identifier)
                 .withDurationValue(durationValue)
@@ -103,14 +103,14 @@ class TaskTest {
     @Test
     void unequalId() {
         Task instance1 = new TaskBuilder().build();
-        Task instance2 = new TaskBuilder().withIdentifier("anotherone").build();
+        Task instance2 = new TaskBuilder().withIdentifier(54321).build();
         assertThat(instance1).isNotEqualTo(instance2);
     }
 
     @Test
     void unequalIdHashes() {
         Task instance1 = new TaskBuilder().build();
-        Task instance2 = new TaskBuilder().withIdentifier("anotherone").build();
+        Task instance2 = new TaskBuilder().withIdentifier(54321).build();
         int hash1 = instance1.hashCode();
         int hash2 = instance2.hashCode();
         assertThat(hash1).isNotEqualTo(hash2);
