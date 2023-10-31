@@ -1,7 +1,5 @@
 package cj.software.genetics.schedule.server.api.entity;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
 import javax.validation.constraints.NotEmpty;
 import java.io.Serial;
 import java.io.Serializable;
@@ -9,11 +7,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
-@Schema(
-        title = "scheduling problem",
-        description = "describes the scheduling problem to be solved"
-)
 public class SchedulingProblem implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;

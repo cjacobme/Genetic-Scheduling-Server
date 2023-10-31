@@ -1,6 +1,5 @@
 package cj.software.genetics.schedule.server.api.entity;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -12,37 +11,18 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
-@Schema(
-        title = "Task",
-        description = "a task that needs to be scheduled",
-        example = """
-                {
-                    "identifier": 13,
-                    "durationValue": 20,
-                    "durationUnit": "SECONDS"
-                }
-                """
-)
 public class Task implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @NotNull
     @Min(1)
-    @Schema(
-            title = "the duration value",
-            requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer durationValue;
 
     @NotNull
-    @Schema(title = "the time unit for the duration",
-            requiredMode = Schema.RequiredMode.REQUIRED)
     private TimeUnit durationUnit;
 
     @NotNull
-    @Schema(
-            title = "identifier of the task",
-            requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer identifier;
 
     private Task() {
