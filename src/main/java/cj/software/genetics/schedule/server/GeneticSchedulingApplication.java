@@ -1,13 +1,11 @@
 package cj.software.genetics.schedule.server;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootConfiguration
-@ServletComponentScan
+@SpringBootApplication
 public class GeneticSchedulingApplication {
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         SpringApplication.run(GeneticSchedulingApplication.class, args);
     }
 }
