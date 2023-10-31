@@ -1,6 +1,8 @@
 package cj.software.genetics.schedule.server.api.entity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javax.validation.ConstraintViolation;
@@ -22,6 +24,21 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class SchedulingProblemTest {
+
+    private static ValidatorFactory validatorFactory;
+
+    private static Validator validator;
+
+    @BeforeAll
+    static void createValidation() {
+        validatorFactory = Validation.buildDefaultValidatorFactory();
+        validator = validatorFactory.getValidator();
+    }
+
+    @AfterAll
+    static void closeValidation() {
+        validatorFactory.close();
+    }
 
     @Test
     void implementsSerializable() {
@@ -67,16 +84,20 @@ class SchedulingProblemTest {
     @Test
     void defaultIsValid() {
         SchedulingProblem instance = new SchedulingProblemBuilder().build();
-        try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
-            Validator validator = factory.getValidator();
-            Set<ConstraintViolation<SchedulingProblem>> violations = validator.validate(instance);
-            assertThat(violations).as("constraint violations").isEmpty();
-        }
+        validate(instance);
+    }
+
+    private void validate(SchedulingProblem instance) {
+        Set<ConstraintViolation<SchedulingProblem>> violations = validator.validate(instance);
+        assertThat(violations).as("constraint violations").isEmpty();
     }
 
     @Test
     void readFromJson() throws IOException {
         try (InputStream is = Objects.requireNonNull(SchedulingProblemTest.class.getResourceAsStream("SchedulingProblem.json"))) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            SchedulingProblem loaded = objectMapper.readValue(is, SchedulingProblem.class);
+            validate(loaded);
             SchedulingProblem expected = SchedulingProblem.builder()
                     .withPriorities(List.of(
                             ProblemPriority.builder()
@@ -97,9 +118,7 @@ class SchedulingProblemTest {
                                     ))
                                     .build()
                     )).build();
-            ObjectMapper objectMapper = new ObjectMapper();
-            SchedulingProblem instance = objectMapper.readValue(is, SchedulingProblem.class);
-            assertThat(instance).usingRecursiveComparison().isEqualTo(expected);
+            assertThat(loaded).usingRecursiveComparison().isEqualTo(expected);
         }
     }
 }
