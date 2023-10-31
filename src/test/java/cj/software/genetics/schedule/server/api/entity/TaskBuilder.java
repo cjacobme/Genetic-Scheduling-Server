@@ -4,7 +4,9 @@ import java.util.concurrent.TimeUnit;
 
 public class TaskBuilder extends Task.Builder{
     public TaskBuilder() {
-        super.withDurationValue(10)
+        super
+                .withIdentifier("4243")
+                .withDurationValue(10)
                 .withDurationUnit(TimeUnit.SECONDS);
     }
 }
