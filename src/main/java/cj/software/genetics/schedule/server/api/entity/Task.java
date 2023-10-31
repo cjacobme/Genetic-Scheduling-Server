@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
         description = "a task that needs to be scheduled",
         example = """
                 {
+                    "identifier": 13,
                     "durationValue": 20,
                     "durationUnit": "SECONDS"
                 }
