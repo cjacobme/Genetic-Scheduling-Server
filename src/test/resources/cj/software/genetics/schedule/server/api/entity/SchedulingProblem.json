@@ -1,0 +1,41 @@
+{
+  "priorities": [
+    {
+      "value": 1,
+      "slotCount": 150,
+      "tasks": [
+        {
+          "identifier": 1,
+          "durationValue": 10,
+          "durationUnit": "SECONDS"
+        },
+        {
+          "identifier": 2,
+          "durationValue": 20,
+          "durationUnit": "SECONDS"
+        },
+        {
+          "identifier": 3,
+          "durationValue": 1,
+          "durationUnit": "MINUTES"
+        }
+      ]
+    },
+    {
+      "value": 2,
+      "slotCount": 80,
+      "tasks": [
+        {
+          "identifier": 101,
+          "durationValue": 15,
+          "durationUnit": "SECONDS"
+        },
+        {
+          "identifier": 102,
+          "durationValue": 1,
+          "durationUnit": "DAYS"
+        }
+      ]
+    }
+  ]
+}
