@@ -26,6 +26,6 @@ public class SchedulingController {
             @NotNull
             @Validated
             SchedulingCreatePostInput postInput) {
-        //TODO: es gab da sowas wie einen Interceptor, der ConstraintViolatedExceptions zurückliefert
+        throw new UnsupportedOperationException("not yet implemented");
     }
 }
