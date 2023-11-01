@@ -1,14 +1,22 @@
 package cj.software.genetics.schedule.server.api.entity;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -60,6 +68,40 @@ class SchedulingCreatePostOutputTest {
             Validator validator = factory.getValidator();
             Set<ConstraintViolation<SchedulingCreatePostOutput>> violations = validator.validate(instance);
             assertThat(violations).as("constraint violations").isEmpty();
+        }
+    }
+
+    @Test
+    void loadFromJson() throws IOException {
+        try (InputStream is = Objects.requireNonNull(SchedulingCreatePostOutputTest.class.getResourceAsStream("SchedulingCreatePostOuptut.json"))) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            SchedulingCreatePostOutput loaded = objectMapper.readValue(is, SchedulingCreatePostOutput.class);
+            assertThat(loaded).isNotNull();
+            Population population = loaded.getPopulation();
+            assertThat(population).isNotNull();
+            List<Solution> solutions = population.getSolutions();
+            assertThat(solutions).hasSize(1);
+            Solution solution = solutions.get(0);
+            List<Worker> workers = solution.getWorkers();
+            SoftAssertions softy = new SoftAssertions();
+            softy.assertThat(solution.getIndexInPopulation()).as("index in population").isEqualTo(1);
+            softy.assertThat(solution.getGenerationStep()).as("generation step").isEqualTo(0);
+            softy.assertThat(solution.getFitnessValue()).as("fitness value").isEqualTo(3.14);
+            softy.assertThat(workers).as("workers").hasSize(1);
+            softy.assertAll();
+            Worker worker = workers.get(0);
+            SortedSet<SolutionPriority> priorities = worker.getPriorities();
+            assertThat(priorities).as("priorities").hasSize(1);
+            SolutionPriority priority = priorities.first();
+            List<Task> tasks = priority.getTasks();
+            softy = new SoftAssertions();
+            softy.assertThat(priority.getValue()).as("prio value").isEqualTo(1);
+            softy.assertThat(tasks).as("tasks list").usingRecursiveComparison().isEqualTo(List.of(
+                    Task.builder().withDurationValue(1).withDurationUnit(TimeUnit.MINUTES).withIdentifier(3).build(),
+                    Task.builder().withDurationValue(20).withDurationUnit(TimeUnit.SECONDS).withIdentifier(2).build(),
+                    Task.builder().withDurationValue(10).withDurationUnit(TimeUnit.SECONDS).withIdentifier(123).build()
+            ));
+            softy.assertAll();
         }
     }
 }

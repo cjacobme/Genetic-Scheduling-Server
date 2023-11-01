@@ -1,0 +1,37 @@
+{
+  "population": {
+    "solutions": [
+      {
+        "generationStep": 0,
+        "indexInPopulation": 1,
+        "fitnessValue": 3.14,
+        "workers": [
+          {
+            "priorities": [
+              {
+                "value": 1,
+                "tasks": [
+                  {
+                    "durationValue": 1,
+                    "durationUnit": "MINUTES",
+                    "identifier": 3
+                  },
+                  {
+                    "durationValue": 20,
+                    "durationUnit": "SECONDS",
+                    "identifier": 2
+                  },
+                  {
+                    "durationValue": 10,
+                    "durationUnit": "SECONDS",
+                    "identifier": 123
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
