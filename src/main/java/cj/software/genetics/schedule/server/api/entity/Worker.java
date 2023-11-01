@@ -23,6 +23,17 @@ public class Worker implements Serializable {
         return Collections.unmodifiableSortedSet(priorities);
     }
 
+    public SolutionPriority getPriority(int value) { //TODO besser als Map?
+        SolutionPriority result = null;
+        for (SolutionPriority checked : this.priorities) {
+            if (value == checked.getValue()) {
+                result = checked;
+                break;
+            }
+        }
+        return result;
+    }
+
     public static Builder builder() {
         return new Builder();
     }

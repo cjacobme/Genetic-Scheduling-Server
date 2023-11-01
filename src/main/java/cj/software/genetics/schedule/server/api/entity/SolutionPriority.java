@@ -36,6 +36,10 @@ public class SolutionPriority implements Serializable, Comparable<SolutionPriori
         return Collections.unmodifiableList(tasks);
     }
 
+    public void setTaskAt(int index, Task task) {
+        this.tasks.set(index, task);
+    }
+
     @Override
     public boolean equals(Object otherObject) {
         boolean result;
