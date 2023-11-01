@@ -1,0 +1,6 @@
+{
+  "solutionCount": 101,
+  "workersPerSolutionCount": 4,
+  "elitismCount": 6,
+  "tournamentSize": 5
+}
