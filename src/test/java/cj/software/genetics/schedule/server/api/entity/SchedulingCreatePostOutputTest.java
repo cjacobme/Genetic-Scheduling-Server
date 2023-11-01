@@ -64,11 +64,16 @@ class SchedulingCreatePostOutputTest {
     @Test
     void defaultIsValid() {
         SchedulingCreatePostOutput instance = new SchedulingCreatePostOutputBuilder().build();
+        validate(instance);
+    }
+
+    private void validate(SchedulingCreatePostOutput instance) {
         try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
             Validator validator = factory.getValidator();
             Set<ConstraintViolation<SchedulingCreatePostOutput>> violations = validator.validate(instance);
             assertThat(violations).as("constraint violations").isEmpty();
         }
+
     }
 
     @Test
@@ -77,6 +82,7 @@ class SchedulingCreatePostOutputTest {
             ObjectMapper objectMapper = new ObjectMapper();
             SchedulingCreatePostOutput loaded = objectMapper.readValue(is, SchedulingCreatePostOutput.class);
             assertThat(loaded).isNotNull();
+            validate(loaded);
             Population population = loaded.getPopulation();
             assertThat(population).isNotNull();
             List<Solution> solutions = population.getSolutions();
