@@ -7,6 +7,7 @@ import cj.software.genetics.schedule.server.api.entity.SchedulingCreatePostInput
 import cj.software.genetics.schedule.server.api.entity.SchedulingCreatePostOutput;
 import cj.software.genetics.schedule.server.api.entity.SchedulingProblem;
 import cj.software.genetics.schedule.server.api.entity.SolutionSetup;
+import cj.software.genetics.schedule.server.exception.SlotOccupiedException;
 import cj.software.genetics.schedule.server.util.PopulationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,7 +38,7 @@ class SchedulingControllerTest {
     }
 
     @Test
-    void create() {
+    void create() throws SlotOccupiedException {
         SchedulingCreatePostInput schedulingCreatePostInput = new SchedulingCreatePostInputBuilder().build();
         SchedulingProblem schedulingProblem = schedulingCreatePostInput.getSchedulingProblem();
         SolutionSetup solutionSetup = schedulingCreatePostInput.getSolutionSetup();

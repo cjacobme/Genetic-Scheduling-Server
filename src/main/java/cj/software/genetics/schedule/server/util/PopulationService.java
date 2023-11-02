@@ -4,6 +4,7 @@ import cj.software.genetics.schedule.server.api.entity.Population;
 import cj.software.genetics.schedule.server.api.entity.SchedulingProblem;
 import cj.software.genetics.schedule.server.api.entity.Solution;
 import cj.software.genetics.schedule.server.api.entity.SolutionSetup;
+import cj.software.genetics.schedule.server.exception.SlotOccupiedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class PopulationService {
             SchedulingProblem schedulingProblem,
 
             @NotNull
-            SolutionSetup solutionSetup) {
+            SolutionSetup solutionSetup) throws SlotOccupiedException {
         int solutionCount = solutionSetup.getSolutionCount();
         List<Solution> solutions = new ArrayList<>(solutionCount);
         for (int iSolution = 0; iSolution < solutionCount; iSolution++) {

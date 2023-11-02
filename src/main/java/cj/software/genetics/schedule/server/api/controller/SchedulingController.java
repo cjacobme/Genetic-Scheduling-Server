@@ -5,6 +5,7 @@ import cj.software.genetics.schedule.server.api.entity.SchedulingCreatePostInput
 import cj.software.genetics.schedule.server.api.entity.SchedulingCreatePostOutput;
 import cj.software.genetics.schedule.server.api.entity.SchedulingProblem;
 import cj.software.genetics.schedule.server.api.entity.SolutionSetup;
+import cj.software.genetics.schedule.server.exception.SlotOccupiedException;
 import cj.software.genetics.schedule.server.util.PopulationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -37,7 +38,7 @@ public class SchedulingController {
             @RequestBody
             @NotNull
             @Validated
-            SchedulingCreatePostInput postInput) {
+            SchedulingCreatePostInput postInput) throws SlotOccupiedException {
         SchedulingProblem schedulingProblem = postInput.getSchedulingProblem();
         SolutionSetup solutionSetup = postInput.getSolutionSetup();
         Population population = populationService.createInitial(schedulingProblem, solutionSetup);

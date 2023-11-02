@@ -7,6 +7,7 @@ import cj.software.genetics.schedule.server.api.entity.Solution;
 import cj.software.genetics.schedule.server.api.entity.SolutionBuilder;
 import cj.software.genetics.schedule.server.api.entity.SolutionSetup;
 import cj.software.genetics.schedule.server.api.entity.SolutionSetupBuilder;
+import cj.software.genetics.schedule.server.exception.SlotOccupiedException;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,7 +37,7 @@ class PopulationServiceTest {
     }
 
     @Test
-    void createInitial() {
+    void createInitial() throws SlotOccupiedException {
         SchedulingProblem schedulingProblem = new SchedulingProblemBuilder().build();
         SolutionSetup solutionSetup = new SolutionSetupBuilder().withSolutionCount(3).build();
         Solution solution0 = new SolutionBuilder().withIndexInGeneration(0).build();
