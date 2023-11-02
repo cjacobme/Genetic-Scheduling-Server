@@ -4,7 +4,6 @@ public class SchedulingCreatePostInputBuilder extends SchedulingCreatePostInput.
     public SchedulingCreatePostInputBuilder() {
         super
                 .withSchedulingProblem(new SchedulingProblemBuilder().build())
-                .withSolutionSetup(new SolutionSetupBuilder().build())
-                .withBreedingSetup(new BreedingSetupBuilder().build());
+                .withSolutionSetup(new SolutionSetupBuilder().build());
     }
 }

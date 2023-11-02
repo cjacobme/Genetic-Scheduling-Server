@@ -1,5 +1,6 @@
 {
   "population": {
+    "generationStep": 1,
     "solutions": [
       {
         "generationStep": 0,
