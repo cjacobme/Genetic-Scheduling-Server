@@ -17,10 +17,6 @@ public class SchedulingCreatePostInput implements Serializable {
     @Valid
     private SolutionSetup solutionSetup;
 
-    @NotNull
-    @Valid
-    private BreedingSetup breedingSetup;
-
     private SchedulingCreatePostInput() {
     }
 
@@ -30,10 +26,6 @@ public class SchedulingCreatePostInput implements Serializable {
 
     public SolutionSetup getSolutionSetup() {
         return solutionSetup;
-    }
-
-    public BreedingSetup getBreedingSetup() {
-        return breedingSetup;
     }
 
     public static Builder builder() {
@@ -60,11 +52,6 @@ public class SchedulingCreatePostInput implements Serializable {
 
         public Builder withSolutionSetup(SolutionSetup solutionSetup) {
             instance.solutionSetup = solutionSetup;
-            return this;
-        }
-
-        public Builder withBreedingSetup(BreedingSetup breedingSetup) {
-            instance.breedingSetup = breedingSetup;
             return this;
         }
     }

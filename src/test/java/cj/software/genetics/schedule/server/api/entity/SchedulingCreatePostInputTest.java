@@ -44,7 +44,6 @@ class SchedulingCreatePostInputTest {
         SoftAssertions softy = new SoftAssertions();
         softy.assertThat(instance.getSchedulingProblem()).as("scheduling problem").isNull();
         softy.assertThat(instance.getSolutionSetup()).as("solution setup").isNull();
-        softy.assertThat(instance.getBreedingSetup()).as("breeding setup").isNull();
         softy.assertAll();
     }
 
@@ -52,17 +51,14 @@ class SchedulingCreatePostInputTest {
     void constructFilled() {
         SchedulingProblem schedulingProblem = SchedulingProblem.builder().build();
         SolutionSetup solutionSetup = SolutionSetup.builder().build();
-        BreedingSetup breedingSetup = BreedingSetup.builder().build();
         SchedulingCreatePostInput instance = SchedulingCreatePostInput.builder()
                 .withSchedulingProblem(schedulingProblem)
                 .withSolutionSetup(solutionSetup)
-                .withBreedingSetup(breedingSetup)
                 .build();
         assertThat(instance).as("built instance").isNotNull();
         SoftAssertions softy = new SoftAssertions();
         softy.assertThat(instance.getSchedulingProblem()).as("scheduling problem").isSameAs(schedulingProblem);
         softy.assertThat(instance.getSolutionSetup()).as("solution setup").isSameAs(solutionSetup);
-        softy.assertThat(instance.getBreedingSetup()).as("breeding setup").isSameAs(breedingSetup);
         softy.assertAll();
     }
 

@@ -1,5 +1,8 @@
 package cj.software.genetics.schedule.server.api.entity;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -45,6 +48,29 @@ public class Solution implements Serializable {
 
     public List<Worker> getWorkers() {
         return Collections.unmodifiableList(workers);
+    }
+
+    @Override
+    public boolean equals(Object otherObject) {
+        boolean result;
+        if (otherObject instanceof Solution other) {
+            EqualsBuilder builder = new EqualsBuilder()
+                    .append(this.indexInPopulation, other.indexInPopulation)
+                    .append(this.generationStep, other.generationStep);
+            result = builder.build();
+        } else {
+            result = false;
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        HashCodeBuilder builder = new HashCodeBuilder()
+                .append(indexInPopulation)
+                .append(generationStep);
+        int result = builder.build();
+        return result;
     }
 
     public static Builder builder() {
