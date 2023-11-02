@@ -1,5 +1,6 @@
 package cj.software.genetics.schedule.server.api.entity;
 
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
 import javax.validation.ConstraintViolation;
@@ -41,19 +42,27 @@ class PopulationTest {
 
         Object instanceAfter = field.get(builder);
         assertThat(instanceAfter).as("instance in builder after build").isNull();
-        assertThat(instance.getSolutions()).isEmpty();
+        SoftAssertions softy = new SoftAssertions();
+        softy.assertThat(instance.getSolutions()).as("solutions").isEmpty();
+        softy.assertThat(instance.getGenerationStep()).as("generation step").isNull();
+        softy.assertAll();
     }
 
     @Test
     void constructFilled() {
+        Integer generationStep = 12345;
         List<Solution> solutions = List.of(
                 new SolutionBuilder().withGenerationStep(1).withIndexInGeneration(0).build(),
                 new SolutionBuilder().withGenerationStep(15).withIndexInGeneration(33).build());
         Population instance = Population.builder()
+                .withGenerationStep(generationStep)
                 .withSolutions(solutions)
                 .build();
         assertThat(instance).as("built instance").isNotNull();
-        assertThat(instance.getSolutions()).as("solutions").isEqualTo(solutions);
+        SoftAssertions softy = new SoftAssertions();
+        softy.assertThat(instance.getGenerationStep()).as("generation step").isEqualTo(generationStep);
+        softy.assertThat(instance.getSolutions()).as("solutions").isEqualTo(solutions);
+        softy.assertAll();
     }
 
     @Test

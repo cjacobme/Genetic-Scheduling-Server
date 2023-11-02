@@ -80,4 +80,59 @@ class SolutionTest {
             assertThat(violations).as("constraint violations").isEmpty();
         }
     }
+
+    @Test
+    void equalObjects() {
+        Solution instance1 = new SolutionBuilder().build();
+        Solution instance2 = new SolutionBuilder().withFitnessValue(34445.6).withWorkers(null).build();
+        assertThat(instance1).isEqualTo(instance2);
+    }
+
+    @Test
+    void equalHashes() {
+        Solution instance1 = new SolutionBuilder().build();
+        Solution instance2 = new SolutionBuilder().withFitnessValue(34445.6).withWorkers(null).build();
+        int hash1 = instance1.hashCode();
+        int hash2 = instance2.hashCode();
+        assertThat(hash1).isEqualTo(hash2);
+    }
+
+    @Test
+    void unequalGenerationStep() {
+        Solution instance1 = new SolutionBuilder().build();
+        Solution instance2 = new SolutionBuilder().withGenerationStep(16).build();
+        assertThat(instance1).isNotEqualTo(instance2);
+    }
+
+    @Test
+    void unequalHashesGenerationStep() {
+        Solution instance1 = new SolutionBuilder().build();
+        Solution instance2 = new SolutionBuilder().withGenerationStep(16).build();
+        int hash1 = instance1.hashCode();
+        int hash2 = instance2.hashCode();
+        assertThat(hash1).isNotEqualTo(hash2);
+    }
+
+    @Test
+    void unequalIndexInPopulation() {
+        Solution instance1 = new SolutionBuilder().build();
+        Solution instance2 = new SolutionBuilder().withIndexInGeneration(34).build();
+        assertThat(instance1).isNotEqualTo(instance2);
+    }
+
+    @Test
+    void unequalHashesIndexInPopulation() {
+        Solution instance1 = new SolutionBuilder().build();
+        Solution instance2 = new SolutionBuilder().withIndexInGeneration(34).build();
+        int hash1 = instance1.hashCode();
+        int hash2 = instance2.hashCode();
+        assertThat(hash1).isNotEqualTo(hash2);
+    }
+
+    @Test
+    void unequalObject() {
+        Solution instance1 = new SolutionBuilder().build();
+        Object instance2 = "other object";
+        assertThat(instance1).isNotEqualTo(instance2);
+    }
 }

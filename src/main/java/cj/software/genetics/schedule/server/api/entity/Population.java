@@ -1,6 +1,7 @@
 package cj.software.genetics.schedule.server.api.entity;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serial;
@@ -13,10 +14,18 @@ public class Population implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    @NotNull
+    @Min(0)
+    private Integer generationStep;
+
     @NotEmpty
     private final List<@NotNull @Valid Solution> solutions = new ArrayList<>();
 
     private Population() {
+    }
+
+    public Integer getGenerationStep() {
+        return generationStep;
     }
 
     public List<Solution> getSolutions() {
@@ -45,6 +54,11 @@ public class Population implements Serializable {
             if (solutions != null) {
                 instance.solutions.addAll(solutions);
             }
+            return this;
+        }
+
+        public Builder withGenerationStep(Integer generationStep) {
+            instance.generationStep = generationStep;
             return this;
         }
     }

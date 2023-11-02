@@ -30,7 +30,9 @@ public class PopulationService {
             solutions.add(solution);
         }
 
-        Population result = Population.builder().withSolutions(solutions).build();
+        Population result = Population.builder()
+                .withGenerationStep(0)
+                .withSolutions(solutions).build();
         return result;
     }
 }
