@@ -6,6 +6,8 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -16,6 +18,8 @@ public class Worker implements Serializable {
     @NotEmpty
     private final SortedSet<@Valid SolutionPriority> priorities = new TreeSet<>();
 
+    private final transient Map<Integer, SolutionPriority> asMap = new HashMap<>();
+
     private Worker() {
     }
 
@@ -23,14 +27,8 @@ public class Worker implements Serializable {
         return Collections.unmodifiableSortedSet(priorities);
     }
 
-    public SolutionPriority getPriority(int value) { //TODO besser als Map?
-        SolutionPriority result = null;
-        for (SolutionPriority checked : this.priorities) {
-            if (value == checked.getValue()) {
-                result = checked;
-                break;
-            }
-        }
+    public SolutionPriority getPriority(int value) {
+        SolutionPriority result = asMap.get(value);
         return result;
     }
 
@@ -55,6 +53,9 @@ public class Worker implements Serializable {
             instance.priorities.clear();
             if (priorities != null) {
                 instance.priorities.addAll(priorities);
+                for (SolutionPriority priority : priorities) {
+                    instance.asMap.put(priority.getValue(), priority);
+                }
             }
             return this;
         }
