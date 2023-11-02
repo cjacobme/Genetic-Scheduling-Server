@@ -13,8 +13,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.stereotype.Controller;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.bind.annotation.RestController;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
@@ -32,7 +32,7 @@ class SchedulingControllerTest {
 
     @Test
     void metadata() {
-        Controller controller = SchedulingController.class.getAnnotation(Controller.class);
+        RestController controller = SchedulingController.class.getAnnotation(RestController.class);
         assertThat(controller).as("@Controller").isNotNull();
     }
 
