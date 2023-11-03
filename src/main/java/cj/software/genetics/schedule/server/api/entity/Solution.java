@@ -46,6 +46,10 @@ public class Solution implements Serializable {
         return fitnessValue;
     }
 
+    public void setFitnessValue(Double fitnessValue) {
+        this.fitnessValue = fitnessValue;
+    }
+
     public List<Worker> getWorkers() {
         return Collections.unmodifiableList(workers);
     }

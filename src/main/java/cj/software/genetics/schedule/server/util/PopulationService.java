@@ -5,6 +5,7 @@ import cj.software.genetics.schedule.server.api.entity.SchedulingProblem;
 import cj.software.genetics.schedule.server.api.entity.Solution;
 import cj.software.genetics.schedule.server.api.entity.SolutionSetup;
 import cj.software.genetics.schedule.server.exception.SlotOccupiedException;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,12 @@ public class PopulationService {
             Solution solution = solutionService.createInitial(iSolution, schedulingProblem, solutionSetup);
             solutions.add(solution);
         }
+        solutions.sort((solution1, solution2) -> {
+            CompareToBuilder builder = new CompareToBuilder()
+                    .append(solution2.getFitnessValue(), solution1.getFitnessValue());
+            int result = builder.build();
+            return result;
+        });
 
         Population result = Population.builder()
                 .withGenerationStep(0)

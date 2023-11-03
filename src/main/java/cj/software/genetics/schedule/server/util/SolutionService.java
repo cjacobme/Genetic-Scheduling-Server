@@ -38,9 +38,9 @@ public class SolutionService {
                 .withIndexInGeneration(index)
                 .withGenerationStep(0)
                 .withWorkers(workers)
-                .withFitnessValue(2.334)    //TODO must be calculated
                 .build();
         distribute(result, schedulingProblem);
+        calculateFitnessValue(result);
         return result;
     }
 
@@ -65,6 +65,19 @@ public class SolutionService {
                 taskService.setTaskAt(result, priorityValue, workerIndex, slotIndex, task);
             }
         }
+        return result;
+    }
+
+    Solution calculateFitnessValue(Solution solution) {
+        Solution result = solution;
+        long max = -1L;
+        List<Worker> workers = solution.getWorkers();
+        List<Long> workerDurations = workerService.calculateDurations(workers);
+        for (Long duration : workerDurations) {
+            max = Math.max(max, duration);
+        }
+        double fitness = 1.0 / max;
+        result.setFitnessValue(fitness);
         return result;
     }
 }
