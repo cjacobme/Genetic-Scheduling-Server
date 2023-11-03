@@ -8,6 +8,7 @@ import cj.software.genetics.schedule.server.api.entity.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -34,9 +35,9 @@ public class WorkerService {
         return result;
     }
 
-    public List<Integer> calculateDurations(List<Worker> workers) {
+    public List<Long> calculateDurations(List<Worker> workers) {
         int workersCount = workers.size();
-        int[] sums = new int[workersCount];
+        long[] sums = new long[workersCount];
         for (int iWorker = 0; iWorker < workersCount; iWorker++) {
             Worker worker = workers.get(iWorker);
             SortedSet<SolutionPriority> priorities = worker.getPriorities();
@@ -46,10 +47,17 @@ public class WorkerService {
                     if (task != null) {
                         int value = task.getDurationValue();
                         TimeUnit timeUnit = task.getDurationUnit();
+                        Duration duration = Duration.of(value, timeUnit.toChronoUnit());
+                        long seconds = duration.getSeconds();
+                        sums[iWorker] += seconds;
                     }
                 }
             }
         }
-        return null;
+        List<Long> result = new ArrayList<>(workersCount);
+        for (long sum : sums) {
+            result.add(sum);
+        }
+        return result;
     }
 }

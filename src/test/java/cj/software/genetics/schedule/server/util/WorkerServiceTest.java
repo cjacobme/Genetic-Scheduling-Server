@@ -14,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -124,9 +125,10 @@ class WorkerServiceTest {
         Collection<SolutionPriority> worker1Solutions = List.of(priority11, priority12);
         Worker worker1 = Worker.builder().withPriorities(worker1Solutions).build();
 
-        List<Task> prio21Tasks = List.of(
-                Task.builder().withIdentifier(6).withDurationValue(40).withDurationUnit(TimeUnit.SECONDS).build(),
-                Task.builder().withIdentifier(7).withDurationValue(1).withDurationUnit(TimeUnit.MINUTES).build());
+        List<Task> prio21Tasks = new ArrayList<>();
+        prio21Tasks.add(Task.builder().withIdentifier(6).withDurationValue(40).withDurationUnit(TimeUnit.SECONDS).build());
+        prio21Tasks.add(null);
+        prio21Tasks.add(Task.builder().withIdentifier(7).withDurationValue(1).withDurationUnit(TimeUnit.MINUTES).build());
         SolutionPriority priority21 = SolutionPriority.builder().withValue(1).withTasks(prio21Tasks).build();
         List<Task> prio22Tasks = Collections.singletonList(
                 Task.builder().withIdentifier(8).withDurationValue(45).withDurationUnit(TimeUnit.SECONDS).build());
@@ -136,8 +138,8 @@ class WorkerServiceTest {
 
         List<Worker> workers = List.of(worker1, worker2);
 
-        List<Integer> durations = workerService.calculateDurations(workers);
+        List<Long> durations = workerService.calculateDurations(workers);
 
-        assertThat(durations).as("durations").isEqualTo(List.of(292, 145));
+        assertThat(durations).as("durations").isEqualTo(List.of(292L, 145L));
     }
 }
