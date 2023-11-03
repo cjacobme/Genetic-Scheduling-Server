@@ -9,8 +9,8 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.time.Duration;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,27 +43,23 @@ class TaskTest {
         Object instanceAfter = field.get(builder);
         assertThat(instanceAfter).as("instance in builder after build").isNull();
         SoftAssertions softy = new SoftAssertions();
-        softy.assertThat(instance.getDurationValue()).as("duration value").isNull();
-        softy.assertThat(instance.getDurationUnit()).as("duration unit").isNull();
+        softy.assertThat(instance.getDuration()).as("duration").isNull();
         softy.assertThat(instance.getIdentifier()).as("identifier").isNull();
         softy.assertAll();
     }
 
     @Test
     void constructFilled() {
-        Integer durationValue = -10;
-        TimeUnit durationUnit = TimeUnit.DAYS;
         Integer identifier = 1;
+        Duration duration = Duration.ofDays(1234);
         Task instance = Task.builder()
                 .withIdentifier(identifier)
-                .withDurationValue(durationValue)
-                .withDurationUnit(durationUnit)
+                .withDuration(duration)
                 .build();
         assertThat(instance).as("built instance").isNotNull();
         SoftAssertions softy = new SoftAssertions();
         softy.assertThat(instance.getIdentifier()).as("identifier").isEqualTo(identifier);
-        softy.assertThat(instance.getDurationValue()).as("duration value").isEqualTo(durationValue);
-        softy.assertThat(instance.getDurationUnit()).as("duration unit").isEqualTo(durationUnit);
+        softy.assertThat(instance.getDuration()).as("duration ").isEqualTo(duration);
         softy.assertAll();
     }
 
@@ -81,20 +77,20 @@ class TaskTest {
     void stringPresentation() {
         Task instance = new TaskBuilder().build();
         String asString = instance.toString();
-        assertThat(asString).as("String presentation").isEqualTo("Task[id=4243,duration=10,unit=SECONDS]");
+        assertThat(asString).as("String presentation").isEqualTo("Task[id=4243,duration=PT10S]");
     }
 
     @Test
     void equalObjects() {
         Task instance1 = new TaskBuilder().build();
-        Task instance2 = new TaskBuilder().withDurationValue(223).withDurationUnit(TimeUnit.HOURS).build();
+        Task instance2 = new TaskBuilder().withDuration(Duration.ofHours(223)).build();
         assertThat(instance1).isEqualTo(instance2);
     }
 
     @Test
     void equalHashes() {
         Task instance1 = new TaskBuilder().build();
-        Task instance2 = new TaskBuilder().withDurationValue(223).withDurationUnit(TimeUnit.HOURS).build();
+        Task instance2 = new TaskBuilder().withDuration(Duration.ofHours(223)).build();
         int hash1 = instance1.hashCode();
         int hash2 = instance2.hashCode();
         assertThat(hash1).isEqualTo(hash2);

@@ -13,14 +13,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import static java.util.concurrent.TimeUnit.DAYS;
-import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class SchedulingProblemTest {
@@ -104,17 +102,17 @@ class SchedulingProblemTest {
                                     .withValue(1)
                                     .withSlotCount(150)
                                     .withTasks(List.of(
-                                            Task.builder().withIdentifier(1).withDurationValue(10).withDurationUnit(SECONDS).build(),
-                                            Task.builder().withIdentifier(2).withDurationValue(20).withDurationUnit(SECONDS).build(),
-                                            Task.builder().withIdentifier(3).withDurationValue(1).withDurationUnit(MINUTES).build()
+                                            Task.builder().withIdentifier(1).withDuration(Duration.ofSeconds(10)).build(),
+                                            Task.builder().withIdentifier(2).withDuration(Duration.ofSeconds(20)).build(),
+                                            Task.builder().withIdentifier(3).withDuration(Duration.ofMinutes(1)).build()
                                     ))
                                     .build(),
                             ProblemPriority.builder()
                                     .withValue(2)
                                     .withSlotCount(80)
                                     .withTasks(List.of(
-                                            Task.builder().withIdentifier(101).withDurationValue(15).withDurationUnit(SECONDS).build(),
-                                            Task.builder().withIdentifier(102).withDurationValue(1).withDurationUnit(DAYS).build()
+                                            Task.builder().withIdentifier(101).withDuration(Duration.ofSeconds(15)).build(),
+                                            Task.builder().withIdentifier(102).withDuration(Duration.ofDays(1)).build()
                                     ))
                                     .build()
                     )).build();

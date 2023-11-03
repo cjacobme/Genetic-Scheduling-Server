@@ -14,12 +14,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.SortedSet;
-import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.any;
@@ -114,24 +114,24 @@ class WorkerServiceTest {
     @Test
     void calculateDurations() {
         List<Task> prio11Tasks = List.of(
-                Task.builder().withIdentifier(1).withDurationValue(10).withDurationUnit(TimeUnit.SECONDS).build(),
-                Task.builder().withIdentifier(2).withDurationValue(2).withDurationUnit(TimeUnit.MINUTES).build(),
-                Task.builder().withIdentifier(3).withDurationValue(30).withDurationUnit(TimeUnit.SECONDS).build());
+                Task.builder().withIdentifier(1).withDuration(Duration.ofSeconds(10)).build(),
+                Task.builder().withIdentifier(2).withDuration(Duration.ofMinutes(2)).build(),
+                Task.builder().withIdentifier(3).withDuration(Duration.ofSeconds(30)).build());
         SolutionPriority priority11 = SolutionPriority.builder().withValue(1).withTasks(prio11Tasks).build();
         List<Task> prio12Tasks = List.of(
-                Task.builder().withIdentifier(4).withDurationValue(12).withDurationUnit(TimeUnit.SECONDS).build(),
-                Task.builder().withIdentifier(5).withDurationValue(2).withDurationUnit(TimeUnit.MINUTES).build());
+                Task.builder().withIdentifier(4).withDuration(Duration.ofSeconds(12)).build(),
+                Task.builder().withIdentifier(5).withDuration(Duration.ofMinutes(2)).build());
         SolutionPriority priority12 = SolutionPriority.builder().withValue(2).withTasks(prio12Tasks).build();
         Collection<SolutionPriority> worker1Solutions = List.of(priority11, priority12);
         Worker worker1 = Worker.builder().withPriorities(worker1Solutions).build();
 
         List<Task> prio21Tasks = new ArrayList<>();
-        prio21Tasks.add(Task.builder().withIdentifier(6).withDurationValue(40).withDurationUnit(TimeUnit.SECONDS).build());
+        prio21Tasks.add(Task.builder().withIdentifier(6).withDuration(Duration.ofSeconds(40)).build());
         prio21Tasks.add(null);
-        prio21Tasks.add(Task.builder().withIdentifier(7).withDurationValue(1).withDurationUnit(TimeUnit.MINUTES).build());
+        prio21Tasks.add(Task.builder().withIdentifier(7).withDuration(Duration.ofMinutes(1)).build());
         SolutionPriority priority21 = SolutionPriority.builder().withValue(1).withTasks(prio21Tasks).build();
         List<Task> prio22Tasks = Collections.singletonList(
-                Task.builder().withIdentifier(8).withDurationValue(45).withDurationUnit(TimeUnit.SECONDS).build());
+                Task.builder().withIdentifier(8).withDuration(Duration.ofSeconds(45)).build());
         SolutionPriority priority22 = SolutionPriority.builder().withValue(2).withTasks(prio22Tasks).build();
         Collection<SolutionPriority> worker2Solutions = List.of(priority21, priority22);
         Worker worker2 = Worker.builder().withPriorities(worker2Solutions).build();

@@ -12,11 +12,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
-import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -103,9 +103,9 @@ class SchedulingCreatePostOutputTest {
             softy = new SoftAssertions();
             softy.assertThat(priority.getValue()).as("prio value").isEqualTo(1);
             softy.assertThat(tasks).as("tasks list").usingRecursiveComparison().isEqualTo(List.of(
-                    Task.builder().withDurationValue(1).withDurationUnit(TimeUnit.MINUTES).withIdentifier(3).build(),
-                    Task.builder().withDurationValue(20).withDurationUnit(TimeUnit.SECONDS).withIdentifier(2).build(),
-                    Task.builder().withDurationValue(10).withDurationUnit(TimeUnit.SECONDS).withIdentifier(123).build()
+                    Task.builder().withDuration(Duration.ofMinutes(1)).withIdentifier(3).build(),
+                    Task.builder().withDuration(Duration.ofSeconds(20)).withIdentifier(2).build(),
+                    Task.builder().withDuration(Duration.ofSeconds(10)).withIdentifier(123).build()
             ));
             softy.assertAll();
         }
