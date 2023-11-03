@@ -1,26 +1,27 @@
 package cj.software.genetics.schedule.server.api.entity;
 
+import cj.software.genetics.schedule.server.api.converter.DurationDeserializer;
+import cj.software.genetics.schedule.server.api.converter.DurationSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 public class Task implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @NotNull
-    @Min(1)
-    private Integer durationValue;
-
-    @NotNull
-    private TimeUnit durationUnit;
+    @JsonDeserialize(using = DurationDeserializer.class)
+    @JsonSerialize(using = DurationSerializer.class)
+    private Duration duration;
 
     @NotNull
     private Integer identifier;
@@ -28,12 +29,8 @@ public class Task implements Serializable {
     private Task() {
     }
 
-    public Integer getDurationValue() {
-        return durationValue;
-    }
-
-    public TimeUnit getDurationUnit() {
-        return durationUnit;
+    public Duration getDuration() {
+        return duration;
     }
 
     public Integer getIdentifier() {
@@ -44,14 +41,13 @@ public class Task implements Serializable {
     public String toString() {
         ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("id", this.identifier)
-                .append("duration", this.durationValue)
-                .append("unit", this.durationUnit);
+                .append("duration", this.duration);
         String result = builder.build();
         return result;
     }
 
     @Override
-    public boolean equals (Object otherObject) {
+    public boolean equals(Object otherObject) {
         boolean result;
         if (otherObject instanceof Task other) {
             EqualsBuilder builder = new EqualsBuilder()
@@ -93,13 +89,8 @@ public class Task implements Serializable {
             return this;
         }
 
-        public Builder withDurationValue(Integer durationValue) {
-            instance.durationValue = durationValue;
-            return this;
-        }
-
-        public Builder withDurationUnit(TimeUnit durationUnit) {
-            instance.durationUnit = durationUnit;
+        public Builder withDuration(Duration duration) {
+            instance.duration = duration;
             return this;
         }
     }

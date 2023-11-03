@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.SortedSet;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class WorkerService {
@@ -45,9 +44,7 @@ public class WorkerService {
                 List<Task> tasks = priority.getTasks();
                 for (Task task : tasks) {
                     if (task != null) {
-                        int value = task.getDurationValue();
-                        TimeUnit timeUnit = task.getDurationUnit();
-                        Duration duration = Duration.of(value, timeUnit.toChronoUnit());
+                        Duration duration = task.getDuration();
                         long seconds = duration.getSeconds();
                         sums[iWorker] += seconds;
                     }

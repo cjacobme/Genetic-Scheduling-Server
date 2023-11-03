@@ -6,18 +6,15 @@
       "tasks": [
         {
           "identifier": 1,
-          "durationValue": 10,
-          "durationUnit": "SECONDS"
+          "duration": "PT10S"
         },
         {
           "identifier": 2,
-          "durationValue": 20,
-          "durationUnit": "SECONDS"
+          "duration": "PT20S"
         },
         {
           "identifier": 3,
-          "durationValue": 1,
-          "durationUnit": "MINUTES"
+          "duration": "PT1M"
         }
       ]
     },
@@ -27,13 +24,11 @@
       "tasks": [
         {
           "identifier": 101,
-          "durationValue": 15,
-          "durationUnit": "SECONDS"
+          "duration": "PT15S"
         },
         {
           "identifier": 102,
-          "durationValue": 1,
-          "durationUnit": "DAYS"
+          "duration": "PT24H"
         }
       ]
     }

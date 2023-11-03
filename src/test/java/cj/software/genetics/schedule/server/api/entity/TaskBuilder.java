@@ -1,8 +1,8 @@
 package cj.software.genetics.schedule.server.api.entity;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class TaskBuilder extends Task.Builder {
     public static List<Task> create(int startInclusive, int endExclusive) {
@@ -16,7 +16,6 @@ public class TaskBuilder extends Task.Builder {
     public TaskBuilder() {
         super
                 .withIdentifier(4243)
-                .withDurationValue(10)
-                .withDurationUnit(TimeUnit.SECONDS);
+                .withDuration(Duration.ofSeconds(10));
     }
 }
