@@ -4,6 +4,7 @@ import cj.software.genetics.schedule.server.api.entity.ProblemPriority;
 import cj.software.genetics.schedule.server.api.entity.SchedulingProblem;
 import cj.software.genetics.schedule.server.api.entity.SchedulingProblemBuilder;
 import cj.software.genetics.schedule.server.api.entity.Solution;
+import cj.software.genetics.schedule.server.api.entity.SolutionBuilder;
 import cj.software.genetics.schedule.server.api.entity.SolutionPriority;
 import cj.software.genetics.schedule.server.api.entity.Task;
 import cj.software.genetics.schedule.server.api.entity.Worker;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.SortedSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.offset;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -105,5 +107,28 @@ class SolutionServiceTest {
             result.add(null);
         }
         return result;
+    }
+
+    @Test
+    void calculateFitnessValue1() {
+        Solution solution = new SolutionBuilder().build();
+        List<Long> workerDuratios = List.of(1L, 1L, 2L);
+        calculateFitnessValue(solution, workerDuratios, 0.5);
+    }
+
+    @Test
+    void calculateFitnessValue2() {
+        Solution solution = new SolutionBuilder().build();
+        List<Long> workerDurations = List.of(1L, 50L, 2L);
+        calculateFitnessValue(solution, workerDurations, 0.02);
+    }
+
+    private void calculateFitnessValue(Solution solution, List<Long> workerDurations, double expectedFitnessValue) {
+        List<Worker> workers = solution.getWorkers();
+        when(workerService.calculateDurations(workers)).thenReturn(workerDurations);
+
+        solutionService.calculateFitnessValue(solution);
+
+        assertThat(solution.getFitnessValue()).as("in solution").isEqualTo(expectedFitnessValue, offset(0.00001));
     }
 }
