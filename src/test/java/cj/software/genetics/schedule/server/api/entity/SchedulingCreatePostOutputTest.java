@@ -16,7 +16,9 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -78,8 +80,10 @@ class SchedulingCreatePostOutputTest {
 
     @Test
     void loadFromJson() throws IOException {
-        try (InputStream is = Objects.requireNonNull(SchedulingCreatePostOutputTest.class.getResourceAsStream("SchedulingCreatePostOuptut.json"))) {
+        try (InputStream is = Objects.requireNonNull(SchedulingCreatePostOutputTest.class.getResourceAsStream("SchedulingCreatePostOutput.json"))) {
             ObjectMapper objectMapper = new ObjectMapper();
+            SchedulingCreatePostOutput instance = new SchedulingCreatePostOutputBuilder().build();
+            String asString = objectMapper.writeValueAsString(instance);
             SchedulingCreatePostOutput loaded = objectMapper.readValue(is, SchedulingCreatePostOutput.class);
             assertThat(loaded).isNotNull();
             validate(loaded);
@@ -99,15 +103,21 @@ class SchedulingCreatePostOutputTest {
             SortedSet<SolutionPriority> priorities = worker.getPriorities();
             assertThat(priorities).as("priorities").hasSize(1);
             SolutionPriority priority = priorities.first();
-            List<Task> tasks = priority.getTasks();
-            softy = new SoftAssertions();
-            softy.assertThat(priority.getValue()).as("prio value").isEqualTo(1);
-            softy.assertThat(tasks).as("tasks list").usingRecursiveComparison().isEqualTo(List.of(
-                    Task.builder().withDuration(Duration.ofMinutes(1)).withIdentifier(3).build(),
-                    Task.builder().withDuration(Duration.ofSeconds(20)).withIdentifier(2).build(),
-                    Task.builder().withDuration(Duration.ofSeconds(10)).withIdentifier(123).build()
-            ));
-            softy.assertAll();
+            SortedMap<Integer, Task> tasks = priority.getTasks();
+            SortedMap<Integer, Task> expected = new TreeMap<>();
+            expected.put(2, Task.builder()
+                    .withIdentifier(3)
+                    .withDuration(Duration.ofMinutes(1))
+                    .build());
+            expected.put(25, Task.builder()
+                    .withIdentifier(2)
+                    .withDuration(Duration.ofSeconds(20))
+                    .build());
+            expected.put(4711, Task.builder()
+                    .withIdentifier(123)
+                    .withDuration(Duration.ofSeconds(10))
+                    .build());
+            assertThat(tasks).as("tasks").usingRecursiveComparison().isEqualTo(expected);
         }
     }
 }

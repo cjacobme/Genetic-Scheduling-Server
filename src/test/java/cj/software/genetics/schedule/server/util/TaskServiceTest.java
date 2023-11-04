@@ -14,9 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -77,11 +78,8 @@ class TaskServiceTest {
     }
 
     private Solution createSolution(Task task) {
-        List<Task> tasks = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            tasks.add(null);
-        }
-        tasks.set(5, task);
+        SortedMap<Integer, Task> tasks = new TreeMap<>();
+        tasks.put(5, task);
         SolutionPriority solutionPriority = SolutionPriority.builder().withValue(1).withTasks(tasks).build();
         Collection<SolutionPriority> solutionPriorities = List.of(solutionPriority);
         Worker worker = Worker.builder().withPriorities(solutionPriorities).build();

@@ -12,6 +12,8 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
 import java.util.SortedSet;
 
 @Service
@@ -41,13 +43,12 @@ public class WorkerService {
             Worker worker = workers.get(iWorker);
             SortedSet<SolutionPriority> priorities = worker.getPriorities();
             for (SolutionPriority priority : priorities) {
-                List<Task> tasks = priority.getTasks();
-                for (Task task : tasks) {
-                    if (task != null) {
-                        Duration duration = task.getDuration();
-                        long seconds = duration.getSeconds();
-                        sums[iWorker] += seconds;
-                    }
+                SortedMap<Integer, Task> tasks = priority.getTasks();
+                for (Map.Entry<Integer, Task> entry : tasks.entrySet()) {
+                    Task task = entry.getValue();
+                    Duration duration = task.getDuration();
+                    long seconds = duration.getSeconds();
+                    sums[iWorker] += seconds;
                 }
             }
         }

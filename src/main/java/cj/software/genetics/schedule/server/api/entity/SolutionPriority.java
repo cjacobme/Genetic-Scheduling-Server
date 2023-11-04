@@ -4,15 +4,13 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class SolutionPriority implements Serializable, Comparable<SolutionPriority> {
     @Serial
@@ -22,8 +20,7 @@ public class SolutionPriority implements Serializable, Comparable<SolutionPriori
     @Min(1)
     private Integer value;
 
-    @NotEmpty
-    private final List<@Valid Task> tasks = new ArrayList<>();
+    private final SortedMap<Integer, Task> tasks = new TreeMap<>();
 
     private SolutionPriority() {
     }
@@ -32,12 +29,17 @@ public class SolutionPriority implements Serializable, Comparable<SolutionPriori
         return value;
     }
 
-    public List<Task> getTasks() {
-        return Collections.unmodifiableList(tasks);
+    public SortedMap<Integer, Task> getTasks() {
+        return Collections.unmodifiableSortedMap(tasks);
     }
 
     public void setTaskAt(int index, Task task) {
-        this.tasks.set(index, task);
+        this.tasks.put(index, task);
+    }
+
+    public Task getTaskAt(int index) {
+        Task result = tasks.get(index);
+        return result;
     }
 
     @Override
@@ -91,10 +93,10 @@ public class SolutionPriority implements Serializable, Comparable<SolutionPriori
             return this;
         }
 
-        public Builder withTasks(List<Task> tasks) {
+        public Builder withTasks(SortedMap<Integer, Task> tasks) {
             instance.tasks.clear();
             if (tasks != null) {
-                instance.tasks.addAll(tasks);
+                instance.tasks.putAll(tasks);
             }
             return this;
         }

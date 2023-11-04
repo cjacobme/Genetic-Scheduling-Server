@@ -11,20 +11,20 @@
             "priorities": [
               {
                 "value": 1,
-                "tasks": [
-                  {
+                "tasks": {
+                  "2": {
                     "duration": "PT1M",
                     "identifier": 3
                   },
-                  {
+                  "25": {
                     "duration": "PT20S",
                     "identifier": 2
                   },
-                  {
+                  "4711": {
                     "duration": "PT10S",
                     "identifier": 123
                   }
-                ]
+                }
               }
             ]
           }

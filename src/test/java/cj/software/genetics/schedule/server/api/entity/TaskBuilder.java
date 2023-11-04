@@ -1,14 +1,16 @@
 package cj.software.genetics.schedule.server.api.entity;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class TaskBuilder extends Task.Builder {
-    public static List<Task> create(int startInclusive, int endExclusive) {
-        List<Task> result = new ArrayList<>();
+    public static SortedMap<Integer, Task> create(int startInclusive, int endExclusive) {
+        SortedMap<Integer, Task> result = new TreeMap<>();
+        int slot = 0;
         for (int index = startInclusive; index < endExclusive; index++) {
-            result.add(new TaskBuilder().withIdentifier(index).build());
+            result.put(slot, new TaskBuilder().withIdentifier(index).build());
+            slot += 3;
         }
         return result;
     }

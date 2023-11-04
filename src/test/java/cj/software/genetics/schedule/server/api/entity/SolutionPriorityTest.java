@@ -9,8 +9,9 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.util.List;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -51,9 +52,9 @@ class SolutionPriorityTest {
     @Test
     void constructFilled() {
         Integer value = 13;
-        List<Task> tasks = List.of(
-                new TaskBuilder().withIdentifier(1).build(),
-                new TaskBuilder().withIdentifier(2).build());
+        SortedMap<Integer, Task> tasks = new TreeMap<>();
+        tasks.put(13, new TaskBuilder().withIdentifier(1).build());
+        tasks.put(1234, new TaskBuilder().withIdentifier(2).build());
         SolutionPriority instance = SolutionPriority.builder()
                 .withValue(value)
                 .withTasks(tasks)
