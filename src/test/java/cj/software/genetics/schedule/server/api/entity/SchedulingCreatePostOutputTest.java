@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -78,7 +79,7 @@ class SchedulingCreatePostOutputTest {
 
     @Test
     void loadFromJson() throws IOException {
-        try (InputStream is = Objects.requireNonNull(SchedulingCreatePostOutputTest.class.getResourceAsStream("SchedulingCreatePostOuptut.json"))) {
+        try (InputStream is = Objects.requireNonNull(SchedulingCreatePostOutputTest.class.getResourceAsStream("SchedulingCreatePostOutput.json"))) {
             ObjectMapper objectMapper = new ObjectMapper();
             SchedulingCreatePostOutput loaded = objectMapper.readValue(is, SchedulingCreatePostOutput.class);
             assertThat(loaded).isNotNull();
@@ -99,15 +100,30 @@ class SchedulingCreatePostOutputTest {
             SortedSet<SolutionPriority> priorities = worker.getPriorities();
             assertThat(priorities).as("priorities").hasSize(1);
             SolutionPriority priority = priorities.first();
-            List<Task> tasks = priority.getTasks();
-            softy = new SoftAssertions();
-            softy.assertThat(priority.getValue()).as("prio value").isEqualTo(1);
-            softy.assertThat(tasks).as("tasks list").usingRecursiveComparison().isEqualTo(List.of(
-                    Task.builder().withDuration(Duration.ofMinutes(1)).withIdentifier(3).build(),
-                    Task.builder().withDuration(Duration.ofSeconds(20)).withIdentifier(2).build(),
-                    Task.builder().withDuration(Duration.ofSeconds(10)).withIdentifier(123).build()
-            ));
-            softy.assertAll();
+            SortedSet<Slot> slots = priority.getSlots();
+            SortedSet<Slot> expected = new TreeSet<>();
+            expected.add(Slot.builder()
+                    .withPosition(2)
+                    .withTask(Task.builder()
+                            .withIdentifier(3)
+                            .withDuration(Duration.ofMinutes(1))
+                            .build())
+                    .build());
+            expected.add(Slot.builder()
+                    .withPosition(25)
+                    .withTask(Task.builder()
+                            .withIdentifier(2)
+                            .withDuration(Duration.ofSeconds(20))
+                            .build())
+                    .build());
+            expected.add(Slot.builder()
+                    .withPosition(4711)
+                    .withTask(Task.builder()
+                            .withIdentifier(123)
+                            .withDuration(Duration.ofSeconds(10))
+                            .build())
+                    .build());
+            assertThat(slots).as("slots").usingRecursiveComparison().isEqualTo(expected);
         }
     }
 }

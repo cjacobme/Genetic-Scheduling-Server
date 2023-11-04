@@ -33,14 +33,10 @@ class SolutionPriorityServiceTest {
     void createInitial() {
         ProblemPriority problemPriority = new ProblemPriorityBuilder().build();
         List<Task> tasks = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            tasks.add(null);
-        }
 
         SolutionPriority actual = solutionPriorityService.createInitial(problemPriority);
         SolutionPriority expected = SolutionPriority.builder()
                 .withValue(1)
-                .withTasks(tasks)
                 .build();
         assertThat(actual).as("created").usingRecursiveComparison().isEqualTo(expected);
     }

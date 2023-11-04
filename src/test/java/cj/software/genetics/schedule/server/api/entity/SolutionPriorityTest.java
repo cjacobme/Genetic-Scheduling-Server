@@ -9,8 +9,9 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.util.List;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -44,16 +45,17 @@ class SolutionPriorityTest {
         assertThat(instanceAfter).as("instance in builder after build").isNull();
         SoftAssertions softy = new SoftAssertions();
         softy.assertThat(instance.getValue()).as("priority value").isNull();
-        softy.assertThat(instance.getTasks()).as("tasks").isEmpty();
+        softy.assertThat(instance.getSlots()).as("slots").isEmpty();
+        softy.assertThat(instance.getTasksMap()).as("tasks").isEmpty();
         softy.assertAll();
     }
 
     @Test
     void constructFilled() {
         Integer value = 13;
-        List<Task> tasks = List.of(
-                new TaskBuilder().withIdentifier(1).build(),
-                new TaskBuilder().withIdentifier(2).build());
+        SortedMap<Integer, Task> tasks = new TreeMap<>();
+        tasks.put(13, new TaskBuilder().withIdentifier(1).build());
+        tasks.put(1234, new TaskBuilder().withIdentifier(2).build());
         SolutionPriority instance = SolutionPriority.builder()
                 .withValue(value)
                 .withTasks(tasks)
@@ -61,7 +63,8 @@ class SolutionPriorityTest {
         assertThat(instance).as("built instance").isNotNull();
         SoftAssertions softy = new SoftAssertions();
         softy.assertThat(instance.getValue()).as("value").isEqualTo(value);
-        softy.assertThat(instance.getTasks()).as("tasks").isEqualTo(tasks);
+        softy.assertThat(instance.getTasksMap()).as("tasks").isEqualTo(tasks);
+        softy.assertThat(instance.getSlots()).extracting("position").containsExactly(13, 1234);
         softy.assertAll();
     }
 

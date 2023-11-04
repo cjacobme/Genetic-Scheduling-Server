@@ -90,22 +90,12 @@ class SolutionServiceTest {
         Collection<SolutionPriority> result = new ArrayList<>();
         SolutionPriority solutionPriority1 = SolutionPriority.builder()
                 .withValue(1)
-                .withTasks(createEmptyTasks(20))
                 .build();
         result.add(solutionPriority1);
         SolutionPriority solutionPriority15 = SolutionPriority.builder()
                 .withValue(15)
-                .withTasks(createEmptyTasks(30))
                 .build();
         result.add(solutionPriority15);
-        return result;
-    }
-
-    private List<Task> createEmptyTasks(int count) {
-        List<Task> result = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            result.add(null);
-        }
         return result;
     }
 

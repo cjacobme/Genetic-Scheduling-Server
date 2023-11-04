@@ -15,11 +15,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.any;
@@ -113,25 +113,26 @@ class WorkerServiceTest {
      */
     @Test
     void calculateDurations() {
-        List<Task> prio11Tasks = List.of(
-                Task.builder().withIdentifier(1).withDuration(Duration.ofSeconds(10)).build(),
-                Task.builder().withIdentifier(2).withDuration(Duration.ofMinutes(2)).build(),
-                Task.builder().withIdentifier(3).withDuration(Duration.ofSeconds(30)).build());
+        SortedMap<Integer, Task> prio11Tasks = new TreeMap<>();
+        prio11Tasks.put(123, Task.builder().withIdentifier(1).withDuration(Duration.ofSeconds(10)).build());
+        prio11Tasks.put(31, Task.builder().withIdentifier(2).withDuration(Duration.ofMinutes(2)).build());
+        prio11Tasks.put(111, Task.builder().withIdentifier(3).withDuration(Duration.ofSeconds(30)).build());
         SolutionPriority priority11 = SolutionPriority.builder().withValue(1).withTasks(prio11Tasks).build();
-        List<Task> prio12Tasks = List.of(
-                Task.builder().withIdentifier(4).withDuration(Duration.ofSeconds(12)).build(),
-                Task.builder().withIdentifier(5).withDuration(Duration.ofMinutes(2)).build());
+
+        SortedMap<Integer, Task> prio12Tasks = new TreeMap<>();
+        prio12Tasks.put(134, Task.builder().withIdentifier(4).withDuration(Duration.ofSeconds(12)).build());
+        prio12Tasks.put(234, Task.builder().withIdentifier(5).withDuration(Duration.ofMinutes(2)).build());
         SolutionPriority priority12 = SolutionPriority.builder().withValue(2).withTasks(prio12Tasks).build();
         Collection<SolutionPriority> worker1Solutions = List.of(priority11, priority12);
         Worker worker1 = Worker.builder().withPriorities(worker1Solutions).build();
 
-        List<Task> prio21Tasks = new ArrayList<>();
-        prio21Tasks.add(Task.builder().withIdentifier(6).withDuration(Duration.ofSeconds(40)).build());
-        prio21Tasks.add(null);
-        prio21Tasks.add(Task.builder().withIdentifier(7).withDuration(Duration.ofMinutes(1)).build());
+        SortedMap<Integer, Task> prio21Tasks = new TreeMap<>();
+        prio21Tasks.put(1, Task.builder().withIdentifier(6).withDuration(Duration.ofSeconds(40)).build());
+        prio21Tasks.put(75, Task.builder().withIdentifier(7).withDuration(Duration.ofMinutes(1)).build());
         SolutionPriority priority21 = SolutionPriority.builder().withValue(1).withTasks(prio21Tasks).build();
-        List<Task> prio22Tasks = Collections.singletonList(
-                Task.builder().withIdentifier(8).withDuration(Duration.ofSeconds(45)).build());
+
+        SortedMap<Integer, Task> prio22Tasks = new TreeMap<>();
+        prio22Tasks.put(0, Task.builder().withIdentifier(8).withDuration(Duration.ofSeconds(45)).build());
         SolutionPriority priority22 = SolutionPriority.builder().withValue(2).withTasks(prio22Tasks).build();
         Collection<SolutionPriority> worker2Solutions = List.of(priority21, priority22);
         Worker worker2 = Worker.builder().withPriorities(worker2Solutions).build();

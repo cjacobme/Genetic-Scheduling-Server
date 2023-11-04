@@ -7,22 +7,13 @@ import cj.software.genetics.schedule.server.api.entity.Worker;
 import cj.software.genetics.schedule.server.exception.SlotOccupiedException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class TaskService {
     public boolean isOccupied(Solution solution, int priorityValue, int workerIndex, int slotIndex) {
         Worker worker = solution.getWorkers().get(workerIndex);
         SolutionPriority solutionPriority = worker.getPriority(priorityValue);
-        List<Task> tasks = solutionPriority.getTasks();
-        int tasksCount = tasks.size();
-        boolean result;
-        if (slotIndex < tasksCount) {
-            Task occupied = tasks.get(slotIndex);
-            result = (occupied != null);
-        } else {
-            result = false;
-        }
+        Task existing = solutionPriority.getTaskAt(slotIndex);
+        boolean result = (existing != null);
         return result;
     }
 
