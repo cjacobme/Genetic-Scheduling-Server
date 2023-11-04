@@ -11,29 +11,20 @@
             "priorities": [
               {
                 "value": 1,
-                "slots": [
-                  {
-                    "position": 2,
-                    "task": {
-                      "duration": "PT1M",
-                      "identifier": 3
-                    }
+                "tasks": {
+                  "2": {
+                    "duration": "PT1M",
+                    "identifier": 3
                   },
-                  {
-                    "position": 25,
-                    "task": {
-                      "duration": "PT20S",
-                      "identifier": 2
-                    }
+                  "25": {
+                    "duration": "PT20S",
+                    "identifier": 2
                   },
-                  {
-                    "position": 4711,
-                    "task": {
-                      "duration": "PT10S",
-                      "identifier": 123
-                    }
+                  "4711": {
+                    "duration": "PT10S",
+                    "identifier": 123
                   }
-                ]
+                }
               }
             ]
           }

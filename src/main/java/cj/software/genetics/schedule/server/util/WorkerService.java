@@ -43,7 +43,7 @@ public class WorkerService {
             Worker worker = workers.get(iWorker);
             SortedSet<SolutionPriority> priorities = worker.getPriorities();
             for (SolutionPriority priority : priorities) {
-                SortedMap<Integer, Task> tasks = priority.getTasksMap();
+                SortedMap<Integer, Task> tasks = priority.getTasks();
                 for (Map.Entry<Integer, Task> entry : tasks.entrySet()) {
                     Task task = entry.getValue();
                     Duration duration = task.getDuration();

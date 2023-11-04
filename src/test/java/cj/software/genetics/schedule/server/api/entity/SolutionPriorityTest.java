@@ -45,8 +45,7 @@ class SolutionPriorityTest {
         assertThat(instanceAfter).as("instance in builder after build").isNull();
         SoftAssertions softy = new SoftAssertions();
         softy.assertThat(instance.getValue()).as("priority value").isNull();
-        softy.assertThat(instance.getSlots()).as("slots").isEmpty();
-        softy.assertThat(instance.getTasksMap()).as("tasks").isEmpty();
+        softy.assertThat(instance.getTasks()).as("tasks").isEmpty();
         softy.assertAll();
     }
 
@@ -63,8 +62,7 @@ class SolutionPriorityTest {
         assertThat(instance).as("built instance").isNotNull();
         SoftAssertions softy = new SoftAssertions();
         softy.assertThat(instance.getValue()).as("value").isEqualTo(value);
-        softy.assertThat(instance.getTasksMap()).as("tasks").isEqualTo(tasks);
-        softy.assertThat(instance.getSlots()).extracting("position").containsExactly(13, 1234);
+        softy.assertThat(instance.getTasks()).as("tasks").isEqualTo(tasks);
         softy.assertAll();
     }
 

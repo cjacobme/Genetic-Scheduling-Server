@@ -1,6 +1,5 @@
 package cj.software.genetics.schedule.server.api.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -10,11 +9,8 @@ import javax.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.Map;
 import java.util.SortedMap;
-import java.util.SortedSet;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 public class SolutionPriority implements Serializable, Comparable<SolutionPriority> {
     @Serial
@@ -24,10 +20,7 @@ public class SolutionPriority implements Serializable, Comparable<SolutionPriori
     @Min(1)
     private Integer value;
 
-    private final SortedSet<Slot> tasks = new TreeSet<>();
-
-    @JsonIgnore
-    private final transient SortedMap<Integer, Task> tasksMap = new TreeMap<>();
+    private final SortedMap<Integer, Task> tasks = new TreeMap<>();
 
     private SolutionPriority() {
     }
@@ -36,22 +29,16 @@ public class SolutionPriority implements Serializable, Comparable<SolutionPriori
         return value;
     }
 
-    public SortedMap<Integer, Task> getTasksMap() {
-        return Collections.unmodifiableSortedMap(tasksMap);
-    }
-
-    public SortedSet<Slot> getSlots() {
-        return tasks;
+    public SortedMap<Integer, Task> getTasks() {
+        return Collections.unmodifiableSortedMap(tasks);
     }
 
     public void setTaskAt(int index, Task task) {
-        Slot slot = Slot.builder().withPosition(index).withTask(task).build();
-        this.tasks.add(slot);
-        this.tasksMap.put(index, task);
+        this.tasks.put(index, task);
     }
 
     public Task getTaskAt(int index) {
-        Task result = tasksMap.get(index);
+        Task result = tasks.get(index);
         return result;
     }
 
@@ -109,9 +96,7 @@ public class SolutionPriority implements Serializable, Comparable<SolutionPriori
         public Builder withTasks(SortedMap<Integer, Task> tasks) {
             instance.tasks.clear();
             if (tasks != null) {
-                for (Map.Entry<Integer, Task> entry : tasks.entrySet()) {
-                    instance.setTaskAt(entry.getKey(), entry.getValue());
-                }
+                instance.tasks.putAll(tasks);
             }
             return this;
         }

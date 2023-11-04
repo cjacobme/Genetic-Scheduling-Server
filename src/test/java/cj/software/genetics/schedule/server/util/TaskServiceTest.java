@@ -56,7 +56,7 @@ class TaskServiceTest {
         Solution solution = createSolution(null);
         Task task = new TaskBuilder().build();
         taskService.setTaskAt(solution, 1, 0, 5, task);
-        Task found = solution.getWorkers().get(0).getPriority(1).getTasksMap().get(5);
+        Task found = solution.getWorkers().get(0).getPriority(1).getTasks().get(5);
         assertThat(found).isSameAs(task);
     }
 

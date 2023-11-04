@@ -16,8 +16,9 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.TreeMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -81,6 +82,8 @@ class SchedulingCreatePostOutputTest {
     void loadFromJson() throws IOException {
         try (InputStream is = Objects.requireNonNull(SchedulingCreatePostOutputTest.class.getResourceAsStream("SchedulingCreatePostOutput.json"))) {
             ObjectMapper objectMapper = new ObjectMapper();
+            SchedulingCreatePostOutput instance = new SchedulingCreatePostOutputBuilder().build();
+            String asString = objectMapper.writeValueAsString(instance);
             SchedulingCreatePostOutput loaded = objectMapper.readValue(is, SchedulingCreatePostOutput.class);
             assertThat(loaded).isNotNull();
             validate(loaded);
@@ -100,30 +103,21 @@ class SchedulingCreatePostOutputTest {
             SortedSet<SolutionPriority> priorities = worker.getPriorities();
             assertThat(priorities).as("priorities").hasSize(1);
             SolutionPriority priority = priorities.first();
-            SortedSet<Slot> slots = priority.getSlots();
-            SortedSet<Slot> expected = new TreeSet<>();
-            expected.add(Slot.builder()
-                    .withPosition(2)
-                    .withTask(Task.builder()
-                            .withIdentifier(3)
-                            .withDuration(Duration.ofMinutes(1))
-                            .build())
+            SortedMap<Integer, Task> tasks = priority.getTasks();
+            SortedMap<Integer, Task> expected = new TreeMap<>();
+            expected.put(2, Task.builder()
+                    .withIdentifier(3)
+                    .withDuration(Duration.ofMinutes(1))
                     .build());
-            expected.add(Slot.builder()
-                    .withPosition(25)
-                    .withTask(Task.builder()
-                            .withIdentifier(2)
-                            .withDuration(Duration.ofSeconds(20))
-                            .build())
+            expected.put(25, Task.builder()
+                    .withIdentifier(2)
+                    .withDuration(Duration.ofSeconds(20))
                     .build());
-            expected.add(Slot.builder()
-                    .withPosition(4711)
-                    .withTask(Task.builder()
-                            .withIdentifier(123)
-                            .withDuration(Duration.ofSeconds(10))
-                            .build())
+            expected.put(4711, Task.builder()
+                    .withIdentifier(123)
+                    .withDuration(Duration.ofSeconds(10))
                     .build());
-            assertThat(slots).as("slots").usingRecursiveComparison().isEqualTo(expected);
+            assertThat(tasks).as("tasks").usingRecursiveComparison().isEqualTo(expected);
         }
     }
 }
