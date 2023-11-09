@@ -52,8 +52,8 @@ class PopulationTest {
     void constructFilled() {
         Integer generationStep = 12345;
         List<Solution> solutions = List.of(
-                new SolutionBuilder().withGenerationStep(1).withIndexInGeneration(0).build(),
-                new SolutionBuilder().withGenerationStep(15).withIndexInGeneration(33).build());
+                new SolutionBuilder().withGenerationStep(1).withIndexInPopulation(0).build(),
+                new SolutionBuilder().withGenerationStep(15).withIndexInPopulation(33).build());
         Population instance = Population.builder()
                 .withGenerationStep(generationStep)
                 .withSolutions(solutions)

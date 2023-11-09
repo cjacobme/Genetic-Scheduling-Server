@@ -40,9 +40,9 @@ class PopulationServiceTest {
     void createInitial() throws SlotOccupiedException {
         SchedulingProblem schedulingProblem = new SchedulingProblemBuilder().build();
         SolutionSetup solutionSetup = new SolutionSetupBuilder().withSolutionCount(3).build();
-        Solution solution0 = new SolutionBuilder().withIndexInGeneration(0).build();
-        Solution solution1 = new SolutionBuilder().withIndexInGeneration(1).build();
-        Solution solution2 = new SolutionBuilder().withIndexInGeneration(2).build();
+        Solution solution0 = new SolutionBuilder().withIndexInPopulation(0).build();
+        Solution solution1 = new SolutionBuilder().withIndexInPopulation(1).build();
+        Solution solution2 = new SolutionBuilder().withIndexInPopulation(2).build();
 
         when(solutionService.createInitial(0, schedulingProblem, solutionSetup)).thenReturn(solution0);
         when(solutionService.createInitial(1, schedulingProblem, solutionSetup)).thenReturn(solution1);

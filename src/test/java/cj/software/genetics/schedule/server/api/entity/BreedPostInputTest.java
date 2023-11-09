@@ -141,7 +141,7 @@ class BreedPostInputTest {
         List<Solution> solutions = List.of(
                 Solution.builder()
                         .withGenerationStep(2)
-                        .withIndexInGeneration(3)
+                        .withIndexInPopulation(3)
                         .withFitnessValue(2.95)
                         .withWorkers(workers)
                         .build());

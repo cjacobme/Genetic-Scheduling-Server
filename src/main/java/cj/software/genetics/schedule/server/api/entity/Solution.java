@@ -99,8 +99,8 @@ public class Solution implements Serializable {
             return this;
         }
 
-        public Builder withIndexInGeneration(Integer indexInGeneration) {
-            instance.indexInPopulation = indexInGeneration;
+        public Builder withIndexInPopulation(Integer indexInPopulation) {
+            instance.indexInPopulation = indexInPopulation;
             return this;
         }
 

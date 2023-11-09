@@ -84,7 +84,7 @@ class TaskServiceTest {
         Collection<SolutionPriority> solutionPriorities = List.of(solutionPriority);
         Worker worker = Worker.builder().withPriorities(solutionPriorities).build();
         List<Worker> workers = List.of(worker);
-        Solution result = Solution.builder().withGenerationStep(0).withIndexInGeneration(0).withWorkers(workers).build();
+        Solution result = Solution.builder().withGenerationStep(0).withIndexInPopulation(0).withWorkers(workers).build();
         return result;
     }
 }
