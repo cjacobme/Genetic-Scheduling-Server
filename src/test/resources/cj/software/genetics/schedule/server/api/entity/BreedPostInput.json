@@ -1,0 +1,35 @@
+{
+  "numSteps": 20,
+  "elitismCount": 7,
+  "tournamentSize": 5,
+  "mutationRate": 7.8,
+  "population": {
+    "generationStep": 3,
+    "solutions": [
+      {
+        "generationStep": 2,
+        "indexInPopulation": 3,
+        "fitnessValue": 2.95,
+        "workers": [
+          {
+            "priorities": [
+              {
+                "value": 1,
+                "tasks": {
+                  "2": {
+                    "duration": "PT2M",
+                    "identifier": 32
+                  },
+                  "25": {
+                    "duration": "PT30S",
+                    "identifier": 4
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

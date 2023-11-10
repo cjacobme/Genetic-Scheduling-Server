@@ -18,7 +18,7 @@ public class Worker implements Serializable {
     @NotEmpty
     private final SortedSet<@Valid SolutionPriority> priorities = new TreeSet<>();
 
-    private final transient Map<Integer, SolutionPriority> asMap = new HashMap<>();
+    final transient Map<Integer, SolutionPriority> asMap = new HashMap<>();
 
     private Worker() {
     }

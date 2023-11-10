@@ -1,5 +1,7 @@
 package cj.software.genetics.schedule.server.api.controller;
 
+import cj.software.genetics.schedule.server.api.entity.BreedPostInput;
+import cj.software.genetics.schedule.server.api.entity.BreedPostOutput;
 import cj.software.genetics.schedule.server.api.entity.Population;
 import cj.software.genetics.schedule.server.api.entity.SchedulingCreatePostInput;
 import cj.software.genetics.schedule.server.api.entity.SchedulingCreatePostOutput;
@@ -29,20 +31,33 @@ public class SchedulingController {
     @Autowired
     private PopulationService populationService;
 
-    @PostMapping(
-            path = "create"
-    )
+    @PostMapping(path = "create")
     @NotNull
     @Valid
     public SchedulingCreatePostOutput create(
             @RequestBody
             @NotNull
-            @Validated
+            @Valid
             SchedulingCreatePostInput postInput) throws SlotOccupiedException {
         SchedulingProblem schedulingProblem = postInput.getSchedulingProblem();
         SolutionSetup solutionSetup = postInput.getSolutionSetup();
         Population population = populationService.createInitial(schedulingProblem, solutionSetup);
         SchedulingCreatePostOutput result = SchedulingCreatePostOutput.builder()
+                .withPopulation(population)
+                .build();
+        return result;
+    }
+
+    @PostMapping(path = "breed")
+    @NotNull
+    @Valid
+    public BreedPostOutput breed(
+            @RequestBody
+            @NotNull
+            @Valid
+            BreedPostInput breedPostInput) {
+        Population population = breedPostInput.getPopulation();
+        BreedPostOutput result = BreedPostOutput.builder()
                 .withPopulation(population)
                 .build();
         return result;

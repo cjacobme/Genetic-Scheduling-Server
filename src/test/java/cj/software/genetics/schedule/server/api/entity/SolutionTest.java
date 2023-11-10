@@ -58,7 +58,7 @@ class SolutionTest {
         List<Worker> workers = List.of(new WorkerBuilder().build(), new WorkerBuilder().build());
         Solution instance = Solution.builder()
                 .withGenerationStep(generationStep)
-                .withIndexInGeneration(indexInGeneration)
+                .withIndexInPopulation(indexInGeneration)
                 .withFitnessValue(fitnessValue)
                 .withWorkers(workers)
                 .build();
@@ -116,14 +116,14 @@ class SolutionTest {
     @Test
     void unequalIndexInPopulation() {
         Solution instance1 = new SolutionBuilder().build();
-        Solution instance2 = new SolutionBuilder().withIndexInGeneration(34).build();
+        Solution instance2 = new SolutionBuilder().withIndexInPopulation(34).build();
         assertThat(instance1).isNotEqualTo(instance2);
     }
 
     @Test
     void unequalHashesIndexInPopulation() {
         Solution instance1 = new SolutionBuilder().build();
-        Solution instance2 = new SolutionBuilder().withIndexInGeneration(34).build();
+        Solution instance2 = new SolutionBuilder().withIndexInPopulation(34).build();
         int hash1 = instance1.hashCode();
         int hash2 = instance2.hashCode();
         assertThat(hash1).isNotEqualTo(hash2);

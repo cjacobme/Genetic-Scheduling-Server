@@ -48,7 +48,7 @@ class SolutionServiceTest {
         SchedulingProblem schedulingProblem = new SchedulingProblemBuilder().build();
         List<Worker> workers = createInitialWorkers(schedulingProblem.getPriorities());
         Solution solution = Solution.builder()
-                .withIndexInGeneration(index)
+                .withIndexInPopulation(index)
                 .withGenerationStep(0)
                 .withFitnessValue(2.334)
                 .withWorkers(workers)
@@ -121,4 +121,17 @@ class SolutionServiceTest {
 
         assertThat(solution.getFitnessValue()).as("in solution").isEqualTo(expectedFitnessValue, offset(0.00001));
     }
+
+
+    @Test
+    void sort() {
+        Collection<Solution> solutions = new ArrayList<>(List.of(
+                new SolutionBuilder().withIndexInPopulation(0).withFitnessValue(3.14).build(),
+                new SolutionBuilder().withIndexInPopulation(13).withFitnessValue(2.95).build(),
+                new SolutionBuilder().withIndexInPopulation(6).withFitnessValue(12.34).build()
+        ));
+        List<Solution> sorted = solutionService.sort(solutions);
+        assertThat(sorted).extracting("indexInPopulation").containsExactly(6, 0, 13);
+    }
+
 }

@@ -7,6 +7,7 @@ import cj.software.genetics.schedule.server.api.entity.SolutionSetup;
 import cj.software.genetics.schedule.server.api.entity.Task;
 import cj.software.genetics.schedule.server.api.entity.Worker;
 import cj.software.genetics.schedule.server.exception.SlotOccupiedException;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,7 @@ public class SolutionService {
             workers.add(worker);
         }
         Solution result = Solution.builder()
-                .withIndexInGeneration(index)
+                .withIndexInPopulation(index)
                 .withGenerationStep(0)
                 .withWorkers(workers)
                 .build();
@@ -78,6 +79,17 @@ public class SolutionService {
         }
         double fitness = 1.0 / max;
         result.setFitnessValue(fitness);
+        return result;
+    }
+
+    public List<Solution> sort(Collection<Solution> solutions) {
+        List<Solution> result = new ArrayList<>(solutions);
+        result.sort((solution1, solution2) -> {
+            CompareToBuilder builder = new CompareToBuilder()
+                    .append(solution2.getFitnessValue(), solution1.getFitnessValue());
+            int compare = builder.build();
+            return compare;
+        });
         return result;
     }
 }
