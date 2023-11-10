@@ -5,6 +5,7 @@ public class BreedPostInputBuilder extends BreedPostInput.Builder {
         super.withNumSteps(10)
                 .withElitismCount(2)
                 .withTournamentSize(5)
+                .withMutationRate(3.56)
                 .withPopulation(new PopulationBuilder().build());
     }
 }

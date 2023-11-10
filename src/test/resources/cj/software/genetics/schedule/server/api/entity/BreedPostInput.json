@@ -2,6 +2,7 @@
   "numSteps": 20,
   "elitismCount": 7,
   "tournamentSize": 5,
+  "mutationRate": 7.8,
   "population": {
     "generationStep": 3,
     "solutions": [

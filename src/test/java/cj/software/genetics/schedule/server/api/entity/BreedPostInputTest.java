@@ -71,6 +71,7 @@ class BreedPostInputTest {
         softy.assertThat(instance.getNumSteps()).as("number of steps").isNull();
         softy.assertThat(instance.getElitismCount()).as("elitism count").isNull();
         softy.assertThat(instance.getTournamentSize()).as("tournament size").isNull();
+        softy.assertThat(instance.getMutationRate()).as("mutation rate").isNull();
         softy.assertThat(instance.getPopulation()).as("population").isNull();
         softy.assertAll();
     }
@@ -80,12 +81,14 @@ class BreedPostInputTest {
         Integer numSteps = -1;
         Integer elitismCount = -3;
         Integer tournamentSize = -4;
+        Double mutationRate = -1.2;
         Population population = Population.builder().build();
 
         BreedPostInput instance = BreedPostInput.builder()
                 .withNumSteps(numSteps)
                 .withElitismCount(elitismCount)
                 .withTournamentSize(tournamentSize)
+                .withMutationRate(mutationRate)
                 .withPopulation(population)
                 .build();
 
@@ -94,6 +97,7 @@ class BreedPostInputTest {
         softy.assertThat(instance.getNumSteps()).as("num steps").isEqualTo(numSteps);
         softy.assertThat(instance.getElitismCount()).as("elitism count").isEqualTo(elitismCount);
         softy.assertThat(instance.getTournamentSize()).as("tournament size").isEqualTo(tournamentSize);
+        softy.assertThat(instance.getMutationRate()).as("mutation rate").isEqualTo(mutationRate);
         softy.assertThat(instance.getPopulation()).as("population").isSameAs(population);
         softy.assertAll();
     }
@@ -153,6 +157,7 @@ class BreedPostInputTest {
                 .withNumSteps(20)
                 .withElitismCount(7)
                 .withTournamentSize(5)
+                .withMutationRate(7.8)
                 .withPopulation(population)
                 .build();
         return result;

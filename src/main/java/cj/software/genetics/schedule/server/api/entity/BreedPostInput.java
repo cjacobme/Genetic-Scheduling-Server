@@ -1,6 +1,8 @@
 package cj.software.genetics.schedule.server.api.entity;
 
 import javax.validation.Valid;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serial;
@@ -23,6 +25,11 @@ public class BreedPostInput implements Serializable {
     private Integer tournamentSize;
 
     @NotNull
+    @DecimalMin("0.0")
+    @DecimalMax("100.0")
+    private Double mutationRate;
+
+    @NotNull
     @Valid
     private Population population;
 
@@ -39,6 +46,10 @@ public class BreedPostInput implements Serializable {
 
     public Integer getTournamentSize() {
         return tournamentSize;
+    }
+
+    public Double getMutationRate() {
+        return mutationRate;
     }
 
     public Population getPopulation() {
@@ -74,6 +85,11 @@ public class BreedPostInput implements Serializable {
 
         public Builder withTournamentSize(Integer tournamentSize) {
             instance.tournamentSize = tournamentSize;
+            return this;
+        }
+
+        public Builder withMutationRate(Double mutationRate) {
+            instance.mutationRate = mutationRate;
             return this;
         }
 
