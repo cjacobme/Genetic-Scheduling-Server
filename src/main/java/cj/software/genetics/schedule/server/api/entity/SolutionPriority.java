@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -93,7 +94,7 @@ public class SolutionPriority implements Serializable, Comparable<SolutionPriori
             return this;
         }
 
-        public Builder withTasks(SortedMap<Integer, Task> tasks) {
+        public Builder withTasks(Map<Integer, Task> tasks) {
             instance.tasks.clear();
             if (tasks != null) {
                 instance.tasks.putAll(tasks);
