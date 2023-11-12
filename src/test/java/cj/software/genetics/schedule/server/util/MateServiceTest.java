@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.validation.annotation.Validated;
@@ -30,6 +31,21 @@ class MateServiceTest {
     @Autowired
     private MateService mateService;
 
+    @MockBean
+    private SolutionPriorityService solutionPriorityService;
+
+    @MockBean
+    private Converter converter;
+
+    @MockBean
+    private RandomService randomService;
+
+    @MockBean
+    private WorkerService workerService;
+
+    @MockBean
+    private SolutionService solutionService;
+
     @Test
     void metadata() {
         Service service = MateService.class.getAnnotation(Service.class);
@@ -38,14 +54,6 @@ class MateServiceTest {
         softy.assertThat(service).as("@Service").isNotNull();
         softy.assertThat(validate).as("@Validated").isNotNull();
         softy.assertAll();
-    }
-
-    @Test
-    void mate() {
-        Task[] tasks = createTasks();
-        Solution parent1 = createParent1(tasks);
-        Solution parent2 = createParent2(tasks);
-        assertThat(parent1).isEqualTo(parent2);
     }
 
     @Test

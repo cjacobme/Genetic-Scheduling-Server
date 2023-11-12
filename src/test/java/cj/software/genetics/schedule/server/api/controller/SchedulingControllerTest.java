@@ -8,6 +8,7 @@ import cj.software.genetics.schedule.server.api.entity.SchedulingCreatePostOutpu
 import cj.software.genetics.schedule.server.api.entity.SchedulingProblem;
 import cj.software.genetics.schedule.server.api.entity.SolutionSetup;
 import cj.software.genetics.schedule.server.exception.SlotOccupiedException;
+import cj.software.genetics.schedule.server.util.Breeder;
 import cj.software.genetics.schedule.server.util.PopulationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,6 +31,9 @@ class SchedulingControllerTest {
 
     @MockBean
     private PopulationService populationService;
+
+    @MockBean
+    private Breeder breeder;
 
     @Test
     void metadata() {
