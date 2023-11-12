@@ -1,5 +1,8 @@
 package cj.software.genetics.schedule.server.api.controller;
 
+import cj.software.genetics.schedule.server.api.entity.BreedPostInput;
+import cj.software.genetics.schedule.server.api.entity.BreedPostInputBuilder;
+import cj.software.genetics.schedule.server.api.entity.BreedPostOutput;
 import cj.software.genetics.schedule.server.api.entity.Population;
 import cj.software.genetics.schedule.server.api.entity.PopulationBuilder;
 import cj.software.genetics.schedule.server.api.entity.SchedulingCreatePostInput;
@@ -55,5 +58,20 @@ class SchedulingControllerTest {
         verify(populationService).createInitial(schedulingProblem, solutionSetup);
         assertThat(returned).as("returned").isNotNull();
         assertThat(returned.getPopulation()).as("returned population").isSameAs(population);
+    }
+
+    @Test
+    void breed() {
+        BreedPostInput breedPostInput = new BreedPostInputBuilder().build();
+        Population previous = breedPostInput.getPopulation();
+        Population breeded = Population.builder().build();
+
+        when(breeder.step(previous, 2, 5)).thenReturn(breeded);
+
+        BreedPostOutput returned = schedulingController.breed(breedPostInput);
+
+        verify(breeder).step(previous, 2, 5);
+        assertThat(returned).as("returned").isNotNull();
+        assertThat(returned.getPopulation()).as("returned population").isSameAs(breeded);
     }
 }
