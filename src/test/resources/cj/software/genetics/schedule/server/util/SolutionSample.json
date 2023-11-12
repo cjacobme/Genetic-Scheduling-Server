@@ -1,0 +1,90 @@
+{
+  "generationStep": 0,
+  "indexInPopulation": 1,
+  "fitnessValue": 7.716049382716049e-7,
+  "workers": [
+    {
+      "priorities": [
+        {
+          "value": 1,
+          "tasks": {}
+        },
+        {
+          "value": 15,
+          "tasks": {}
+        }
+      ]
+    },
+    {
+      "priorities": [
+        {
+          "value": 1,
+          "tasks": {
+            "0": {
+              "duration": "PT1M",
+              "identifier": 3
+            },
+            "1": {
+              "duration": "PT10S",
+              "identifier": 1
+            },
+            "13": {
+              "duration": "PT20S",
+              "identifier": 2
+            }
+          }
+        },
+        {
+          "value": 15,
+          "tasks": {}
+        }
+      ]
+    },
+    {
+      "priorities": [
+        {
+          "value": 1,
+          "tasks": {}
+        },
+        {
+          "value": 15,
+          "tasks": {
+            "10": {
+              "duration": "PT360H",
+              "identifier": 414141
+            }
+          }
+        }
+      ]
+    },
+    {
+      "priorities": [
+        {
+          "value": 1,
+          "tasks": {}
+        },
+        {
+          "value": 15,
+          "tasks": {}
+        }
+      ]
+    },
+    {
+      "priorities": [
+        {
+          "value": 1,
+          "tasks": {}
+        },
+        {
+          "value": 15,
+          "tasks": {
+            "13": {
+              "duration": "PT10S",
+              "identifier": 12345
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

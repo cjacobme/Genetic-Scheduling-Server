@@ -23,6 +23,12 @@ public class Worker implements Serializable {
     private Worker() {
     }
 
+    public void postLoad() {
+        for (SolutionPriority priority : priorities) {
+            asMap.put(priority.getValue(), priority);
+        }
+    }
+
     public SortedSet<SolutionPriority> getPriorities() {
         return Collections.unmodifiableSortedSet(priorities);
     }

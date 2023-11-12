@@ -54,6 +54,12 @@ public class Solution implements Serializable {
         return Collections.unmodifiableList(workers);
     }
 
+    public void postLoad() {
+        for (Worker worker : workers) {
+            worker.postLoad();
+        }
+    }
+
     @Override
     public boolean equals(Object otherObject) {
         boolean result;
