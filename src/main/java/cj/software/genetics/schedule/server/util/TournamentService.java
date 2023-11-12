@@ -24,8 +24,8 @@ public class TournamentService {
             int index = randomService.nextInt(numCopy);
             selected.add(copy.remove(index));
         }
-        solutionService.sort(selected);
-        Solution result = selected.get(0);
+        List<Solution> sorted = solutionService.sort(selected);
+        Solution result = sorted.get(0);
         return result;
     }
 }

@@ -2,6 +2,8 @@ package cj.software.genetics.schedule.server.api.entity;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -80,6 +82,15 @@ public class Solution implements Serializable {
                 .append(indexInPopulation)
                 .append(generationStep);
         int result = builder.build();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+                .append("generation step", generationStep)
+                .append("index", indexInPopulation);
+        String result = builder.build();
         return result;
     }
 
