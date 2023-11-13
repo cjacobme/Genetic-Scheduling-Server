@@ -4,6 +4,7 @@ import cj.software.genetics.schedule.server.api.entity.Solution;
 import cj.software.genetics.schedule.server.api.entity.SolutionPriority;
 import cj.software.genetics.schedule.server.api.entity.Task;
 import cj.software.genetics.schedule.server.api.entity.Worker;
+import cj.software.genetics.schedule.server.entity.Coordinate;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,11 +16,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -196,6 +201,79 @@ class MateServiceTest {
                 .withFitnessValue(3.7)
                 .withWorkers(workers)
                 .build();
+        return result;
+    }
+
+    @Test
+    void dispatchPrio0() {
+        int tasksCount = 20;
+        int numWorkers = 3;
+        int prioritiesCount = 2;
+
+        List<Worker> emptyWorkers = createEmptyWorkers(numWorkers, prioritiesCount);
+        List<Task> tasks = createTasks(tasksCount);
+        Map<Task, Coordinate> locations = createLocations(tasks, numWorkers);
+        mateService.dispatch(tasks, emptyWorkers, locations, 2, 6, 0);
+
+        SortedMap<Integer, Task> expectedWorker0 = new TreeMap<>(Map.of(
+                3, tasks.get(3)));
+        assertWorker(emptyWorkers.get(0), 0, expectedWorker0);
+        SortedMap<Integer, Task> expectedWorker1 = new TreeMap<>(Map.of(
+                4, tasks.get(4)));
+        assertWorker(emptyWorkers.get(1), 1, expectedWorker1);
+        SortedMap<Integer, Task> expectedWorker2 = new TreeMap<>(Map.of(
+                2, tasks.get(2),
+                5, tasks.get(5)));
+        assertWorker(emptyWorkers.get(2), 2, expectedWorker2);
+    }
+
+    private void assertWorker(Worker worker, int index, SortedMap<Integer, Task> expected) {
+        worker.postLoad();
+        SolutionPriority solutionPriority = worker.getPriority(0);
+        SortedMap<Integer, Task> tasks = solutionPriority.getTasks();
+        assertThat(tasks).as("dispatched tasks for worker #%d", index).containsExactlyInAnyOrderEntriesOf(expected);
+    }
+
+    private List<Worker> createEmptyWorkers(int numWorkers, int numPriorities) {
+        List<Worker> result = new ArrayList<>(numWorkers);
+        for (int iWorker = 0; iWorker < numWorkers; iWorker++) {
+            Collection<SolutionPriority> priorities = new ArrayList<>(numPriorities);
+            for (int iPrio = 0; iPrio < numPriorities; iPrio++) {
+                SolutionPriority priority = SolutionPriority.builder()
+                        .withValue(iPrio)
+                        .build();
+                priorities.add(priority);
+            }
+            Worker worker = Worker.builder()
+                    .withPriorities(priorities)
+                    .build();
+            result.add(worker);
+        }
+        return result;
+    }
+
+    private List<Task> createTasks(int tasksCount) {
+        List<Task> result = new ArrayList<>(tasksCount);
+        for (int iTask = 0; iTask < tasksCount; iTask++) {
+            Task task = Task.builder().withDuration(Duration.ofSeconds(iTask + 1)).withIdentifier(iTask).build();
+            result.add(task);
+        }
+        return result;
+    }
+
+    private Map<Task, Coordinate> createLocations(List<Task> tasks, int numWorkers) {
+        Map<Task, Coordinate> result = new HashMap<>(tasks.size());
+        int workerIndex = 0;
+        int slotIndex = 0;
+        for (Task task : tasks) {
+            Coordinate coordinate = Coordinate.builder().withWorkerIndex(workerIndex).withSlotIndex(slotIndex).build();
+            result.put(task, coordinate);
+            workerIndex++;
+            if (workerIndex > numWorkers - 1) {
+                workerIndex = 0;
+            }
+            slotIndex++;
+        }
         return result;
     }
 }

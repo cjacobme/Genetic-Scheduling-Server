@@ -48,7 +48,6 @@ public class MateService {
             int prioValue = solutionPriority.getValue();
             Map<Task, Coordinate> converted1 = converter.toMapTaskCoordinate(parent1, prioValue);
             Map<Task, Coordinate> converted2 = converter.toMapTaskCoordinate(parent2, prioValue);
-            int slotCount = 1000;   //TODO: slotCount beim Anlegen einer SolutionPriority aus der ProblemPriority übertragen
             List<Task> tasks = converter.toTaskList(parent1, prioValue);
             int numTasks = tasks.size();
             int pos1 = randomService.nextInt(numTasks);
@@ -68,7 +67,7 @@ public class MateService {
         return result;
     }
 
-    private void dispatch(List<Task> tasks, List<Worker> workers, Map<Task, Coordinate> converted, int lower, int upper, int priorityValue) {
+    void dispatch(List<Task> tasks, List<Worker> workers, Map<Task, Coordinate> converted, int lower, int upper, int priorityValue) {
         for (int iTask = lower; iTask < upper; iTask++) {
             Task task = tasks.get(iTask);
             Coordinate coordinate = converted.get(task);
