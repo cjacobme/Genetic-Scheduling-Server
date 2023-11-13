@@ -3,9 +3,12 @@ package cj.software.genetics.schedule.server.util;
 import cj.software.genetics.schedule.server.api.entity.ProblemPriority;
 import cj.software.genetics.schedule.server.api.entity.SchedulingProblem;
 import cj.software.genetics.schedule.server.api.entity.SchedulingProblemBuilder;
+import cj.software.genetics.schedule.server.api.entity.Solution;
+import cj.software.genetics.schedule.server.api.entity.SolutionBuilder;
 import cj.software.genetics.schedule.server.api.entity.SolutionPriority;
 import cj.software.genetics.schedule.server.api.entity.Task;
 import cj.software.genetics.schedule.server.api.entity.Worker;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +18,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -142,5 +148,73 @@ class WorkerServiceTest {
         List<Long> durations = workerService.calculateDurations(workers);
 
         assertThat(durations).as("durations").isEqualTo(List.of(292L, 145L));
+    }
+
+    @Test
+    void createEmptyWorker3() {
+        createEmptyWorker(3);
+    }
+
+    @Test
+    void createEmptyWorker5() {
+        createEmptyWorker(5);
+    }
+
+    @Test
+    void createEmptyWorkersForSolution() {
+        Solution solution = new SolutionBuilder().build();
+        List<Worker> workers = workerService.createEmptyWorkers(solution);
+        assertThat(workers).as("workers").hasSize(3);
+        int workerIndex = 0;
+        SoftAssertions softy = new SoftAssertions();
+        for (Worker worker : workers) {
+            SortedSet<SolutionPriority> priorities = worker.getPriorities();
+            softy.assertThat(priorities).as("priorities #%d", workerIndex).hasSize(2);
+            int prioIndex = 0;
+            for (SolutionPriority priority : priorities) {
+                softy.assertThat(priority.getValue()).as("prio value %d %d", workerIndex, prioIndex).isEqualTo(prioIndex + 1);
+                softy.assertThat(priority.getTasks()).as("tasks %d %d", workerIndex, prioIndex).isEmpty();
+                prioIndex++;
+            }
+            workerIndex++;
+        }
+        softy.assertAll();
+    }
+
+    private Worker createWorker(int prioritiesCount) {
+        Collection<SolutionPriority> priorities = new ArrayList<>(prioritiesCount);
+        int taskIndex = 0;
+        for (int iPrio = 0; iPrio < prioritiesCount; iPrio++) {
+            Map<Integer, Task> tasks = new HashMap<>();
+            for (int iTask = 0; iTask < 10; iTask++) {
+                Task task = Task.builder().withIdentifier(taskIndex).withDuration(Duration.ofSeconds(1)).build();
+                tasks.put(iTask, task);
+                taskIndex++;
+            }
+            SolutionPriority priority = SolutionPriority.builder()
+                    .withValue(iPrio)
+                    .withTasks(tasks)
+                    .build();
+            priorities.add(priority);
+        }
+        Worker result = Worker.builder().withPriorities(priorities).build();
+        return result;
+    }
+
+    private void createEmptyWorker(int prioritiesCount) {
+        Worker source = createWorker(prioritiesCount);
+        Worker empty = workerService.createEmptyWorker(source);
+
+        assertThat(empty).as("empty worker").isNotNull();
+        SortedSet<SolutionPriority> emptyPriorities = empty.getPriorities();
+        assertThat(emptyPriorities).as("empty priorities").hasSize(prioritiesCount);
+        SoftAssertions softy = new SoftAssertions();
+        List<SolutionPriority> emptyAsList = new ArrayList<>(emptyPriorities);
+        for (int iPrio = 0; iPrio < prioritiesCount; iPrio++) {
+            SolutionPriority emptyPriority = emptyAsList.get(iPrio);
+            softy.assertThat(emptyPriority.getValue()).as("value #%d", iPrio).isEqualTo(iPrio);
+            softy.assertThat(emptyPriority.getTasks()).as("tasks #%d", iPrio).isEmpty();
+        }
+        softy.assertAll();
     }
 }

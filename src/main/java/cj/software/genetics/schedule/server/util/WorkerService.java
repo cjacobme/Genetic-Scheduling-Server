@@ -41,13 +41,13 @@ public class WorkerService {
         List<Worker> solutionWorkers = solution.getWorkers();
         List<Worker> result = new ArrayList<>(solutionWorkers.size());
         for (Worker solutionWorker : solutionWorkers) {
-            Worker newWorker = createEmptyWorkier(solutionWorker);
+            Worker newWorker = createEmptyWorker(solutionWorker);
             result.add(newWorker);
         }
         return result;
     }
 
-    Worker createEmptyWorkier(Worker solutionWorker) {
+    Worker createEmptyWorker(Worker solutionWorker) {
         SortedSet<SolutionPriority> solutionPriorities = solutionWorker.getPriorities();
         Collection<SolutionPriority> newPriorities = new ArrayList<>();
         for (SolutionPriority solutionPriorty : solutionPriorities) {
