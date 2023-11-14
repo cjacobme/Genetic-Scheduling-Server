@@ -3,7 +3,7 @@ package cj.software.genetics.schedule.server.util;
 import cj.software.genetics.schedule.server.api.entity.Solution;
 import cj.software.genetics.schedule.server.api.entity.Task;
 import cj.software.genetics.schedule.server.entity.Coordinate;
-import cj.software.genetics.schedule.server.util.spring.BeanProducer;
+import cj.software.util.spring.BeanProducer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

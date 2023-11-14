@@ -1,4 +1,4 @@
-package cj.software.genetics.schedule.server.util.json;
+package cj.software.util.json;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.BeanDescription;

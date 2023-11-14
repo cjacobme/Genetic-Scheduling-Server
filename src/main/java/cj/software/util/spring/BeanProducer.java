@@ -1,6 +1,6 @@
-package cj.software.genetics.schedule.server.util.spring;
+package cj.software.util.spring;
 
-import cj.software.genetics.schedule.server.util.json.PostLoadDeserializer;
+import cj.software.util.json.PostLoadDeserializer;
 import com.fasterxml.jackson.databind.BeanDescription;
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.JsonDeserializer;

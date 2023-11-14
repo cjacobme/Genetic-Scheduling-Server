@@ -1,4 +1,4 @@
-package cj.software.genetics.schedule.server.util.json;
+package cj.software.util.json;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

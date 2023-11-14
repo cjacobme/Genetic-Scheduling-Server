@@ -1,6 +1,6 @@
 package cj.software.genetics.schedule.server.api.entity;
 
-import cj.software.genetics.schedule.server.util.json.PostLoad;
+import cj.software.util.json.PostLoad;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
