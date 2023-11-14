@@ -63,7 +63,6 @@ public class SchedulingController {
         int elitismCount = breedPostInput.getElitismCount();
         int tournamentSize = breedPostInput.getTournamentSize();
         Population population = breedPostInput.getPopulation();
-        population.postLoad();
         Population newPopulation = breeder.step(population, elitismCount, tournamentSize);
         BreedPostOutput result = BreedPostOutput.builder()
                 .withPopulation(newPopulation)

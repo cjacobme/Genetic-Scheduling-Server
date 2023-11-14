@@ -71,7 +71,6 @@ class BreederTest {
     @Test
     void oneElitism() {
         Population population = new PopulationBuilder().build();
-        population.postLoad();
         List<Solution> previousSolutions = population.getSolutions();
         Solution offspring0 = mock(Solution.class);
         Solution offspring1 = mock(Solution.class);

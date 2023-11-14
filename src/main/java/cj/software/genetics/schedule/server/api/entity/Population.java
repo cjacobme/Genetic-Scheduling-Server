@@ -36,12 +36,6 @@ public class Population implements Serializable {
         return new Builder();
     }
 
-    public void postLoad() {
-        for (Solution solution : solutions) {
-            solution.postLoad();
-        }
-    }
-
     public static class Builder {
         protected Population instance;
 

@@ -53,7 +53,6 @@ class SolutionPriorityServiceTest {
                 ConverterTest.class.getResourceAsStream("SolutionSample.json"))) {
             ObjectMapper objectMapper = new ObjectMapper();
             Solution solution = objectMapper.readValue(is, Solution.class);
-            solution.postLoad();
 
             SortedSet<SolutionPriority> priorities = solutionPriorityService.determinePriorities(solution);
 

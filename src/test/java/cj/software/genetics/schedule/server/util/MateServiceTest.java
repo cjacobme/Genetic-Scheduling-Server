@@ -228,7 +228,6 @@ class MateServiceTest {
     }
 
     private void assertWorker(Worker worker, int index, SortedMap<Integer, Task> expected) {
-        worker.postLoad();
         SolutionPriority solutionPriority = worker.getPriority(0);
         SortedMap<Integer, Task> tasks = solutionPriority.getTasks();
         assertThat(tasks).as("dispatched tasks for worker #%d", index).containsExactlyInAnyOrderEntriesOf(expected);
