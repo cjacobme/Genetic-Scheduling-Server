@@ -28,7 +28,7 @@ class PopulationServiceTest {
     private PopulationService populationService;
 
     @MockBean
-    private SolutionService solutionService;
+    private InitialSolutionService initialSolutionService;
 
     @Test
     void metadata() {
@@ -44,9 +44,9 @@ class PopulationServiceTest {
         Solution solution1 = new SolutionBuilder().withIndexInPopulation(1).build();
         Solution solution2 = new SolutionBuilder().withIndexInPopulation(2).build();
 
-        when(solutionService.createInitial(0, schedulingProblem, solutionSetup)).thenReturn(solution0);
-        when(solutionService.createInitial(1, schedulingProblem, solutionSetup)).thenReturn(solution1);
-        when(solutionService.createInitial(2, schedulingProblem, solutionSetup)).thenReturn(solution2);
+        when(initialSolutionService.createInitial(0, schedulingProblem, solutionSetup)).thenReturn(solution0);
+        when(initialSolutionService.createInitial(1, schedulingProblem, solutionSetup)).thenReturn(solution1);
+        when(initialSolutionService.createInitial(2, schedulingProblem, solutionSetup)).thenReturn(solution2);
 
         Population population = populationService.createInitial(schedulingProblem, solutionSetup);
 
@@ -55,6 +55,6 @@ class PopulationServiceTest {
         softy.assertThat(population.getGenerationStep()).as("generation step").isZero();
         softy.assertThat(population.getSolutions()).as("solutions").containsExactly(solution0, solution1, solution2);
         softy.assertAll();
-        verify(solutionService, times(3)).createInitial(anyInt(), any(SchedulingProblem.class), any(SolutionSetup.class));
+        verify(initialSolutionService, times(3)).createInitial(anyInt(), any(SchedulingProblem.class), any(SolutionSetup.class));
     }
 }
