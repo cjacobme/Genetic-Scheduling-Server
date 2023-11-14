@@ -8,6 +8,7 @@ import cj.software.genetics.schedule.server.api.entity.SchedulingCreatePostOutpu
 import cj.software.genetics.schedule.server.api.entity.SchedulingProblem;
 import cj.software.genetics.schedule.server.api.entity.SolutionSetup;
 import cj.software.genetics.schedule.server.exception.SlotOccupiedException;
+import cj.software.genetics.schedule.server.util.Breeder;
 import cj.software.genetics.schedule.server.util.PopulationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -30,6 +31,9 @@ public class SchedulingController {
 
     @Autowired
     private PopulationService populationService;
+
+    @Autowired
+    private Breeder breeder;
 
     @PostMapping(path = "create")
     @NotNull
@@ -56,9 +60,12 @@ public class SchedulingController {
             @NotNull
             @Valid
             BreedPostInput breedPostInput) {
+        int elitismCount = breedPostInput.getElitismCount();
+        int tournamentSize = breedPostInput.getTournamentSize();
         Population population = breedPostInput.getPopulation();
+        Population newPopulation = breeder.step(population, elitismCount, tournamentSize);
         BreedPostOutput result = BreedPostOutput.builder()
-                .withPopulation(population)
+                .withPopulation(newPopulation)
                 .build();
         return result;
     }

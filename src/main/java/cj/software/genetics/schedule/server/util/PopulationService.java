@@ -17,7 +17,7 @@ import java.util.List;
 public class PopulationService {
 
     @Autowired
-    private SolutionService solutionService;
+    private InitialSolutionService initialSolutionService;
 
     public Population createInitial(
             @NotNull
@@ -28,7 +28,7 @@ public class PopulationService {
         int solutionCount = solutionSetup.getSolutionCount();
         List<Solution> solutions = new ArrayList<>(solutionCount);
         for (int iSolution = 0; iSolution < solutionCount; iSolution++) {
-            Solution solution = solutionService.createInitial(iSolution, schedulingProblem, solutionSetup);
+            Solution solution = initialSolutionService.createInitial(iSolution, schedulingProblem, solutionSetup);
             solutions.add(solution);
         }
         solutions.sort((solution1, solution2) -> {

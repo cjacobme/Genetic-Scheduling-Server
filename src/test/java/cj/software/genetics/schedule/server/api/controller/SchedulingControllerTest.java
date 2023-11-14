@@ -1,5 +1,8 @@
 package cj.software.genetics.schedule.server.api.controller;
 
+import cj.software.genetics.schedule.server.api.entity.BreedPostInput;
+import cj.software.genetics.schedule.server.api.entity.BreedPostInputBuilder;
+import cj.software.genetics.schedule.server.api.entity.BreedPostOutput;
 import cj.software.genetics.schedule.server.api.entity.Population;
 import cj.software.genetics.schedule.server.api.entity.PopulationBuilder;
 import cj.software.genetics.schedule.server.api.entity.SchedulingCreatePostInput;
@@ -8,6 +11,7 @@ import cj.software.genetics.schedule.server.api.entity.SchedulingCreatePostOutpu
 import cj.software.genetics.schedule.server.api.entity.SchedulingProblem;
 import cj.software.genetics.schedule.server.api.entity.SolutionSetup;
 import cj.software.genetics.schedule.server.exception.SlotOccupiedException;
+import cj.software.genetics.schedule.server.util.Breeder;
 import cj.software.genetics.schedule.server.util.PopulationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,6 +35,9 @@ class SchedulingControllerTest {
     @MockBean
     private PopulationService populationService;
 
+    @MockBean
+    private Breeder breeder;
+
     @Test
     void metadata() {
         RestController controller = SchedulingController.class.getAnnotation(RestController.class);
@@ -51,5 +58,20 @@ class SchedulingControllerTest {
         verify(populationService).createInitial(schedulingProblem, solutionSetup);
         assertThat(returned).as("returned").isNotNull();
         assertThat(returned.getPopulation()).as("returned population").isSameAs(population);
+    }
+
+    @Test
+    void breed() {
+        BreedPostInput breedPostInput = new BreedPostInputBuilder().build();
+        Population previous = breedPostInput.getPopulation();
+        Population breeded = Population.builder().build();
+
+        when(breeder.step(previous, 2, 5)).thenReturn(breeded);
+
+        BreedPostOutput returned = schedulingController.breed(breedPostInput);
+
+        verify(breeder).step(previous, 2, 5);
+        assertThat(returned).as("returned").isNotNull();
+        assertThat(returned.getPopulation()).as("returned population").isSameAs(breeded);
     }
 }

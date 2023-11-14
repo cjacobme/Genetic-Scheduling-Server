@@ -135,4 +135,11 @@ class SolutionTest {
         Object instance2 = "other object";
         assertThat(instance1).isNotEqualTo(instance2);
     }
+
+    @Test
+    void stringRepresentation() {
+        Solution instance = new SolutionBuilder().build();
+        String asString = instance.toString();
+        assertThat(asString).as("String representation").isEqualTo("Solution[generation step=15,index=33]");
+    }
 }

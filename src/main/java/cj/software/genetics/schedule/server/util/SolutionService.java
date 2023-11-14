@@ -3,7 +3,6 @@ package cj.software.genetics.schedule.server.util;
 import cj.software.genetics.schedule.server.api.entity.ProblemPriority;
 import cj.software.genetics.schedule.server.api.entity.SchedulingProblem;
 import cj.software.genetics.schedule.server.api.entity.Solution;
-import cj.software.genetics.schedule.server.api.entity.SolutionSetup;
 import cj.software.genetics.schedule.server.api.entity.Task;
 import cj.software.genetics.schedule.server.api.entity.Worker;
 import cj.software.genetics.schedule.server.exception.SlotOccupiedException;
@@ -28,24 +27,7 @@ public class SolutionService {
     @Autowired
     private TaskService taskService;
 
-    public Solution createInitial(int index, SchedulingProblem schedulingProblem, SolutionSetup solutionSetup) throws SlotOccupiedException {
-        int workersCount = solutionSetup.getWorkersPerSolutionCount();
-        List<Worker> workers = new ArrayList<>(workersCount);
-        for (int iWorker = 0; iWorker < workersCount; iWorker++) {
-            Worker worker = workerService.createInitialWorker(schedulingProblem);
-            workers.add(worker);
-        }
-        Solution result = Solution.builder()
-                .withIndexInPopulation(index)
-                .withGenerationStep(0)
-                .withWorkers(workers)
-                .build();
-        distribute(result, schedulingProblem);
-        calculateFitnessValue(result);
-        return result;
-    }
-
-    Solution distribute(Solution source, SchedulingProblem schedulingProblem) throws SlotOccupiedException {
+    public Solution distribute(Solution source, SchedulingProblem schedulingProblem) throws SlotOccupiedException {
         Solution result = source;
         List<Worker> workers = result.getWorkers();
         int workersCount = workers.size();
@@ -69,7 +51,7 @@ public class SolutionService {
         return result;
     }
 
-    Solution calculateFitnessValue(Solution solution) {
+    public Solution calculateFitnessValue(Solution solution) {
         Solution result = solution;
         long max = -1L;
         List<Worker> workers = solution.getWorkers();

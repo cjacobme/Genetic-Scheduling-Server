@@ -2,6 +2,7 @@ package cj.software.genetics.schedule.server.util;
 
 import cj.software.genetics.schedule.server.api.entity.ProblemPriority;
 import cj.software.genetics.schedule.server.api.entity.SchedulingProblem;
+import cj.software.genetics.schedule.server.api.entity.Solution;
 import cj.software.genetics.schedule.server.api.entity.SolutionPriority;
 import cj.software.genetics.schedule.server.api.entity.Task;
 import cj.software.genetics.schedule.server.api.entity.Worker;
@@ -33,6 +34,28 @@ public class WorkerService {
         Worker result = Worker.builder()
                 .withPriorities(solutionPriorities)
                 .build();
+        return result;
+    }
+
+    public List<Worker> createEmptyWorkers(Solution solution) {
+        List<Worker> solutionWorkers = solution.getWorkers();
+        List<Worker> result = new ArrayList<>(solutionWorkers.size());
+        for (Worker solutionWorker : solutionWorkers) {
+            Worker newWorker = createEmptyWorker(solutionWorker);
+            result.add(newWorker);
+        }
+        return result;
+    }
+
+    Worker createEmptyWorker(Worker solutionWorker) {
+        SortedSet<SolutionPriority> solutionPriorities = solutionWorker.getPriorities();
+        Collection<SolutionPriority> newPriorities = new ArrayList<>();
+        for (SolutionPriority solutionPriorty : solutionPriorities) {
+            int prioValue = solutionPriorty.getValue();
+            SolutionPriority newPriority = SolutionPriority.builder().withValue(prioValue).build();
+            newPriorities.add(newPriority);
+        }
+        Worker result = Worker.builder().withPriorities(newPriorities).build();
         return result;
     }
 

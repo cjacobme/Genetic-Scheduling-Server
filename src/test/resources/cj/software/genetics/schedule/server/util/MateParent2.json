@@ -1,0 +1,63 @@
+{
+  "generationStep": 123,
+  "indexInPopulation": 321,
+  "fitnessValue": 2.34,
+  "workers": [
+    {
+      "priorities": [
+        {
+          "value": 0,
+          "tasks": {
+            "0": {
+              "duration": "PT3M",
+              "identifier": 3
+            }
+          }
+        },
+        {
+          "value": 1,
+          "tasks": {
+            "0": {
+              "duration": "PT6S",
+              "identifier": 6
+            },
+            "1": {
+              "duration": "PT7M",
+              "identifier": 7
+            }
+          }
+        }
+      ]
+    },
+    {
+      "priorities": [
+        {
+          "value": 0,
+          "tasks": {
+            "0": {
+              "duration": "PT1M",
+              "identifier": 1
+            },
+            "1": {
+              "duration": "PT2M",
+              "identifier": 2
+            },
+            "2": {
+              "duration": "PT4M",
+              "identifier": 4
+            }
+          }
+        },
+        {
+          "value": 1,
+          "tasks": {
+            "0": {
+              "duration": "PT5S",
+              "identifier": 5
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

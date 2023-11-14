@@ -1,5 +1,7 @@
 package cj.software.genetics.schedule.server.api.entity;
 
+import cj.software.util.json.PostLoad;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serial;
@@ -21,6 +23,13 @@ public class Worker implements Serializable {
     final transient Map<Integer, SolutionPriority> asMap = new HashMap<>();
 
     private Worker() {
+    }
+
+    @PostLoad
+    public void postLoad() {
+        for (SolutionPriority priority : priorities) {
+            asMap.put(priority.getValue(), priority);
+        }
     }
 
     public SortedSet<SolutionPriority> getPriorities() {
