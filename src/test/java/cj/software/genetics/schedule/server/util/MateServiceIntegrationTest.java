@@ -1,7 +1,9 @@
 package cj.software.genetics.schedule.server.util;
 
+import cj.software.genetics.schedule.server.TestTags;
 import cj.software.genetics.schedule.server.api.entity.Solution;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,8 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {MateService.class, SolutionPriorityService.class, Converter.class, WorkerService.class, SolutionService.class, TaskService.class})
-class MateServiceRegressionTest {
+@Tag(TestTags.INTEGRATION_TEST)
+class MateServiceIntegrationTest {
     @Autowired
     private MateService mateService;
 
@@ -26,7 +29,7 @@ class MateServiceRegressionTest {
     private RandomService randomService;
 
     private Solution readSolution(String fileName) throws IOException {
-        try (InputStream is = Objects.requireNonNull(MateServiceRegressionTest.class.getResourceAsStream(fileName))) {
+        try (InputStream is = Objects.requireNonNull(MateServiceIntegrationTest.class.getResourceAsStream(fileName))) {
             ObjectMapper objectMapper = new ObjectMapper();
             Solution result = objectMapper.readValue(is, Solution.class);
             result.postLoad();
