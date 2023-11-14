@@ -27,14 +27,14 @@ class ConverterTest {
 
     private static ObjectMapper objectMapper;
 
+    @Autowired
+    private Converter converter;
+
     @BeforeAll
     static void createObjectMapper() {
         BeanProducer beanProducer = new BeanProducer();
         objectMapper = beanProducer.objectMapper();
     }
-
-    @Autowired
-    private Converter converter;
 
     @Test
     void metadata() {

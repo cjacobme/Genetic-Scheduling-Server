@@ -27,17 +27,17 @@ class MateServiceIntegrationTest {
 
     private static ObjectMapper objectMapper;
 
-    @BeforeAll
-    static void createObjectMapper() {
-        BeanProducer beanProducer = new BeanProducer();
-        objectMapper = beanProducer.objectMapper();
-    }
-
     @Autowired
     private MateService mateService;
 
     @MockBean
     private RandomService randomService;
+
+    @BeforeAll
+    static void createObjectMapper() {
+        BeanProducer beanProducer = new BeanProducer();
+        objectMapper = beanProducer.objectMapper();
+    }
 
     private Solution readSolution(String fileName) throws IOException {
         try (InputStream is = Objects.requireNonNull(MateServiceIntegrationTest.class.getResourceAsStream(fileName))) {
