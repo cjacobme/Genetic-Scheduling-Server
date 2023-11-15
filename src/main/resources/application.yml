@@ -1,0 +1,4 @@
+cj.software.genetics.server:
+  general:
+    backend-version: '@pom.version@'
+    backend-built: '@mavenBuiltTimestamp@'

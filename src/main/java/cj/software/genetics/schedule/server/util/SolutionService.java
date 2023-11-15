@@ -6,7 +6,10 @@ import cj.software.genetics.schedule.server.api.entity.Solution;
 import cj.software.genetics.schedule.server.api.entity.Task;
 import cj.software.genetics.schedule.server.api.entity.Worker;
 import cj.software.genetics.schedule.server.exception.SlotOccupiedException;
+import cj.software.util.spring.Trace;
 import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,8 @@ public class SolutionService {
 
     @Autowired
     private TaskService taskService;
+
+    private final Logger logger = LogManager.getFormatterLogger();
 
     public Solution distribute(Solution source, SchedulingProblem schedulingProblem) throws SlotOccupiedException {
         Solution result = source;
@@ -51,7 +56,7 @@ public class SolutionService {
         return result;
     }
 
-    public Solution calculateFitnessValue(Solution solution) {
+    public Solution calculateFitnessValue(@Trace Solution solution) {
         Solution result = solution;
         long max = -1L;
         List<Worker> workers = solution.getWorkers();
@@ -59,8 +64,10 @@ public class SolutionService {
         for (Long duration : workerDurations) {
             max = Math.max(max, duration);
         }
+        logger.info("max duration  = %12d", max);
         double fitness = 1.0 / max;
         result.setFitnessValue(fitness);
+        logger.info("fitness value = %.12f", fitness);
         return result;
     }
 
