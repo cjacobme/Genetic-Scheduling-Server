@@ -26,7 +26,7 @@ public class BreedPostInput implements Serializable {
 
     @NotNull
     @DecimalMin("0.0")
-    @DecimalMax("100.0")
+    @DecimalMax("1.0")
     private Double mutationRate;
 
     @NotNull

@@ -15,4 +15,16 @@ public class RandomService {
         int result = secureRandom.nextInt(bound);
         return result;
     }
+
+    @Trace
+    public double nextDouble() {
+        double result = nextDouble(1.0);
+        return result;
+    }
+
+    @Trace
+    public double nextDouble(@Trace double bound) {
+        double result = secureRandom.nextDouble(bound);
+        return result;
+    }
 }

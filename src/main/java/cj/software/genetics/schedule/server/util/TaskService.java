@@ -31,4 +31,10 @@ public class TaskService {
         SolutionPriority solutionPriority = worker.getPriority(priorityValue);
         solutionPriority.setTaskAt(slotIndex, task);
     }
+
+    public void deleteTaskAt(Solution solution, int priorityValue, int workerIndex, int slotIndex) {
+        Worker worker = solution.getWorkers().get(workerIndex);
+        SolutionPriority solutionPriority = worker.getPriority(priorityValue);
+        solutionPriority.setTaskAt(slotIndex, null);
+    }
 }

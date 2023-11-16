@@ -38,4 +38,16 @@ class RandomServiceTest {
         softy.assertAll();
         assertThat(numGreater0).isPositive();
     }
+
+    @Test
+    void doubleStandard() {
+        SoftAssertions softy = new SoftAssertions();
+        for (int i = 0; i < 10; i++) {
+            double random = randomService.nextDouble();
+            if (random < 0.0 || random > 1.0) {
+                softy.assertThat(random).as("random #%d", i).isBetween(0.0, 1.0);
+            }
+        }
+        softy.assertAll();
+    }
 }

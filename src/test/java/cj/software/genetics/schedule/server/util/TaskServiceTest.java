@@ -77,6 +77,21 @@ class TaskServiceTest {
         }
     }
 
+    @Test
+    void deleteTaskAt() {
+        Task task = new TaskBuilder().build();
+        Solution solution = createSolution(task);
+        int priorityValue = 1;
+        int workerIndex = 0;
+        int slotIndex = 5;
+        taskService.deleteTaskAt(solution, priorityValue, workerIndex, slotIndex);
+        Worker worker = solution.getWorkers().get(workerIndex);
+        worker.postLoad();
+        SolutionPriority priority = worker.getPriority(priorityValue);
+        Task searched = priority.getTaskAt(slotIndex);
+        assertThat(searched).isNull();
+    }
+
     private Solution createSolution(Task task) {
         SortedMap<Integer, Task> tasks = new TreeMap<>();
         tasks.put(5, task);
