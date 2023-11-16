@@ -66,8 +66,6 @@ class SolutionSetupTest {
         SoftAssertions softy = new SoftAssertions();
         softy.assertThat(instance.getSolutionCount()).as("solution count").isNull();
         softy.assertThat(instance.getWorkersPerSolutionCount()).as("workers per solution count").isNull();
-        softy.assertThat(instance.getElitismCount()).as("elitism count").isNull();
-        softy.assertThat(instance.getTournamentSize()).as("tournament size").isNull();
         softy.assertAll();
     }
 
@@ -75,20 +73,14 @@ class SolutionSetupTest {
     void constructFilled() {
         Integer solutionCount = -1;
         Integer workersPerSolutionCount = -2;
-        Integer elitismCount = -3;
-        Integer tournamentSize = -4;
         SolutionSetup instance = SolutionSetup.builder()
                 .withSolutionCount(solutionCount)
                 .withWorkersPerSolutionCount(workersPerSolutionCount)
-                .withElitismCount(elitismCount)
-                .withTournamentSize(tournamentSize)
                 .build();
         assertThat(instance).as("built instance").isNotNull();
         SoftAssertions softy = new SoftAssertions();
         softy.assertThat(instance.getSolutionCount()).as("solution count").isEqualTo(solutionCount);
         softy.assertThat(instance.getWorkersPerSolutionCount()).as("workers per solution count").isEqualTo(workersPerSolutionCount);
-        softy.assertThat(instance.getElitismCount()).as("elitism count").isEqualTo(elitismCount);
-        softy.assertThat(instance.getTournamentSize()).as("tournament size").isEqualTo(tournamentSize);
         softy.assertAll();
     }
 
@@ -112,8 +104,6 @@ class SolutionSetupTest {
             SolutionSetup expected = SolutionSetup.builder()
                     .withSolutionCount(101)
                     .withWorkersPerSolutionCount(4)
-                    .withElitismCount(6)
-                    .withTournamentSize(5)
                     .build();
             assertThat(loaded).usingRecursiveComparison().isEqualTo(expected);
         }

@@ -1,19 +1,19 @@
 package cj.software.genetics.schedule.server.api.entity;
 
+import cj.software.util.spring.BeanProducer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.util.Set;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class SchedulingCreatePostInputTest {
+class SchedulingCreatePostInputTest extends ValidatingTest {
 
     @Test
     void implementsSerializable() {
@@ -65,10 +65,17 @@ class SchedulingCreatePostInputTest {
     @Test
     void defaultIsValid() {
         SchedulingCreatePostInput instance = new SchedulingCreatePostInputBuilder().build();
-        try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
-            Validator validator = factory.getValidator();
-            Set<ConstraintViolation<SchedulingCreatePostInput>> violations = validator.validate(instance);
-            assertThat(violations).as("constraint violations").isEmpty();
+        super.validate(instance);
+    }
+
+    @Test
+    void loadFromJson() throws IOException {
+        try (InputStream is = Objects.requireNonNull(
+                SchedulingCreatePostInputTest.class.getResourceAsStream("SchedulingCreatePostInput.json"))) {
+            ObjectMapper objectMapper = new BeanProducer().objectMapper();
+            SchedulingCreatePostInput instance = objectMapper.readValue(is, SchedulingCreatePostInput.class);
+            assertThat(instance).as("loaded instance").isNotNull();
+            validate(instance);
         }
     }
 }
