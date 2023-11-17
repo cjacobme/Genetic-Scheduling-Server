@@ -7,6 +7,8 @@ import cj.software.genetics.schedule.server.entity.Coordinate;
 import cj.software.genetics.schedule.server.exception.SlotOccupiedException;
 import cj.software.util.spring.Trace;
 import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +21,8 @@ import java.util.Map;
 @Service
 @Validated
 public class MutationService {
+
+    private final Logger logger = LogManager.getFormatterLogger();
 
     @Autowired
     private RandomService randomService;
@@ -60,6 +64,8 @@ public class MutationService {
                 int otherWorkerIndex = otherCoordinate.getWorkerIndex();
                 int otherSlotIndex = otherCoordinate.getSlotIndex();
                 Task otherTask = coordinatesMap.get(otherCoordinate);
+                logger.info("swap coordinates between %s %s and %s %s",
+                        selectedTask, selectedCoordinate, otherTask, otherCoordinate);
                 taskService.deleteTaskAt(source, selectedPriority, selectedWorkerIndex, selectedSlotIndex);
                 taskService.setTaskAt(source, selectedPriority, selectedWorkerIndex, selectedSlotIndex, otherTask);
                 taskService.deleteTaskAt(source, selectedPriority, otherWorkerIndex, otherSlotIndex);
