@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
 
 @Service
 @Validated
@@ -35,9 +34,10 @@ public class MutationService {
 
     public void mutate(Solution source, @Trace double mutationRate) throws SlotOccupiedException {
 
-        SortedSet<SolutionPriority> solutionPriorities = solutionPriorityService.determinePriorities(source);
+        List<SolutionPriority> solutionPriorities = new ArrayList<>(solutionPriorityService.determinePriorities(source));
         int numPriorities = solutionPriorities.size();
-        int selectedPriority = randomService.nextInt(numPriorities);
+        int selectedPriorityIndex = randomService.nextInt(numPriorities);
+        int selectedPriority = solutionPriorities.get(selectedPriorityIndex).getValue();
 
         Map<Task, Coordinate> tasks = converter.toMapTaskCoordinate(source, selectedPriority);
         Map<Coordinate, Task> coordinatesMap = turnAround(tasks);
