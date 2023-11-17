@@ -39,11 +39,10 @@ public class MutationService {
     public void mutate(Solution source, @Trace double mutationRate) throws SlotOccupiedException {
 
         List<SolutionPriority> solutionPriorities = new ArrayList<>(solutionPriorityService.determinePriorities(source));
-        int numPriorities = solutionPriorities.size();
-        int selectedPriorityIndex = randomService.nextInt(numPriorities);
-        int selectedPriority = solutionPriorities.get(selectedPriorityIndex).getValue();
+        SolutionPriority selectedPriority = randomService.nextFrom(solutionPriorities);
+        int selectedPriorityValue = selectedPriority.getValue();
 
-        Map<Task, Coordinate> tasks = converter.toMapTaskCoordinate(source, selectedPriority);
+        Map<Task, Coordinate> tasks = converter.toMapTaskCoordinate(source, selectedPriorityValue);
         Map<Coordinate, Task> coordinatesMap = turnAround(tasks);
         List<Coordinate> coordinates = new ArrayList<>(coordinatesMap.keySet());
         coordinates.sort((o1, o2) -> {
@@ -66,10 +65,10 @@ public class MutationService {
                 Task otherTask = coordinatesMap.get(otherCoordinate);
                 logger.info("swap coordinates between %s %s and %s %s",
                         selectedTask, selectedCoordinate, otherTask, otherCoordinate);
-                taskService.deleteTaskAt(source, selectedPriority, selectedWorkerIndex, selectedSlotIndex);
-                taskService.setTaskAt(source, selectedPriority, selectedWorkerIndex, selectedSlotIndex, otherTask);
-                taskService.deleteTaskAt(source, selectedPriority, otherWorkerIndex, otherSlotIndex);
-                taskService.setTaskAt(source, selectedPriority, otherWorkerIndex, otherSlotIndex, selectedTask);
+                taskService.deleteTaskAt(source, selectedPriorityValue, selectedWorkerIndex, selectedSlotIndex);
+                taskService.setTaskAt(source, selectedPriorityValue, selectedWorkerIndex, selectedSlotIndex, otherTask);
+                taskService.deleteTaskAt(source, selectedPriorityValue, otherWorkerIndex, otherSlotIndex);
+                taskService.setTaskAt(source, selectedPriorityValue, otherWorkerIndex, otherSlotIndex, selectedTask);
             }
         }
     }

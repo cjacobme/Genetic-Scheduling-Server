@@ -122,4 +122,11 @@ class SolutionPriorityTest {
         int order = instance1.compareTo(instance2);
         assertThat(order).isNegative();
     }
+
+    @Test
+    void stringRepresentation() {
+        SolutionPriority instance = new SolutionPriorityBuilder().build();
+        String asString = instance.toString();
+        assertThat(asString).as("String representation").isEqualTo("SolutionPriority[value=1]");
+    }
 }

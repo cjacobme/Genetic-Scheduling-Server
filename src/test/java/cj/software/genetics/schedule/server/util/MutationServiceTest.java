@@ -2,6 +2,7 @@ package cj.software.genetics.schedule.server.util;
 
 import cj.software.genetics.schedule.server.TestTags;
 import cj.software.genetics.schedule.server.api.entity.Solution;
+import cj.software.genetics.schedule.server.api.entity.SolutionPriority;
 import cj.software.genetics.schedule.server.api.entity.Task;
 import cj.software.genetics.schedule.server.entity.Coordinate;
 import cj.software.genetics.schedule.server.exception.SlotOccupiedException;
@@ -94,20 +95,20 @@ class MutationServiceTest {
     void mutate() throws IOException, SlotOccupiedException {
         try (InputStream is = Objects.requireNonNull(MutationServiceTest.class.getResourceAsStream("MateOffspring.json"))) {
             Solution solution = objectMapper.readValue(is, Solution.class);
-            int selectedPriority = 0;
+            SolutionPriority selectedPriority = solution.getWorkers().get(0).getPriority(0);
             int tasksCount = 4;
             double mutationRate = 0.25;
-            when(randomService.nextInt(2)).thenReturn(selectedPriority);
+            when(randomService.nextFrom(anyList())).thenReturn(selectedPriority);
             when(randomService.nextDouble()).thenReturn(0.5, 0.2, 0.6, 0.9);
             when(randomService.nextInt(tasksCount)).thenReturn(3);
 
             mutationService.mutate(solution, mutationRate);
 
-            verify(randomService).nextInt(2);   // select priority
+            verify(randomService).nextFrom(anyList());   // select priority
             verify(randomService, times(tasksCount)).nextDouble();
             verify(randomService).nextInt(4);   // select other task
 
-            Map<Task, Coordinate> tasks = converter.toMapTaskCoordinate(solution, selectedPriority);
+            Map<Task, Coordinate> tasks = converter.toMapTaskCoordinate(solution, selectedPriority.getValue());
             Coordinate coordinate3 = tasks.get(Task.builder().withIdentifier(3).build());
             Coordinate coordinate4 = tasks.get(Task.builder().withIdentifier(4).build());
             Coordinate exp3 = Coordinate.builder().withWorkerIndex(1).withSlotIndex(2).build();
