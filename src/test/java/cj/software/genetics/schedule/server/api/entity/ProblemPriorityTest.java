@@ -1,23 +1,17 @@
 package cj.software.genetics.schedule.server.api.entity;
 
-import static org.assertj.core.api.Assertions.*;
+import cj.software.genetics.schedule.server.entity.ValidatingTest;
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Test;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Set;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.Serializable;
-import javax.validation.ConstraintViolation;
-
-import org.assertj.core.api.SoftAssertions;
-
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-
-class ProblemPriorityTest {
+class ProblemPriorityTest extends ValidatingTest {
 
     @Test
     void metadata() {
@@ -76,11 +70,7 @@ class ProblemPriorityTest {
     @Test
     void defaultIsValid() {
         ProblemPriority instance = new ProblemPriorityBuilder().build();
-        try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
-            Validator validator = factory.getValidator();
-            Set<ConstraintViolation<ProblemPriority>> violations = validator.validate(instance);
-            assertThat(violations).as("constraint violations").isEmpty();
-        }
+        validate(instance);
     }
 
     @Test

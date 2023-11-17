@@ -1,4 +1,4 @@
-package cj.software.genetics.schedule.server.api.entity;
+package cj.software.genetics.schedule.server.entity;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,7 +9,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.Set;
 
-abstract class ValidatingTest {
+public abstract class ValidatingTest {
     private static ValidatorFactory factory;
 
     private static Validator validator;

@@ -1,20 +1,16 @@
 package cj.software.genetics.schedule.server.api.entity;
 
+import cj.software.genetics.schedule.server.entity.ValidatingTest;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class WorkerTest {
+class WorkerTest extends ValidatingTest {
 
     @Test
     void implementsSerializable() {
@@ -63,10 +59,6 @@ class WorkerTest {
     @Test
     void defaultIsValid() {
         Worker instance = new WorkerBuilder().build();
-        try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
-            Validator validator = factory.getValidator();
-            Set<ConstraintViolation<Worker>> violations = validator.validate(instance);
-            assertThat(violations).as("constraint violations").isEmpty();
-        }
+        validate(instance);
     }
 }

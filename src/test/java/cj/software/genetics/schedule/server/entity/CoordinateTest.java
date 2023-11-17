@@ -3,17 +3,12 @@ package cj.software.genetics.schedule.server.entity;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class CoordinateTest {
+class CoordinateTest extends ValidatingTest {
 
     @Test
     void implementsSerializable() {
@@ -66,11 +61,7 @@ class CoordinateTest {
     @Test
     void defaultIsValid() {
         Coordinate instance = new CoordinateBuilder().build();
-        try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
-            Validator validator = factory.getValidator();
-            Set<ConstraintViolation<Coordinate>> violations = validator.validate(instance);
-            assertThat(violations).as("constraint violations").isEmpty();
-        }
+        validate(instance);
     }
 
     @Test

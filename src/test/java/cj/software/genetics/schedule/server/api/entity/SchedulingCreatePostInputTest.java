@@ -1,5 +1,6 @@
 package cj.software.genetics.schedule.server.api.entity;
 
+import cj.software.genetics.schedule.server.entity.ValidatingTest;
 import cj.software.util.spring.BeanProducer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.SoftAssertions;
