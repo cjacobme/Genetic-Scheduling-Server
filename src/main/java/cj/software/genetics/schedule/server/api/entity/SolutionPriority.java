@@ -3,6 +3,8 @@ package cj.software.genetics.schedule.server.api.entity;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -64,16 +66,24 @@ public class SolutionPriority implements Serializable, Comparable<SolutionPriori
         return result;
     }
 
-    public static Builder builder() {
-        return new Builder();
-    }
-
     @Override
     public int compareTo(SolutionPriority other) {
         CompareToBuilder builder = new CompareToBuilder()
                 .append(this.value, other.value);
         int result = builder.build();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+                .append("value", value);
+        String result = builder.build();
+        return result;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder {

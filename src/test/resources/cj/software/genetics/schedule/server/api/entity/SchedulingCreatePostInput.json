@@ -1,0 +1,28 @@
+{
+  "schedulingProblem": {
+    "priorities": [
+      {
+        "value": 1,
+        "slotCount": 20,
+        "tasks": [
+          {
+            "duration": "PT1M",
+            "identifier": 3
+          },
+          {
+            "duration": "PT20S",
+            "identifier": 2
+          },
+          {
+            "duration": "PT10S",
+            "identifier": 1
+          }
+        ]
+      }
+    ]
+  },
+  "solutionSetup": {
+    "solutionCount": 2,
+    "workersPerSolutionCount": 2
+  }
+}

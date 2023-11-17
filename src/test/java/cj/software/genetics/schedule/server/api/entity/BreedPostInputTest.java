@@ -157,7 +157,7 @@ class BreedPostInputTest {
                 .withNumSteps(20)
                 .withElitismCount(7)
                 .withTournamentSize(5)
-                .withMutationRate(7.8)
+                .withMutationRate(0.15)
                 .withPopulation(population)
                 .build();
         return result;

@@ -59,11 +59,12 @@ public class SchedulingController {
             @RequestBody
             @NotNull
             @Valid
-            BreedPostInput breedPostInput) {
+            BreedPostInput breedPostInput) throws SlotOccupiedException {
         int elitismCount = breedPostInput.getElitismCount();
         int tournamentSize = breedPostInput.getTournamentSize();
+        double mutationRate = breedPostInput.getMutationRate();
         Population population = breedPostInput.getPopulation();
-        Population newPopulation = breeder.step(population, elitismCount, tournamentSize);
+        Population newPopulation = breeder.step(population, elitismCount, tournamentSize, mutationRate);
         BreedPostOutput result = BreedPostOutput.builder()
                 .withPopulation(newPopulation)
                 .build();

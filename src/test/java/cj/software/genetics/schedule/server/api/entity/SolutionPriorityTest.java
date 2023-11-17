@@ -1,21 +1,17 @@
 package cj.software.genetics.schedule.server.api.entity;
 
+import cj.software.genetics.schedule.server.entity.ValidatingTest;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class SolutionPriorityTest {
+class SolutionPriorityTest extends ValidatingTest {
 
     @Test
     void implementsSerializable() {
@@ -69,11 +65,7 @@ class SolutionPriorityTest {
     @Test
     void defaultIsValid() {
         SolutionPriority instance = new SolutionPriorityBuilder().build();
-        try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
-            Validator validator = factory.getValidator();
-            Set<ConstraintViolation<SolutionPriority>> violations = validator.validate(instance);
-            assertThat(violations).as("constraint violations").isEmpty();
-        }
+        validate(instance);
     }
 
     @Test
@@ -121,5 +113,12 @@ class SolutionPriorityTest {
         SolutionPriority instance2 = new SolutionPriorityBuilder().withValue(33).build();
         int order = instance1.compareTo(instance2);
         assertThat(order).isNegative();
+    }
+
+    @Test
+    void stringRepresentation() {
+        SolutionPriority instance = new SolutionPriorityBuilder().build();
+        String asString = instance.toString();
+        assertThat(asString).as("String representation").isEqualTo("SolutionPriority[value=1]");
     }
 }

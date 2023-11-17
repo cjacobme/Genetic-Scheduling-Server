@@ -17,14 +17,6 @@ public class SolutionSetup implements Serializable {
     @Min(1)
     private Integer workersPerSolutionCount;
 
-    @NotNull
-    @Min(0)
-    private Integer elitismCount;
-
-    @NotNull
-    @Min(0)
-    private Integer tournamentSize;
-
     private SolutionSetup() {
     }
 
@@ -34,14 +26,6 @@ public class SolutionSetup implements Serializable {
 
     public Integer getWorkersPerSolutionCount() {
         return workersPerSolutionCount;
-    }
-
-    public Integer getElitismCount() {
-        return elitismCount;
-    }
-
-    public Integer getTournamentSize() {
-        return tournamentSize;
     }
 
     public static Builder builder() {
@@ -68,16 +52,6 @@ public class SolutionSetup implements Serializable {
 
         public Builder withWorkersPerSolutionCount(Integer workersPerSolutionCount) {
             instance.workersPerSolutionCount = workersPerSolutionCount;
-            return this;
-        }
-
-        public Builder withElitismCount(Integer elitismCount) {
-            instance.elitismCount = elitismCount;
-            return this;
-        }
-
-        public Builder withTournamentSize(Integer tournamentSize) {
-            instance.tournamentSize = tournamentSize;
             return this;
         }
     }

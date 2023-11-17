@@ -1,13 +1,10 @@
 package cj.software.genetics.schedule.server.api.entity;
 
+import cj.software.genetics.schedule.server.entity.ValidatingTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -15,14 +12,13 @@ import java.lang.reflect.Field;
 import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class SchedulingCreatePostOutputTest {
+class SchedulingCreatePostOutputTest extends ValidatingTest {
 
     @Test
     void implementsSerializable() {
@@ -69,21 +65,10 @@ class SchedulingCreatePostOutputTest {
         validate(instance);
     }
 
-    private void validate(SchedulingCreatePostOutput instance) {
-        try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
-            Validator validator = factory.getValidator();
-            Set<ConstraintViolation<SchedulingCreatePostOutput>> violations = validator.validate(instance);
-            assertThat(violations).as("constraint violations").isEmpty();
-        }
-
-    }
-
     @Test
     void loadFromJson() throws IOException {
         try (InputStream is = Objects.requireNonNull(SchedulingCreatePostOutputTest.class.getResourceAsStream("SchedulingCreatePostOutput.json"))) {
             ObjectMapper objectMapper = new ObjectMapper();
-            SchedulingCreatePostOutput instance = new SchedulingCreatePostOutputBuilder().build();
-            String asString = objectMapper.writeValueAsString(instance);
             SchedulingCreatePostOutput loaded = objectMapper.readValue(is, SchedulingCreatePostOutput.class);
             assertThat(loaded).isNotNull();
             validate(loaded);

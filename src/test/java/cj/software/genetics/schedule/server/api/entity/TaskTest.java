@@ -1,20 +1,16 @@
 package cj.software.genetics.schedule.server.api.entity;
 
+import cj.software.genetics.schedule.server.entity.ValidatingTest;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.time.Duration;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class TaskTest {
+class TaskTest extends ValidatingTest {
 
     @Test
     void implementsSerializable() {
@@ -66,11 +62,7 @@ class TaskTest {
     @Test
     void defaultIsValid() {
         Task instance = new TaskBuilder().build();
-        try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
-            Validator validator = factory.getValidator();
-            Set<ConstraintViolation<Task>> violations = validator.validate(instance);
-            assertThat(violations).as("constraint violations").isEmpty();
-        }
+        validate(instance);
     }
 
     @Test

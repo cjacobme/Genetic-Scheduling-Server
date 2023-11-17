@@ -61,16 +61,16 @@ class SchedulingControllerTest {
     }
 
     @Test
-    void breed() {
+    void breed() throws SlotOccupiedException {
         BreedPostInput breedPostInput = new BreedPostInputBuilder().build();
         Population previous = breedPostInput.getPopulation();
         Population breeded = Population.builder().build();
 
-        when(breeder.step(previous, 2, 5)).thenReturn(breeded);
+        when(breeder.step(previous, 2, 5, 0.356)).thenReturn(breeded);
 
         BreedPostOutput returned = schedulingController.breed(breedPostInput);
 
-        verify(breeder).step(previous, 2, 5);
+        verify(breeder).step(previous, 2, 5, 0.356);
         assertThat(returned).as("returned").isNotNull();
         assertThat(returned.getPopulation()).as("returned population").isSameAs(breeded);
     }
