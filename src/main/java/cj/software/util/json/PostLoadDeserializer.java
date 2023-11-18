@@ -1,5 +1,6 @@
 package cj.software.util.json;
 
+import cj.software.genetics.schedule.api.entity.PostLoad;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.BeanDescription;
 import com.fasterxml.jackson.databind.DeserializationContext;

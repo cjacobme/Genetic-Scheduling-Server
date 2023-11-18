@@ -1,10 +1,10 @@
 package cj.software.genetics.schedule.server.util;
 
-import cj.software.genetics.schedule.server.api.entity.ProblemPriority;
-import cj.software.genetics.schedule.server.api.entity.ProblemPriorityBuilder;
-import cj.software.genetics.schedule.server.api.entity.Solution;
-import cj.software.genetics.schedule.server.api.entity.SolutionPriority;
-import cj.software.genetics.schedule.server.api.entity.Task;
+import cj.software.genetics.schedule.api.entity.ProblemPriority;
+import cj.software.genetics.schedule.api.entity.ProblemPriorityBuilder;
+import cj.software.genetics.schedule.api.entity.Solution;
+import cj.software.genetics.schedule.api.entity.SolutionPriority;
+import cj.software.genetics.schedule.api.entity.Task;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

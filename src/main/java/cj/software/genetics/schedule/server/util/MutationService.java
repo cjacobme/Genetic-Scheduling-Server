@@ -1,10 +1,10 @@
 package cj.software.genetics.schedule.server.util;
 
-import cj.software.genetics.schedule.server.api.entity.Solution;
-import cj.software.genetics.schedule.server.api.entity.SolutionPriority;
-import cj.software.genetics.schedule.server.api.entity.Task;
+import cj.software.genetics.schedule.api.entity.Solution;
+import cj.software.genetics.schedule.api.entity.SolutionPriority;
+import cj.software.genetics.schedule.api.entity.Task;
+import cj.software.genetics.schedule.api.exception.SlotOccupiedException;
 import cj.software.genetics.schedule.server.entity.Coordinate;
-import cj.software.genetics.schedule.server.exception.SlotOccupiedException;
 import cj.software.util.spring.Trace;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.logging.log4j.LogManager;

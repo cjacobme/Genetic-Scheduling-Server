@@ -1,10 +1,10 @@
 package cj.software.genetics.schedule.server.util;
 
-import cj.software.genetics.schedule.server.api.entity.SchedulingProblem;
-import cj.software.genetics.schedule.server.api.entity.Solution;
-import cj.software.genetics.schedule.server.api.entity.SolutionSetup;
-import cj.software.genetics.schedule.server.api.entity.Worker;
-import cj.software.genetics.schedule.server.exception.SlotOccupiedException;
+import cj.software.genetics.schedule.api.entity.SchedulingProblem;
+import cj.software.genetics.schedule.api.entity.Solution;
+import cj.software.genetics.schedule.api.entity.SolutionSetup;
+import cj.software.genetics.schedule.api.entity.Worker;
+import cj.software.genetics.schedule.api.exception.SlotOccupiedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
