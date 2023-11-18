@@ -1,4 +1,4 @@
-package cj.software.genetics.schedule.server.api.entity;
+package cj.software.genetics.schedule.api.entity;
 
 public class SolutionPriorityBuilder extends SolutionPriority.Builder {
     public SolutionPriorityBuilder() {

@@ -1,4 +1,4 @@
-package cj.software.genetics.schedule.server.api.entity;
+package cj.software.genetics.schedule.api.entity;
 
 public class SchedulingCreatePostInputBuilder extends SchedulingCreatePostInput.Builder {
     public SchedulingCreatePostInputBuilder() {

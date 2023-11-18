@@ -1,7 +1,7 @@
 package cj.software.genetics.schedule.server.util;
 
+import cj.software.genetics.schedule.api.entity.Solution;
 import cj.software.genetics.schedule.server.TestTags;
-import cj.software.genetics.schedule.server.api.entity.Solution;
 import cj.software.util.spring.BeanProducer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;

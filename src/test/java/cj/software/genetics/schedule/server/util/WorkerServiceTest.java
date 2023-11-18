@@ -1,13 +1,13 @@
 package cj.software.genetics.schedule.server.util;
 
-import cj.software.genetics.schedule.server.api.entity.ProblemPriority;
-import cj.software.genetics.schedule.server.api.entity.SchedulingProblem;
-import cj.software.genetics.schedule.server.api.entity.SchedulingProblemBuilder;
-import cj.software.genetics.schedule.server.api.entity.Solution;
-import cj.software.genetics.schedule.server.api.entity.SolutionBuilder;
-import cj.software.genetics.schedule.server.api.entity.SolutionPriority;
-import cj.software.genetics.schedule.server.api.entity.Task;
-import cj.software.genetics.schedule.server.api.entity.Worker;
+import cj.software.genetics.schedule.api.entity.ProblemPriority;
+import cj.software.genetics.schedule.api.entity.SchedulingProblem;
+import cj.software.genetics.schedule.api.entity.SchedulingProblemBuilder;
+import cj.software.genetics.schedule.api.entity.Solution;
+import cj.software.genetics.schedule.api.entity.SolutionBuilder;
+import cj.software.genetics.schedule.api.entity.SolutionPriority;
+import cj.software.genetics.schedule.api.entity.Task;
+import cj.software.genetics.schedule.api.entity.Worker;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

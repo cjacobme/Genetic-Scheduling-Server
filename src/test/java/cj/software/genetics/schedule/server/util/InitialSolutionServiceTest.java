@@ -1,12 +1,12 @@
 package cj.software.genetics.schedule.server.util;
 
-import cj.software.genetics.schedule.server.api.entity.SchedulingProblem;
-import cj.software.genetics.schedule.server.api.entity.SchedulingProblemBuilder;
-import cj.software.genetics.schedule.server.api.entity.Solution;
-import cj.software.genetics.schedule.server.api.entity.SolutionSetup;
-import cj.software.genetics.schedule.server.api.entity.SolutionSetupBuilder;
-import cj.software.genetics.schedule.server.api.entity.Worker;
-import cj.software.genetics.schedule.server.exception.SlotOccupiedException;
+import cj.software.genetics.schedule.api.entity.SchedulingProblem;
+import cj.software.genetics.schedule.api.entity.SchedulingProblemBuilder;
+import cj.software.genetics.schedule.api.entity.Solution;
+import cj.software.genetics.schedule.api.entity.SolutionSetup;
+import cj.software.genetics.schedule.api.entity.SolutionSetupBuilder;
+import cj.software.genetics.schedule.api.entity.Worker;
+import cj.software.genetics.schedule.api.exception.SlotOccupiedException;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

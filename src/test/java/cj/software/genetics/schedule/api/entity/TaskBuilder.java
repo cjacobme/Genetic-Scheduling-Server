@@ -1,4 +1,4 @@
-package cj.software.genetics.schedule.server.api.entity;
+package cj.software.genetics.schedule.api.entity;
 
 import java.time.Duration;
 import java.util.SortedMap;

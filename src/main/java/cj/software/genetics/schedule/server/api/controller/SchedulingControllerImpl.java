@@ -1,13 +1,14 @@
 package cj.software.genetics.schedule.server.api.controller;
 
-import cj.software.genetics.schedule.server.api.entity.BreedPostInput;
-import cj.software.genetics.schedule.server.api.entity.BreedPostOutput;
-import cj.software.genetics.schedule.server.api.entity.Population;
-import cj.software.genetics.schedule.server.api.entity.SchedulingCreatePostInput;
-import cj.software.genetics.schedule.server.api.entity.SchedulingCreatePostOutput;
-import cj.software.genetics.schedule.server.api.entity.SchedulingProblem;
-import cj.software.genetics.schedule.server.api.entity.SolutionSetup;
-import cj.software.genetics.schedule.server.exception.SlotOccupiedException;
+import cj.software.genetics.schedule.api.controller.SchedulingController;
+import cj.software.genetics.schedule.api.entity.BreedPostInput;
+import cj.software.genetics.schedule.api.entity.BreedPostOutput;
+import cj.software.genetics.schedule.api.entity.Population;
+import cj.software.genetics.schedule.api.entity.SchedulingCreatePostInput;
+import cj.software.genetics.schedule.api.entity.SchedulingCreatePostOutput;
+import cj.software.genetics.schedule.api.entity.SchedulingProblem;
+import cj.software.genetics.schedule.api.entity.SolutionSetup;
+import cj.software.genetics.schedule.api.exception.SlotOccupiedException;
 import cj.software.genetics.schedule.server.util.Breeder;
 import cj.software.genetics.schedule.server.util.PopulationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ import javax.validation.constraints.NotNull;
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE)
 @Validated
-public class SchedulingController {
+public class SchedulingControllerImpl implements SchedulingController {
 
     @Autowired
     private PopulationService populationService;
@@ -38,6 +39,7 @@ public class SchedulingController {
     @PostMapping(path = "create")
     @NotNull
     @Valid
+    @Override
     public SchedulingCreatePostOutput create(
             @RequestBody
             @NotNull
@@ -55,6 +57,7 @@ public class SchedulingController {
     @PostMapping(path = "breed")
     @NotNull
     @Valid
+    @Override
     public BreedPostOutput breed(
             @RequestBody
             @NotNull
