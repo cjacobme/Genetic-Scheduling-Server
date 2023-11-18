@@ -38,7 +38,6 @@ public class SchedulingControllerImpl implements SchedulingController {
 
     @PostMapping(path = "create")
     @NotNull
-    @Valid
     @Override
     public SchedulingCreatePostOutput create(
             @RequestBody
@@ -56,7 +55,6 @@ public class SchedulingControllerImpl implements SchedulingController {
 
     @PostMapping(path = "breed")
     @NotNull
-    @Valid
     @Override
     public BreedPostOutput breed(
             @RequestBody
