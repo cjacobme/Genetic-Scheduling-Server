@@ -9,11 +9,17 @@
           "value": 0,
           "tasks": {
             "0": {
-              "duration": "PT1M",
+              "duration": {
+                "time": 1,
+                "unit": "MINUTES"
+              },
               "identifier": 1
             },
             "1": {
-              "duration": "PT3M",
+              "duration": {
+                "time": 3,
+                "unit": "MINUTES"
+              },
               "identifier": 3
             }
           }
@@ -22,11 +28,17 @@
           "value": 1,
           "tasks": {
             "0": {
-              "duration": "PT6S",
+              "duration": {
+                "time": 6,
+                "unit": "SECONDS"
+              },
               "identifier": 6
             },
             "1": {
-              "duration": "PT7M",
+              "duration": {
+                "time": 7,
+                "unit": "MINUTES"
+              },
               "identifier": 7
             }
           }
@@ -39,11 +51,17 @@
           "value": 0,
           "tasks": {
             "1": {
-              "duration": "PT2M",
+              "duration": {
+                "time": 2,
+                "unit": "MINUTES"
+              },
               "identifier": 2
             },
             "2": {
-              "duration": "PT4M",
+              "duration": {
+                "time": 4,
+                "unit": "MINUTES"
+              },
               "identifier": 4
             }
           }
@@ -52,7 +70,10 @@
           "value": 1,
           "tasks": {
             "0": {
-              "duration": "PT5S",
+              "duration": {
+                "time": 5,
+                "unit": "SECONDS"
+              },
               "identifier": 5
             }
           }
