@@ -1,6 +1,5 @@
 package cj.software.genetics.schedule.api.entity;
 
-import java.time.Duration;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -18,6 +17,6 @@ public class TaskBuilder extends Task.Builder {
     public TaskBuilder() {
         super
                 .withIdentifier(4243)
-                .withDuration(Duration.ofSeconds(10));
+                .withDuration(TimeWithUnit.ofSeconds(10));
     }
 }

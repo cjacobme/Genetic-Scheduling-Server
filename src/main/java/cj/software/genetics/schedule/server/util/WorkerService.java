@@ -69,7 +69,7 @@ public class WorkerService {
                 SortedMap<Integer, Task> tasks = priority.getTasks();
                 for (Map.Entry<Integer, Task> entry : tasks.entrySet()) {
                     Task task = entry.getValue();
-                    Duration duration = task.getDuration();
+                    Duration duration = task.getDuration().toDuration();
                     long seconds = duration.getSeconds();
                     sums[iWorker] += seconds;
                 }

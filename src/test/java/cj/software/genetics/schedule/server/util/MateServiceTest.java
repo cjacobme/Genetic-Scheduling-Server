@@ -3,6 +3,7 @@ package cj.software.genetics.schedule.server.util;
 import cj.software.genetics.schedule.api.entity.Solution;
 import cj.software.genetics.schedule.api.entity.SolutionPriority;
 import cj.software.genetics.schedule.api.entity.Task;
+import cj.software.genetics.schedule.api.entity.TimeWithUnit;
 import cj.software.genetics.schedule.api.entity.Worker;
 import cj.software.genetics.schedule.server.entity.Coordinate;
 import org.assertj.core.api.SoftAssertions;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.validation.annotation.Validated;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -92,18 +92,18 @@ class MateServiceTest {
 
     private Task[] createTasks() {
         Task[] result = new Task[12];
-        result[0] = Task.builder().withIdentifier(0).withDuration(Duration.ofMinutes(1)).build();
-        result[1] = Task.builder().withIdentifier(0).withDuration(Duration.ofMinutes(2)).build();
-        result[2] = Task.builder().withIdentifier(0).withDuration(Duration.ofMinutes(3)).build();
-        result[3] = Task.builder().withIdentifier(0).withDuration(Duration.ofMinutes(4)).build();
-        result[4] = Task.builder().withIdentifier(0).withDuration(Duration.ofMinutes(5)).build();
-        result[5] = Task.builder().withIdentifier(0).withDuration(Duration.ofMinutes(6)).build();
-        result[6] = Task.builder().withIdentifier(0).withDuration(Duration.ofMinutes(7)).build();
-        result[7] = Task.builder().withIdentifier(0).withDuration(Duration.ofMinutes(8)).build();
-        result[8] = Task.builder().withIdentifier(0).withDuration(Duration.ofMinutes(9)).build();
-        result[9] = Task.builder().withIdentifier(0).withDuration(Duration.ofMinutes(10)).build();
-        result[10] = Task.builder().withIdentifier(0).withDuration(Duration.ofMinutes(11)).build();
-        result[11] = Task.builder().withIdentifier(0).withDuration(Duration.ofMinutes(12)).build();
+        result[0] = Task.builder().withIdentifier(0).withDuration(TimeWithUnit.ofMinutes(1)).build();
+        result[1] = Task.builder().withIdentifier(0).withDuration(TimeWithUnit.ofMinutes(2)).build();
+        result[2] = Task.builder().withIdentifier(0).withDuration(TimeWithUnit.ofMinutes(3)).build();
+        result[3] = Task.builder().withIdentifier(0).withDuration(TimeWithUnit.ofMinutes(4)).build();
+        result[4] = Task.builder().withIdentifier(0).withDuration(TimeWithUnit.ofMinutes(5)).build();
+        result[5] = Task.builder().withIdentifier(0).withDuration(TimeWithUnit.ofMinutes(6)).build();
+        result[6] = Task.builder().withIdentifier(0).withDuration(TimeWithUnit.ofMinutes(7)).build();
+        result[7] = Task.builder().withIdentifier(0).withDuration(TimeWithUnit.ofMinutes(8)).build();
+        result[8] = Task.builder().withIdentifier(0).withDuration(TimeWithUnit.ofMinutes(9)).build();
+        result[9] = Task.builder().withIdentifier(0).withDuration(TimeWithUnit.ofMinutes(10)).build();
+        result[10] = Task.builder().withIdentifier(0).withDuration(TimeWithUnit.ofMinutes(11)).build();
+        result[11] = Task.builder().withIdentifier(0).withDuration(TimeWithUnit.ofMinutes(12)).build();
         return result;
     }
 
@@ -254,7 +254,7 @@ class MateServiceTest {
     private List<Task> createTasks(int tasksCount) {
         List<Task> result = new ArrayList<>(tasksCount);
         for (int iTask = 0; iTask < tasksCount; iTask++) {
-            Task task = Task.builder().withDuration(Duration.ofSeconds(iTask + 1)).withIdentifier(iTask).build();
+            Task task = Task.builder().withDuration(TimeWithUnit.ofSeconds(iTask + 1)).withIdentifier(iTask).build();
             result.add(task);
         }
         return result;

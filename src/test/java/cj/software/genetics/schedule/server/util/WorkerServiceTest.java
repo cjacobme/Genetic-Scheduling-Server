@@ -7,6 +7,7 @@ import cj.software.genetics.schedule.api.entity.Solution;
 import cj.software.genetics.schedule.api.entity.SolutionBuilder;
 import cj.software.genetics.schedule.api.entity.SolutionPriority;
 import cj.software.genetics.schedule.api.entity.Task;
+import cj.software.genetics.schedule.api.entity.TimeWithUnit;
 import cj.software.genetics.schedule.api.entity.Worker;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -120,25 +120,25 @@ class WorkerServiceTest {
     @Test
     void calculateDurations() {
         SortedMap<Integer, Task> prio11Tasks = new TreeMap<>();
-        prio11Tasks.put(123, Task.builder().withIdentifier(1).withDuration(Duration.ofSeconds(10)).build());
-        prio11Tasks.put(31, Task.builder().withIdentifier(2).withDuration(Duration.ofMinutes(2)).build());
-        prio11Tasks.put(111, Task.builder().withIdentifier(3).withDuration(Duration.ofSeconds(30)).build());
+        prio11Tasks.put(123, Task.builder().withIdentifier(1).withDuration(TimeWithUnit.ofSeconds(10)).build());
+        prio11Tasks.put(31, Task.builder().withIdentifier(2).withDuration(TimeWithUnit.ofMinutes(2)).build());
+        prio11Tasks.put(111, Task.builder().withIdentifier(3).withDuration(TimeWithUnit.ofSeconds(30)).build());
         SolutionPriority priority11 = SolutionPriority.builder().withValue(1).withTasks(prio11Tasks).build();
 
         SortedMap<Integer, Task> prio12Tasks = new TreeMap<>();
-        prio12Tasks.put(134, Task.builder().withIdentifier(4).withDuration(Duration.ofSeconds(12)).build());
-        prio12Tasks.put(234, Task.builder().withIdentifier(5).withDuration(Duration.ofMinutes(2)).build());
+        prio12Tasks.put(134, Task.builder().withIdentifier(4).withDuration(TimeWithUnit.ofSeconds(12)).build());
+        prio12Tasks.put(234, Task.builder().withIdentifier(5).withDuration(TimeWithUnit.ofMinutes(2)).build());
         SolutionPriority priority12 = SolutionPriority.builder().withValue(2).withTasks(prio12Tasks).build();
         Collection<SolutionPriority> worker1Solutions = List.of(priority11, priority12);
         Worker worker1 = Worker.builder().withPriorities(worker1Solutions).build();
 
         SortedMap<Integer, Task> prio21Tasks = new TreeMap<>();
-        prio21Tasks.put(1, Task.builder().withIdentifier(6).withDuration(Duration.ofSeconds(40)).build());
-        prio21Tasks.put(75, Task.builder().withIdentifier(7).withDuration(Duration.ofMinutes(1)).build());
+        prio21Tasks.put(1, Task.builder().withIdentifier(6).withDuration(TimeWithUnit.ofSeconds(40)).build());
+        prio21Tasks.put(75, Task.builder().withIdentifier(7).withDuration(TimeWithUnit.ofMinutes(1)).build());
         SolutionPriority priority21 = SolutionPriority.builder().withValue(1).withTasks(prio21Tasks).build();
 
         SortedMap<Integer, Task> prio22Tasks = new TreeMap<>();
-        prio22Tasks.put(0, Task.builder().withIdentifier(8).withDuration(Duration.ofSeconds(45)).build());
+        prio22Tasks.put(0, Task.builder().withIdentifier(8).withDuration(TimeWithUnit.ofSeconds(45)).build());
         SolutionPriority priority22 = SolutionPriority.builder().withValue(2).withTasks(prio22Tasks).build();
         Collection<SolutionPriority> worker2Solutions = List.of(priority21, priority22);
         Worker worker2 = Worker.builder().withPriorities(worker2Solutions).build();
@@ -187,7 +187,7 @@ class WorkerServiceTest {
         for (int iPrio = 0; iPrio < prioritiesCount; iPrio++) {
             Map<Integer, Task> tasks = new HashMap<>();
             for (int iTask = 0; iTask < 10; iTask++) {
-                Task task = Task.builder().withIdentifier(taskIndex).withDuration(Duration.ofSeconds(1)).build();
+                Task task = Task.builder().withIdentifier(taskIndex).withDuration(TimeWithUnit.ofSeconds(1)).build();
                 tasks.put(iTask, task);
                 taskIndex++;
             }
