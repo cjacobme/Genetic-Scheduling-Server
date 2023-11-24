@@ -1,12 +1,15 @@
 package cj.software.genetics.schedule.server.util;
 
 import cj.software.util.spring.Trace;
+import cj.software.util.spring.TraceAtLogLevel;
+import org.apache.logging.log4j.spi.StandardLevel;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.util.List;
 
 @Service
+@TraceAtLogLevel(level = StandardLevel.DEBUG)
 public class RandomService {
 
     private final SecureRandom secureRandom = new SecureRandom();
