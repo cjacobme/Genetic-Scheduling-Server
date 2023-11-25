@@ -67,6 +67,7 @@ public class SolutionService {
         logger.info("max duration  = %12d", max);
         double fitness = 1.0 / max;
         result.setFitnessValue(fitness);
+        result.setDurationInSeconds(max);
         logger.info("fitness value = %.12f", fitness);
         return result;
     }
