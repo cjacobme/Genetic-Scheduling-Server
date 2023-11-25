@@ -23,8 +23,12 @@ import java.util.SortedSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.offset;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = SolutionService.class)
@@ -103,23 +107,24 @@ class SolutionServiceTest {
     void calculateFitnessValue1() {
         Solution solution = new SolutionBuilder().build();
         List<Long> workerDuratios = List.of(1L, 1L, 2L);
-        calculateFitnessValue(solution, workerDuratios, 0.5);
+        calculateFitnessValue(solution, workerDuratios, 0.5, 2L);
     }
 
     @Test
     void calculateFitnessValue2() {
         Solution solution = new SolutionBuilder().build();
         List<Long> workerDurations = List.of(1L, 50L, 2L);
-        calculateFitnessValue(solution, workerDurations, 0.02);
+        calculateFitnessValue(solution, workerDurations, 0.02, 50L);
     }
 
-    private void calculateFitnessValue(Solution solution, List<Long> workerDurations, double expectedFitnessValue) {
+    private void calculateFitnessValue(Solution solution, List<Long> workerDurations, double expectedFitnessValue, long expectedDuration) {
         List<Worker> workers = solution.getWorkers();
         when(workerService.calculateDurations(workers)).thenReturn(workerDurations);
 
         solutionService.calculateFitnessValue(solution);
 
         assertThat(solution.getFitnessValue()).as("in solution").isEqualTo(expectedFitnessValue, offset(0.00001));
+        assertThat(solution.getDurationInSeconds()).as("duration in seconds").isEqualTo(expectedDuration);
     }
 
 
