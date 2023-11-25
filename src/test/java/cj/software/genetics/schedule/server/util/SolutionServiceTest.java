@@ -9,6 +9,7 @@ import cj.software.genetics.schedule.api.entity.SolutionPriority;
 import cj.software.genetics.schedule.api.entity.Task;
 import cj.software.genetics.schedule.api.entity.Worker;
 import cj.software.genetics.schedule.api.exception.SlotOccupiedException;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,8 +124,10 @@ class SolutionServiceTest {
 
         solutionService.calculateFitnessValue(solution);
 
-        assertThat(solution.getFitnessValue()).as("in solution").isEqualTo(expectedFitnessValue, offset(0.00001));
-        assertThat(solution.getDurationInSeconds()).as("duration in seconds").isEqualTo(expectedDuration);
+        SoftAssertions softy = new SoftAssertions();
+        softy.assertThat(solution.getFitnessValue()).as("in solution").isEqualTo(expectedFitnessValue, offset(0.00001));
+        softy.assertThat(solution.getDurationInSeconds()).as("duration in seconds").isEqualTo(expectedDuration);
+        softy.assertAll();
     }
 
 
