@@ -98,7 +98,12 @@ public class TraceAspect {
         // pointcuts are empty
     }
 
-    @Pointcut("eonMethod() && ! entity() && ! objectGetter() && ! booleanGetter()")
+    @Pointcut("execution(* cj.software.genetics.schedule.api..*.*(..))")
+    public void api() {
+        // pointcuts are empty
+    }
+
+    @Pointcut("eonMethod() && ! entity() && ! objectGetter() && ! booleanGetter() && ! api()")
     public void toBeTraced() {
         // pointcuts are empty
     }
