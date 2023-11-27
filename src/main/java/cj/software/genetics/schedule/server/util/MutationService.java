@@ -36,7 +36,7 @@ public class MutationService {
     @Autowired
     private TaskService taskService;
 
-    public void mutate(Solution source, @Trace double mutationRate) throws SlotOccupiedException {
+    public void mutate(@Trace Solution source, @Trace double mutationRate) throws SlotOccupiedException {
 
         List<SolutionPriority> solutionPriorities = new ArrayList<>(solutionPriorityService.determinePriorities(source));
         SolutionPriority selectedPriority = randomService.nextFrom(solutionPriorities);
@@ -55,20 +55,24 @@ public class MutationService {
         for (Coordinate selectedCoordinate : coordinates) {
             double randomValue = randomService.nextDouble();
             if (randomValue < mutationRate) {
-                int selectedWorkerIndex = selectedCoordinate.getWorkerIndex();
-                int selectedSlotIndex = selectedCoordinate.getSlotIndex();
-                Task selectedTask = coordinatesMap.get(selectedCoordinate);
-                int otherIndex = randomService.nextInt(coordinates.size());
-                Coordinate otherCoordinate = coordinates.get(otherIndex);
-                int otherWorkerIndex = otherCoordinate.getWorkerIndex();
-                int otherSlotIndex = otherCoordinate.getSlotIndex();
+                Coordinate otherCoordinate = randomService.nextFrom(coordinates);
+                while (otherCoordinate.equals(selectedCoordinate)) {
+                    otherCoordinate = randomService.nextFrom(coordinates);
+                }
                 Task otherTask = coordinatesMap.get(otherCoordinate);
+                Task selectedTask = coordinatesMap.get(selectedCoordinate);
                 logger.info("swap coordinates between %s %s and %s %s",
                         selectedTask, selectedCoordinate, otherTask, otherCoordinate);
+                int otherWorkerIndex = otherCoordinate.getWorkerIndex();
+                int otherSlotIndex = otherCoordinate.getSlotIndex();
+                int selectedWorkerIndex = selectedCoordinate.getWorkerIndex();
+                int selectedSlotIndex = selectedCoordinate.getSlotIndex();
                 taskService.deleteTaskAt(source, selectedPriorityValue, selectedWorkerIndex, selectedSlotIndex);
-                taskService.setTaskAt(source, selectedPriorityValue, selectedWorkerIndex, selectedSlotIndex, otherTask);
                 taskService.deleteTaskAt(source, selectedPriorityValue, otherWorkerIndex, otherSlotIndex);
+                taskService.setTaskAt(source, selectedPriorityValue, selectedWorkerIndex, selectedSlotIndex, otherTask);
                 taskService.setTaskAt(source, selectedPriorityValue, otherWorkerIndex, otherSlotIndex, selectedTask);
+                coordinatesMap.put(otherCoordinate, selectedTask);
+                coordinatesMap.put(selectedCoordinate, otherTask);
             }
         }
     }
