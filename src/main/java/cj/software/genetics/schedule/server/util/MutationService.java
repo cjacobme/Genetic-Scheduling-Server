@@ -55,9 +55,11 @@ public class MutationService {
         for (Coordinate selectedCoordinate : coordinates) {
             double randomValue = randomService.nextDouble();
             if (randomValue < mutationRate) {
-                Coordinate otherCoordinate = randomService.nextFrom(coordinates);
+                int otherIndex = randomService.nextInt(coordinates.size());
+                Coordinate otherCoordinate = coordinates.get(otherIndex);
                 while (otherCoordinate.equals(selectedCoordinate)) {
-                    otherCoordinate = randomService.nextFrom(coordinates);
+                    otherIndex = randomService.nextInt(coordinates.size());
+                    otherCoordinate = coordinates.get(otherIndex);
                 }
                 Task otherTask = coordinatesMap.get(otherCoordinate);
                 Task selectedTask = coordinatesMap.get(selectedCoordinate);
