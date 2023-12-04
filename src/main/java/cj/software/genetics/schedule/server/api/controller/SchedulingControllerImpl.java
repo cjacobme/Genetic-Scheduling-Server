@@ -65,7 +65,11 @@ public class SchedulingControllerImpl implements SchedulingController {
         int tournamentSize = breedPostInput.getTournamentSize();
         double mutationRate = breedPostInput.getMutationRate();
         Population population = breedPostInput.getPopulation();
+        int numCycles = breedPostInput.getNumSteps();
         Population newPopulation = breeder.step(population, elitismCount, tournamentSize, mutationRate);
+        for (int i = 1; i < numCycles; i++) {   // one breed cycle already done, so we start the counting with 1 and not with 0
+            newPopulation = breeder.step(newPopulation, elitismCount, tournamentSize, mutationRate);
+        }
         BreedPostOutput result = BreedPostOutput.builder()
                 .withPopulation(newPopulation)
                 .build();
