@@ -16,6 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -71,5 +72,17 @@ class FitnessCalculatorAvgTest {
         Fitness actual = fitnessCalculatorAvg.calculateFitness(solution);
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    void emptyWorkersThrowException() {
+        Solution solution = Solution.builder().build();
+        try {
+            fitnessCalculatorAvg.calculateFitness(solution);
+            fail("expected exception not thrown");
+        } catch (IllegalArgumentException expected) {
+            String message = expected.getMessage();
+            assertThat(message).as("exception message").isEqualTo("duration sum is 0");
+        }
     }
 }

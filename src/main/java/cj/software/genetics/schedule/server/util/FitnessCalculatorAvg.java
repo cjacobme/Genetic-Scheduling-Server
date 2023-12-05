@@ -25,7 +25,7 @@ public class FitnessCalculatorAvg implements FitnessCalculator {
         for (Long workerDuration : workerDurations) {
             sum += workerDuration;
         }
-        if (sum <= 0) {
+        if (0 == sum) {
             throw new IllegalArgumentException("duration sum is 0");
         }
         logger.info("duration sum = %12d", sum);
