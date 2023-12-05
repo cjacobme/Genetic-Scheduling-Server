@@ -1,5 +1,6 @@
 package cj.software.genetics.schedule.server.util;
 
+import cj.software.genetics.schedule.api.entity.FitnessProcedure;
 import cj.software.genetics.schedule.api.entity.Solution;
 import cj.software.genetics.schedule.server.TestTags;
 import cj.software.util.spring.BeanProducer;
@@ -67,7 +68,7 @@ class MateServiceIntegrationTest {
         when(randomService.nextInt(4)).thenReturn(2, 0);
         when(randomService.nextInt(3)).thenReturn(2, 2);
 
-        Solution offSpring = mateService.mate(222, 3, parent1, parent2);
+        Solution offSpring = mateService.mate(FitnessProcedure.LATEST, 222, 3, parent1, parent2);
 
         assertThat(offSpring).as("offspring").isNotNull();
 

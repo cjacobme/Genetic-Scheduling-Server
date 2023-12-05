@@ -48,7 +48,7 @@ public class MateService {
     @NotNull
     @Valid
     @Validated(FitnessCalculated.class)
-    public Solution mate(int generationStep, int indexInPopulation, Solution parent1, Solution parent2) {
+    public Solution mate(FitnessProcedure fitnessProcedure, int generationStep, int indexInPopulation, Solution parent1, Solution parent2) {
         SortedSet<SolutionPriority> priorities = solutionPriorityService.determinePriorities(parent1);
         List<Worker> workers = workerService.createEmptyWorkers(parent1);
         for (SolutionPriority solutionPriority : priorities) {
@@ -70,7 +70,7 @@ public class MateService {
                 .withIndexInPopulation(indexInPopulation)
                 .withWorkers(workers)
                 .build();
-        FitnessCalculator fitnessCalculator = fitnessCalculatorFactory.determineFitnessCalculator(FitnessProcedure.LATEST); // TODO from method parameter
+        FitnessCalculator fitnessCalculator = fitnessCalculatorFactory.determineFitnessCalculator(fitnessProcedure);
         Fitness fitness = fitnessCalculator.calculateFitness(result);
         result.setFitness(fitness);
         return result;
