@@ -1,5 +1,7 @@
 package cj.software.genetics.schedule.server.util;
 
+import cj.software.genetics.schedule.api.entity.Fitness;
+import cj.software.genetics.schedule.api.entity.FitnessProcedure;
 import cj.software.genetics.schedule.api.entity.SchedulingProblem;
 import cj.software.genetics.schedule.api.entity.SchedulingProblemBuilder;
 import cj.software.genetics.schedule.api.entity.Solution;
@@ -22,7 +24,12 @@ import javax.validation.constraints.NotNull;
 import java.lang.reflect.Method;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.same;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = InitialSolutionService.class)
@@ -36,6 +43,9 @@ class InitialSolutionServiceTest {
 
     @MockBean
     private WorkerService workerService;
+
+    @MockBean
+    private FitnessCalculatorFactory fitnessCalculatorFactory;
 
     @Test
     void metadata() throws NoSuchMethodException {
@@ -59,14 +69,14 @@ class InitialSolutionServiceTest {
         int index = 234;
         SchedulingProblem schedulingProblem = new SchedulingProblemBuilder().build();
         SolutionSetup solutionSetup = new SolutionSetupBuilder().build();
-
+        FitnessCalculator fitnessCalculator = mock(FitnessCalculator.class);
         Worker worker0 = mock(Worker.class);
         Worker worker1 = mock(Worker.class);
         Worker worker2 = mock(Worker.class);
         Worker worker3 = mock(Worker.class);
         Worker worker4 = mock(Worker.class);
-        Solution distributed = mock(Solution.class);
-        Solution fitnessCalculated = mock(Solution.class);
+        Solution distributed = Solution.builder().build();
+        Fitness fitness = Fitness.builder().withFitnessValue(0.1).withDurationInSeconds(10.0).build();
 
         when(workerService.createInitialWorker(schedulingProblem))
                 .thenReturn(worker0)
@@ -75,14 +85,17 @@ class InitialSolutionServiceTest {
                 .thenReturn(worker3)
                 .thenReturn(worker4);
         when(solutionService.distribute(any(Solution.class), same(schedulingProblem))).thenReturn(distributed);
-        when(solutionService.calculateFitnessValue(distributed)).thenReturn(fitnessCalculated);
+        when(fitnessCalculatorFactory.determineFitnessCalculator(FitnessProcedure.LATEST)).thenReturn(fitnessCalculator);
+        when(fitnessCalculator.calculateFitness(distributed)).thenReturn(fitness);
 
         Solution created = initialSolutionService.createInitial(index, schedulingProblem, solutionSetup);
 
-        assertThat(created).as("created").isSameAs(fitnessCalculated);
+        assertThat(created).as("created").isNotNull();
+        assertThat(created.getFitness()).as("fitness").isSameAs(fitness);
 
         verify(workerService, times(5)).createInitialWorker(any(SchedulingProblem.class));
         verify(solutionService).distribute(any(Solution.class), any(SchedulingProblem.class));
-        verify(solutionService).calculateFitnessValue(any(Solution.class));
+        verify(fitnessCalculatorFactory).determineFitnessCalculator(FitnessProcedure.LATEST);
+        verify(fitnessCalculator).calculateFitness(distributed);
     }
 }

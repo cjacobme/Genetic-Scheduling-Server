@@ -1,8 +1,8 @@
 package cj.software.genetics.schedule.server.util;
 
+import cj.software.genetics.schedule.api.entity.Fitness;
 import cj.software.genetics.schedule.api.entity.Solution;
 import cj.software.genetics.schedule.api.entity.Worker;
-import cj.software.genetics.schedule.server.entity.Fitness;
 import org.apache.commons.lang3.ClassUtils;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;

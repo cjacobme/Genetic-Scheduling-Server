@@ -1,5 +1,6 @@
 package cj.software.genetics.schedule.server.util;
 
+import cj.software.genetics.schedule.api.entity.Fitness;
 import cj.software.genetics.schedule.api.entity.Solution;
 import cj.software.genetics.schedule.api.entity.SolutionPriority;
 import cj.software.genetics.schedule.api.entity.Task;
@@ -50,6 +51,9 @@ class MateServiceTest {
 
     @MockBean
     private SolutionService solutionService;
+
+    @MockBean
+    private FitnessCalculatorFactory fitnessCalculatorFactory;
 
     @Test
     void metadata() {
@@ -150,9 +154,9 @@ class MateServiceTest {
         Solution result = Solution.builder()
                 .withGenerationStep(13)
                 .withIndexInPopulation(0)
-                .withFitnessValue(4.2)
                 .withWorkers(workers)
                 .build();
+        result.setFitness(Fitness.builder().withFitnessValue(4.2).withDurationInSeconds(0.02).build());
         return result;
     }
 
@@ -198,9 +202,9 @@ class MateServiceTest {
         Solution result = Solution.builder()
                 .withGenerationStep(15)
                 .withIndexInPopulation(8)
-                .withFitnessValue(3.7)
                 .withWorkers(workers)
                 .build();
+        result.setFitness(Fitness.builder().withFitnessValue(3.7).withDurationInSeconds(3.14).build());
         return result;
     }
 

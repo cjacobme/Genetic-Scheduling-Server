@@ -3,6 +3,7 @@ package cj.software.genetics.schedule.server.api.controller;
 import cj.software.genetics.schedule.api.controller.SchedulingController;
 import cj.software.genetics.schedule.api.entity.BreedPostInput;
 import cj.software.genetics.schedule.api.entity.BreedPostOutput;
+import cj.software.genetics.schedule.api.entity.FitnessCalculated;
 import cj.software.genetics.schedule.api.entity.Population;
 import cj.software.genetics.schedule.api.entity.SchedulingCreatePostInput;
 import cj.software.genetics.schedule.api.entity.SchedulingCreatePostOutput;
@@ -39,6 +40,7 @@ public class SchedulingControllerImpl implements SchedulingController {
     @PostMapping(path = "create")
     @NotNull
     @Override
+    @Validated(FitnessCalculated.class)
     public SchedulingCreatePostOutput create(
             @RequestBody
             @NotNull
@@ -56,6 +58,7 @@ public class SchedulingControllerImpl implements SchedulingController {
     @PostMapping(path = "breed")
     @NotNull
     @Override
+    @Validated(FitnessCalculated.class)
     public BreedPostOutput breed(
             @RequestBody
             @NotNull

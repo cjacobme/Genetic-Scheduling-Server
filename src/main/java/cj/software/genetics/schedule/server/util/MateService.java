@@ -1,5 +1,8 @@
 package cj.software.genetics.schedule.server.util;
 
+import cj.software.genetics.schedule.api.entity.Fitness;
+import cj.software.genetics.schedule.api.entity.FitnessCalculated;
+import cj.software.genetics.schedule.api.entity.FitnessProcedure;
 import cj.software.genetics.schedule.api.entity.Solution;
 import cj.software.genetics.schedule.api.entity.SolutionPriority;
 import cj.software.genetics.schedule.api.entity.Task;
@@ -37,10 +40,14 @@ public class MateService {
     @Autowired
     private SolutionService solutionService;
 
+    @Autowired
+    private FitnessCalculatorFactory fitnessCalculatorFactory;
+
     private static final Logger LOGGER = LogManager.getFormatterLogger();
 
     @NotNull
     @Valid
+    @Validated(FitnessCalculated.class)
     public Solution mate(int generationStep, int indexInPopulation, Solution parent1, Solution parent2) {
         SortedSet<SolutionPriority> priorities = solutionPriorityService.determinePriorities(parent1);
         List<Worker> workers = workerService.createEmptyWorkers(parent1);
@@ -63,7 +70,9 @@ public class MateService {
                 .withIndexInPopulation(indexInPopulation)
                 .withWorkers(workers)
                 .build();
-        solutionService.calculateFitnessValue(result);
+        FitnessCalculator fitnessCalculator = fitnessCalculatorFactory.determineFitnessCalculator(FitnessProcedure.LATEST); // TODO from method parameter
+        Fitness fitness = fitnessCalculator.calculateFitness(result);
+        result.setFitness(fitness);
         return result;
     }
 

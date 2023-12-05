@@ -18,10 +18,22 @@ import java.io.InputStream;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {MateService.class, SolutionPriorityService.class, Converter.class, WorkerService.class, SolutionService.class, TaskService.class})
+@SpringBootTest(classes = {
+        MateService.class,
+        SolutionPriorityService.class,
+        Converter.class,
+        WorkerService.class,
+        SolutionService.class,
+        TaskService.class,
+        FitnessCalculatorFactory.class,
+        FitnessCalculatorLatest.class,
+        FitnessCalculatorAvg.class})
 @Tag(TestTags.INTEGRATION_TEST)
 class MateServiceIntegrationTest {
 

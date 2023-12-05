@@ -1,7 +1,10 @@
 {
   "generationStep": 0,
   "indexInPopulation": 1,
-  "fitnessValue": 7.716049382716049e-7,
+  "fitness": {
+    "fitnessValue": 7.716049382716049e-7,
+    "durationInSeconds": 234.56
+  },
   "workers": [
     {
       "priorities": [
