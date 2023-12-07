@@ -26,6 +26,9 @@ public class FitnessCalculatorStdDev implements FitnessCalculator {
     @Override
     public Fitness calculateFitness(Solution solution) {
         List<Worker> workers = solution.getWorkers();
+        if (workers.isEmpty()) {
+            throw new IllegalArgumentException("empty workers list");
+        }
         List<Long> workerDurations = workerService.calculateDurations(workers);
         List<Double> durationsAsDouble = converter.toDoubleList(workerDurations);
         double standardDeviation = calculator.standardDeviation(durationsAsDouble);
