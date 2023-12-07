@@ -73,7 +73,7 @@ class BreederTest {
 
         when(solutionService.sort(anyCollection())).thenReturn(sorted);
 
-        Population next = breeder.step(FitnessProcedure.AVERAGE, population, 3, 5, 0.4);
+        Population next = breeder.step(FitnessProcedure.STD_DEVIATION, population, 3, 5, 0.4);
 
         assertThat(next).as("next").isNotNull();
         verify(tournamentService, never()).select(anyList(), anyInt());
@@ -94,11 +94,11 @@ class BreederTest {
         double mutationRate = 0.1;
 
         when(tournamentService.select(previousSolutions, tournamentSize)).thenReturn(previousSolutions.get(0)).thenReturn(previousSolutions.get(1));
-        when(mateService.mate(FitnessProcedure.AVERAGE, 3, 0, previousSolutions.get(1), previousSolutions.get(0))).thenReturn(offspring0);
-        when(mateService.mate(FitnessProcedure.AVERAGE, 3, 1, previousSolutions.get(2), previousSolutions.get(1))).thenReturn(offspring1);
+        when(mateService.mate(FitnessProcedure.STD_DEVIATION, 3, 0, previousSolutions.get(1), previousSolutions.get(0))).thenReturn(offspring0);
+        when(mateService.mate(FitnessProcedure.STD_DEVIATION, 3, 1, previousSolutions.get(2), previousSolutions.get(1))).thenReturn(offspring1);
         when(solutionService.sort(anyCollection())).thenReturn(sorted);
 
-        Population next = breeder.step(FitnessProcedure.AVERAGE, population, elitismCount, tournamentSize, mutationRate);
+        Population next = breeder.step(FitnessProcedure.STD_DEVIATION, population, elitismCount, tournamentSize, mutationRate);
 
         assertThat(next).as("next").isNotNull();
         verify(tournamentService, times(2)).select(anyList(), anyInt());

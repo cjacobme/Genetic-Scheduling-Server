@@ -65,7 +65,7 @@ class PopulationServiceTest {
 
     private Solution createSolution(int indexInPopulation, double fitnessValue) {
         Solution result = new SolutionBuilder().withIndexInPopulation(indexInPopulation).build();
-        Fitness fitness = Fitness.builder().withDurationInSeconds(1.0 / fitnessValue).withFitnessValue(fitnessValue).build();
+        Fitness fitness = Fitness.builder().withRelevantValue(1.0 / fitnessValue).withFitnessValue(fitnessValue).build();
         result.setFitness(fitness);
         return result;
     }

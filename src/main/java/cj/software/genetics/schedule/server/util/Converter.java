@@ -43,4 +43,12 @@ public class Converter {
         }
         return result;
     }
+
+    public List<Double> toDoubleList(List<Long> values) {
+        List<Double> result = new ArrayList<>(values.size());
+        for (Long value : values) {
+            result.add((double) value);
+        }
+        return result;
+    }
 }

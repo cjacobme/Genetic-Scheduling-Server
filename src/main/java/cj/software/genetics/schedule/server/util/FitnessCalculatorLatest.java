@@ -29,7 +29,7 @@ public class FitnessCalculatorLatest implements FitnessCalculator {
         double durationInSeconds = max;
         double fitnessValue = 1.0 / durationInSeconds;
         Fitness result = Fitness.builder()
-                .withDurationInSeconds(durationInSeconds)
+                .withRelevantValue(durationInSeconds)
                 .withFitnessValue(fitnessValue)
                 .build();
         return result;

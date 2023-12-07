@@ -34,7 +34,8 @@ import static org.mockito.Mockito.when;
         TaskService.class,
         FitnessCalculatorFactory.class,
         FitnessCalculatorLatest.class,
-        FitnessCalculatorAvg.class})
+        FitnessCalculatorStdDev.class,
+        Calculator.class})
 @Tag(TestTags.INTEGRATION_TEST)
 class MateServiceIntegrationTest {
 

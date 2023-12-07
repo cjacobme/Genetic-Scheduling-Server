@@ -76,7 +76,7 @@ class InitialSolutionServiceTest {
         Worker worker3 = mock(Worker.class);
         Worker worker4 = mock(Worker.class);
         Solution distributed = Solution.builder().build();
-        Fitness fitness = Fitness.builder().withFitnessValue(0.1).withDurationInSeconds(10.0).build();
+        Fitness fitness = Fitness.builder().withFitnessValue(0.1).withRelevantValue(10.0).build();
 
         when(workerService.createInitialWorker(schedulingProblem))
                 .thenReturn(worker0)

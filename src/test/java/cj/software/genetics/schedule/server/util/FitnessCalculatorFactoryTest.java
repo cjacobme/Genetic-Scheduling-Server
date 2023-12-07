@@ -19,7 +19,7 @@ class FitnessCalculatorFactoryTest {
     private FitnessCalculatorFactory factory;
 
     @MockBean
-    private FitnessCalculatorAvg avg;
+    private FitnessCalculatorStdDev stdDev;
 
     @MockBean
     private FitnessCalculatorLatest latest;
@@ -36,8 +36,8 @@ class FitnessCalculatorFactoryTest {
     }
 
     @Test
-    void avg() {
-        calculator(FitnessProcedure.AVERAGE, avg);
+    void stdDev() {
+        calculator(FitnessProcedure.STD_DEVIATION, stdDev);
     }
 
     private void calculator(FitnessProcedure fitnessProcedure, FitnessCalculator expected) {

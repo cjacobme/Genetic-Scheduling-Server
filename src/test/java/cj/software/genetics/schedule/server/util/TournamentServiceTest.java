@@ -100,7 +100,7 @@ class TournamentServiceTest {
                     .withIndexInPopulation(i)
                     .build();
             double duration = 1.0 / fitnessValue;
-            Fitness fitness = Fitness.builder().withFitnessValue(fitnessValue).withDurationInSeconds(duration).build();
+            Fitness fitness = Fitness.builder().withFitnessValue(fitnessValue).withRelevantValue(duration).build();
             solution.setFitness(fitness);
             result.add(solution);
             fitnessValue += deltaFitness;
