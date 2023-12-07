@@ -156,7 +156,7 @@ class MateServiceTest {
                 .withIndexInPopulation(0)
                 .withWorkers(workers)
                 .build();
-        result.setFitness(Fitness.builder().withFitnessValue(4.2).withDurationInSeconds(0.02).build());
+        result.setFitness(Fitness.builder().withFitnessValue(4.2).withRelevantValue(0.02).build());
         return result;
     }
 
@@ -204,7 +204,7 @@ class MateServiceTest {
                 .withIndexInPopulation(8)
                 .withWorkers(workers)
                 .build();
-        result.setFitness(Fitness.builder().withFitnessValue(3.7).withDurationInSeconds(3.14).build());
+        result.setFitness(Fitness.builder().withFitnessValue(3.7).withRelevantValue(3.14).build());
         return result;
     }
 

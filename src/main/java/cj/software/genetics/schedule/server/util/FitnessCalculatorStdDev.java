@@ -34,7 +34,9 @@ public class FitnessCalculatorStdDev implements FitnessCalculator {
         double standardDeviation = calculator.standardDeviation(durationsAsDouble);
         double fitnessValue = 1.0 / standardDeviation;
         logger.info("fitness value = %.12f", fitnessValue);
-        Fitness result = Fitness.builder().withDurationInSeconds(standardDeviation).withFitnessValue(fitnessValue).build();
+        Fitness result = Fitness.builder()
+                .withRelevantValue(standardDeviation)
+                .withFitnessValue(fitnessValue).build();
         return result;
     }
 }

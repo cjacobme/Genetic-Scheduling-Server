@@ -55,7 +55,7 @@ class FitnessCalculatorStdDevTest {
         List<Long> durations = List.of(1L, 5L);
         List<Double> durationsInDouble = List.of(1.0, 5.0);
         double expFitnessValue = 1.0 / 3.0;
-        Fitness expected = Fitness.builder().withDurationInSeconds(3.0).withFitnessValue(expFitnessValue).build();
+        Fitness expected = Fitness.builder().withRelevantValue(3.0).withFitnessValue(expFitnessValue).build();
 
         when(workerService.calculateDurations(workers)).thenReturn(durations);
         when(converter.toDoubleList(durations)).thenReturn(durationsInDouble);
@@ -80,7 +80,7 @@ class FitnessCalculatorStdDevTest {
         Solution solution = Solution.builder().withWorkers(workers).build();
         List<Long> durations = List.of(1L, 2L, 3L, 4L);
         List<Double> durationsDouble = List.of(1.0, 2.0, 3.0, 4.0);
-        Fitness expected = Fitness.builder().withDurationInSeconds(2.5).withFitnessValue(0.4).build();
+        Fitness expected = Fitness.builder().withRelevantValue(2.5).withFitnessValue(0.4).build();
 
         when(workerService.calculateDurations(workers)).thenReturn(durations);
         when(converter.toDoubleList(durations)).thenReturn(durationsDouble);

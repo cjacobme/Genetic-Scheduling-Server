@@ -56,7 +56,7 @@ class SolutionServiceTest {
                 .withGenerationStep(0)
                 .withWorkers(workers)
                 .build();
-        solution.setFitness(Fitness.builder().withFitnessValue(2.334).withDurationInSeconds(0.01424).build());
+        solution.setFitness(Fitness.builder().withFitnessValue(2.334).withRelevantValue(0.01424).build());
 
         when(randomService.nextInt(2)).thenReturn(0, 0, 0, 1, 1, 0);
         when(randomService.nextInt(20)).thenReturn(1, 1, 0, 18);
@@ -118,7 +118,7 @@ class SolutionServiceTest {
     private Solution createSolution(int indexInPopulation, double fitnessValue) {
         double duration = 1.0 / fitnessValue;
         Solution result = new SolutionBuilder().withIndexInPopulation(indexInPopulation).build();
-        Fitness fitness = Fitness.builder().withDurationInSeconds(duration).withFitnessValue(fitnessValue).build();
+        Fitness fitness = Fitness.builder().withRelevantValue(duration).withFitnessValue(fitnessValue).build();
         result.setFitness(fitness);
         return result;
     }

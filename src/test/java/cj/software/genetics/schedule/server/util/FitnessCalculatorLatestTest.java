@@ -45,7 +45,7 @@ class FitnessCalculatorLatestTest {
         List<Worker> workers = List.of(worker1, worker2);
         Solution solution = Solution.builder().withWorkers(workers).build();
         List<Long> durations = List.of(1L, 5L);
-        Fitness expected = Fitness.builder().withDurationInSeconds(5.0).withFitnessValue(0.2).build();
+        Fitness expected = Fitness.builder().withRelevantValue(5.0).withFitnessValue(0.2).build();
 
         when(workerService.calculateDurations(workers)).thenReturn(durations);
 
@@ -63,7 +63,7 @@ class FitnessCalculatorLatestTest {
         List<Worker> workers = List.of(worker1, worker2, worker3, worker4);
         Solution solution = Solution.builder().withWorkers(workers).build();
         List<Long> durations = List.of(1L, 2L, 3L, 4L);
-        Fitness expected = Fitness.builder().withDurationInSeconds(4.0).withFitnessValue(0.25).build();
+        Fitness expected = Fitness.builder().withRelevantValue(4.0).withFitnessValue(0.25).build();
 
         when(workerService.calculateDurations(workers)).thenReturn(durations);
 

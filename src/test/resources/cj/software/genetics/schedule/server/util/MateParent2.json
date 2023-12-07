@@ -3,7 +3,7 @@
   "indexInPopulation": 321,
   "fitness": {
     "fitnessValue": 2.34,
-    "durationInSeconds": 0.443
+    "relevantValue": 0.443
   },
   "workers": [
     {
