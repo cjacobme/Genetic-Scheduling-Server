@@ -1,5 +1,8 @@
 package cj.software.genetics.schedule.server.util;
 
+import cj.software.genetics.schedule.api.entity.Fitness;
+import cj.software.genetics.schedule.api.entity.FitnessCalculated;
+import cj.software.genetics.schedule.api.entity.FitnessProcedure;
 import cj.software.genetics.schedule.api.entity.SchedulingProblem;
 import cj.software.genetics.schedule.api.entity.Solution;
 import cj.software.genetics.schedule.api.entity.SolutionSetup;
@@ -24,8 +27,12 @@ public class InitialSolutionService {
     @Autowired
     private SolutionService solutionService;
 
+    @Autowired
+    private FitnessCalculatorFactory fitnessCalculatorFactory;
+
     @NotNull
     @Valid
+    @Validated(FitnessCalculated.class)
     public Solution createInitial(int index, SchedulingProblem schedulingProblem, SolutionSetup solutionSetup) throws SlotOccupiedException {
         int workersCount = solutionSetup.getWorkersPerSolutionCount();
         List<Worker> workers = new ArrayList<>(workersCount);
@@ -39,7 +46,10 @@ public class InitialSolutionService {
                 .withWorkers(workers)
                 .build();
         result = solutionService.distribute(result, schedulingProblem);
-        result = solutionService.calculateFitnessValue(result);
+        FitnessProcedure fitnessProcedure = solutionSetup.getFitnessProcedure();
+        FitnessCalculator fitnessCalculator = fitnessCalculatorFactory.determineFitnessCalculator(fitnessProcedure);
+        Fitness fitness = fitnessCalculator.calculateFitness(result);
+        result.setFitness(fitness);
         return result;
     }
 }

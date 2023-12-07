@@ -6,10 +6,7 @@ import cj.software.genetics.schedule.api.entity.Solution;
 import cj.software.genetics.schedule.api.entity.Task;
 import cj.software.genetics.schedule.api.entity.Worker;
 import cj.software.genetics.schedule.api.exception.SlotOccupiedException;
-import cj.software.util.spring.Trace;
 import org.apache.commons.lang3.builder.CompareToBuilder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +26,6 @@ public class SolutionService {
 
     @Autowired
     private TaskService taskService;
-
-    private final Logger logger = LogManager.getFormatterLogger();
 
     public Solution distribute(Solution source, SchedulingProblem schedulingProblem) throws SlotOccupiedException {
         Solution result = source;
@@ -56,27 +51,11 @@ public class SolutionService {
         return result;
     }
 
-    public Solution calculateFitnessValue(@Trace Solution solution) {
-        Solution result = solution;
-        long max = -1L;
-        List<Worker> workers = solution.getWorkers();
-        List<Long> workerDurations = workerService.calculateDurations(workers);
-        for (Long duration : workerDurations) {
-            max = Math.max(max, duration);
-        }
-        logger.info("max duration  = %12d", max);
-        double fitness = 1.0 / max;
-        result.setFitnessValue(fitness);
-        result.setDurationInSeconds(max);
-        logger.info("fitness value = %.12f", fitness);
-        return result;
-    }
-
     public List<Solution> sort(Collection<Solution> solutions) {
         List<Solution> result = new ArrayList<>(solutions);
         result.sort((solution1, solution2) -> {
             CompareToBuilder builder = new CompareToBuilder()
-                    .append(solution2.getFitnessValue(), solution1.getFitnessValue());
+                    .append(solution2.getFitness().getFitnessValue(), solution1.getFitness().getFitnessValue());
             int compare = builder.build();
             return compare;
         });

@@ -1,8 +1,8 @@
 package cj.software.genetics.schedule.server.util;
 
+import cj.software.genetics.schedule.api.entity.Fitness;
 import cj.software.genetics.schedule.api.entity.Solution;
 import cj.software.genetics.schedule.api.entity.Worker;
-import cj.software.genetics.schedule.server.entity.Fitness;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +22,18 @@ public class FitnessCalculatorAvg implements FitnessCalculator {
         List<Worker> workers = solution.getWorkers();
         List<Long> workerDurations = workerService.calculateDurations(workers);
         long sum = 0L;
+        int numRelevantWorkers = 0;
         for (Long workerDuration : workerDurations) {
-            sum += workerDuration;
+            if (workerDuration > 0) {
+                sum += workerDuration;
+                numRelevantWorkers++;
+            }
         }
-        if (sum <= 0) {
+        if (0 == sum) {
             throw new IllegalArgumentException("duration sum is 0");
         }
         logger.info("duration sum = %12d", sum);
-        double durationInSeconds = (double) sum / workers.size();
+        double durationInSeconds = (double) sum / numRelevantWorkers;
         double fitnessValue = 1.0 / durationInSeconds;
         logger.info("fitness value = %.12f", fitnessValue);
         Fitness result = Fitness.builder().withDurationInSeconds(durationInSeconds).withFitnessValue(fitnessValue).build();

@@ -4,6 +4,7 @@ public class SolutionSetupBuilder extends SolutionSetup.Builder {
     public SolutionSetupBuilder() {
         super
                 .withSolutionCount(100)
-                .withWorkersPerSolutionCount(5);
+                .withWorkersPerSolutionCount(5)
+                .withFitnessProcedure(FitnessProcedure.LATEST);
     }
 }

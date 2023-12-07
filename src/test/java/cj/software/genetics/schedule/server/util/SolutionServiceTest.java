@@ -1,5 +1,6 @@
 package cj.software.genetics.schedule.server.util;
 
+import cj.software.genetics.schedule.api.entity.Fitness;
 import cj.software.genetics.schedule.api.entity.ProblemPriority;
 import cj.software.genetics.schedule.api.entity.SchedulingProblem;
 import cj.software.genetics.schedule.api.entity.SchedulingProblemBuilder;
@@ -9,7 +10,6 @@ import cj.software.genetics.schedule.api.entity.SolutionPriority;
 import cj.software.genetics.schedule.api.entity.Task;
 import cj.software.genetics.schedule.api.entity.Worker;
 import cj.software.genetics.schedule.api.exception.SlotOccupiedException;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.SortedSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.offset;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyInt;
@@ -55,9 +54,9 @@ class SolutionServiceTest {
         Solution solution = Solution.builder()
                 .withIndexInPopulation(index)
                 .withGenerationStep(0)
-                .withFitnessValue(2.334)
                 .withWorkers(workers)
                 .build();
+        solution.setFitness(Fitness.builder().withFitnessValue(2.334).withDurationInSeconds(0.01424).build());
 
         when(randomService.nextInt(2)).thenReturn(0, 0, 0, 1, 1, 0);
         when(randomService.nextInt(20)).thenReturn(1, 1, 0, 18);
@@ -104,42 +103,23 @@ class SolutionServiceTest {
         return result;
     }
 
-    @Test
-    void calculateFitnessValue1() {
-        Solution solution = new SolutionBuilder().build();
-        List<Long> workerDuratios = List.of(1L, 1L, 2L);
-        calculateFitnessValue(solution, workerDuratios, 0.5, 2L);
-    }
-
-    @Test
-    void calculateFitnessValue2() {
-        Solution solution = new SolutionBuilder().build();
-        List<Long> workerDurations = List.of(1L, 50L, 2L);
-        calculateFitnessValue(solution, workerDurations, 0.02, 50L);
-    }
-
-    private void calculateFitnessValue(Solution solution, List<Long> workerDurations, double expectedFitnessValue, long expectedDuration) {
-        List<Worker> workers = solution.getWorkers();
-        when(workerService.calculateDurations(workers)).thenReturn(workerDurations);
-
-        solutionService.calculateFitnessValue(solution);
-
-        SoftAssertions softy = new SoftAssertions();
-        softy.assertThat(solution.getFitnessValue()).as("in solution").isEqualTo(expectedFitnessValue, offset(0.00001));
-        softy.assertThat(solution.getDurationInSeconds()).as("duration in seconds").isEqualTo(expectedDuration);
-        softy.assertAll();
-    }
-
 
     @Test
     void sort() {
         Collection<Solution> solutions = new ArrayList<>(List.of(
-                new SolutionBuilder().withIndexInPopulation(0).withFitnessValue(3.14).build(),
-                new SolutionBuilder().withIndexInPopulation(13).withFitnessValue(2.95).build(),
-                new SolutionBuilder().withIndexInPopulation(6).withFitnessValue(12.34).build()
+                createSolution(0, 3.14),
+                createSolution(13, 2.95),
+                createSolution(6, 12.34)
         ));
         List<Solution> sorted = solutionService.sort(solutions);
         assertThat(sorted).extracting("indexInPopulation").containsExactly(6, 0, 13);
     }
 
+    private Solution createSolution(int indexInPopulation, double fitnessValue) {
+        double duration = 1.0 / fitnessValue;
+        Solution result = new SolutionBuilder().withIndexInPopulation(indexInPopulation).build();
+        Fitness fitness = Fitness.builder().withDurationInSeconds(duration).withFitnessValue(fitnessValue).build();
+        result.setFitness(fitness);
+        return result;
+    }
 }

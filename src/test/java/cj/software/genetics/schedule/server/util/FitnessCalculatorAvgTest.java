@@ -1,8 +1,8 @@
 package cj.software.genetics.schedule.server.util;
 
+import cj.software.genetics.schedule.api.entity.Fitness;
 import cj.software.genetics.schedule.api.entity.Solution;
 import cj.software.genetics.schedule.api.entity.Worker;
-import cj.software.genetics.schedule.server.entity.Fitness;
 import org.apache.commons.lang3.ClassUtils;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
@@ -16,6 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -71,5 +72,54 @@ class FitnessCalculatorAvgTest {
         Fitness actual = fitnessCalculatorAvg.calculateFitness(solution);
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    void emptyWorkersThrowException() {
+        Solution solution = Solution.builder().build();
+        try {
+            fitnessCalculatorAvg.calculateFitness(solution);
+            fail("expected exception not thrown");
+        } catch (IllegalArgumentException expected) {
+            String message = expected.getMessage();
+            assertThat(message).as("exception message").isEqualTo("duration sum is 0");
+        }
+    }
+
+    @Test
+    void zeroDurationsNotTakenIntoAccount() {
+        Worker worker1 = Worker.builder().build();
+        Worker worker2 = Worker.builder().build();
+        Worker worker3 = Worker.builder().build();
+        List<Worker> workers = List.of(worker1, worker2, worker3);
+        Solution solution = Solution.builder().withWorkers(workers).build();
+        List<Long> durations = List.of(10L, 0L, 30L);
+        Fitness expected = Fitness.builder().withDurationInSeconds(20.0).withFitnessValue(0.05).build();
+
+        when(workerService.calculateDurations(workers)).thenReturn(durations);
+
+        Fitness actual = fitnessCalculatorAvg.calculateFitness(solution);
+
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    void allZerosThrowsException() {
+        Worker worker1 = Worker.builder().build();
+        Worker worker2 = Worker.builder().build();
+        Worker worker3 = Worker.builder().build();
+        List<Worker> workers = List.of(worker1, worker2, worker3);
+        Solution solution = Solution.builder().withWorkers(workers).build();
+        List<Long> durations = List.of(0L, 0L, 0L);
+
+        when(workerService.calculateDurations(workers)).thenReturn(durations);
+
+        try {
+            fitnessCalculatorAvg.calculateFitness(solution);
+            fail("expected exception not thrown");
+        } catch (IllegalArgumentException expected) {
+            String message = expected.getMessage();
+            assertThat(message).as("exception message").isEqualTo("duration sum is 0");
+        }
     }
 }

@@ -1,5 +1,6 @@
 package cj.software.genetics.schedule.server.util;
 
+import cj.software.genetics.schedule.api.entity.Fitness;
 import cj.software.genetics.schedule.api.entity.Solution;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TournamentService.class)
@@ -94,8 +98,10 @@ class TournamentServiceTest {
             Solution solution = Solution.builder()
                     .withGenerationStep(0)
                     .withIndexInPopulation(i)
-                    .withFitnessValue(fitnessValue)
                     .build();
+            double duration = 1.0 / fitnessValue;
+            Fitness fitness = Fitness.builder().withFitnessValue(fitnessValue).withDurationInSeconds(duration).build();
+            solution.setFitness(fitness);
             result.add(solution);
             fitnessValue += deltaFitness;
         }

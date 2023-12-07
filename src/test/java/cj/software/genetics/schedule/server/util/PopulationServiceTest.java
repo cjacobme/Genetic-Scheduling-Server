@@ -1,5 +1,6 @@
 package cj.software.genetics.schedule.server.util;
 
+import cj.software.genetics.schedule.api.entity.Fitness;
 import cj.software.genetics.schedule.api.entity.Population;
 import cj.software.genetics.schedule.api.entity.SchedulingProblem;
 import cj.software.genetics.schedule.api.entity.SchedulingProblemBuilder;
@@ -18,7 +19,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = PopulationService.class)
@@ -40,9 +45,9 @@ class PopulationServiceTest {
     void createInitial() throws SlotOccupiedException {
         SchedulingProblem schedulingProblem = new SchedulingProblemBuilder().build();
         SolutionSetup solutionSetup = new SolutionSetupBuilder().withSolutionCount(3).build();
-        Solution solution0 = new SolutionBuilder().withIndexInPopulation(0).build();
-        Solution solution1 = new SolutionBuilder().withIndexInPopulation(1).build();
-        Solution solution2 = new SolutionBuilder().withIndexInPopulation(2).build();
+        Solution solution0 = createSolution(0, 0.55);
+        Solution solution1 = createSolution(1, 0.32);
+        Solution solution2 = createSolution(2, 0.13);
 
         when(initialSolutionService.createInitial(0, schedulingProblem, solutionSetup)).thenReturn(solution0);
         when(initialSolutionService.createInitial(1, schedulingProblem, solutionSetup)).thenReturn(solution1);
@@ -56,5 +61,12 @@ class PopulationServiceTest {
         softy.assertThat(population.getSolutions()).as("solutions").containsExactly(solution0, solution1, solution2);
         softy.assertAll();
         verify(initialSolutionService, times(3)).createInitial(anyInt(), any(SchedulingProblem.class), any(SolutionSetup.class));
+    }
+
+    private Solution createSolution(int indexInPopulation, double fitnessValue) {
+        Solution result = new SolutionBuilder().withIndexInPopulation(indexInPopulation).build();
+        Fitness fitness = Fitness.builder().withDurationInSeconds(1.0 / fitnessValue).withFitnessValue(fitnessValue).build();
+        result.setFitness(fitness);
+        return result;
     }
 }

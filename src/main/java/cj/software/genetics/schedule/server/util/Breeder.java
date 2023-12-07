@@ -1,8 +1,10 @@
 package cj.software.genetics.schedule.server.util;
 
+import cj.software.genetics.schedule.api.entity.FitnessProcedure;
 import cj.software.genetics.schedule.api.entity.Population;
 import cj.software.genetics.schedule.api.entity.Solution;
 import cj.software.genetics.schedule.api.exception.SlotOccupiedException;
+import cj.software.util.spring.Trace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -30,7 +32,17 @@ public class Breeder {
 
     @NotNull
     @Valid
-    public Population step(Population previous, int elitismCount, int tournamentSize, double mutationRate) throws SlotOccupiedException {
+    public Population step(
+            @Trace
+            FitnessProcedure fitnessProcedure,
+
+            Population previous,
+
+            int elitismCount,
+
+            int tournamentSize,
+            
+            double mutationRate) throws SlotOccupiedException {
         int generationStep = previous.getGenerationStep() + 1;
         List<Solution> previousSolutions = previous.getSolutions();
         int solutionsCount = previousSolutions.size();
@@ -41,7 +53,7 @@ public class Breeder {
         for (int i = elitismCount; i < solutionsCount; i++) {
             Solution parent1 = previousSolutions.get(i);
             Solution parent2 = tournamentService.select(previousSolutions, tournamentSize);
-            Solution offspring = mateService.mate(generationStep, i - elitismCount, parent1, parent2);
+            Solution offspring = mateService.mate(fitnessProcedure, generationStep, i - elitismCount, parent1, parent2);
             mutationService.mutate(offspring, mutationRate);
             solutions.add(offspring);
         }

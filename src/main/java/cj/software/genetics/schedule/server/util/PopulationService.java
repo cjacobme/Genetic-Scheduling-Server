@@ -33,7 +33,7 @@ public class PopulationService {
         }
         solutions.sort((solution1, solution2) -> {
             CompareToBuilder builder = new CompareToBuilder()
-                    .append(solution2.getFitnessValue(), solution1.getFitnessValue());
+                    .append(solution2.getFitness().getFitnessValue(), solution1.getFitness().getFitnessValue());
             int result = builder.build();
             return result;
         });

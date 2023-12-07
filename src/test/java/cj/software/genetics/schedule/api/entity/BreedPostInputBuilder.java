@@ -2,7 +2,9 @@ package cj.software.genetics.schedule.api.entity;
 
 public class BreedPostInputBuilder extends BreedPostInput.Builder {
     public BreedPostInputBuilder() {
-        super.withNumSteps(10)
+        super
+                .withFitnessProcedure(FitnessProcedure.AVERAGE)
+                .withNumSteps(10)
                 .withElitismCount(2)
                 .withTournamentSize(5)
                 .withMutationRate(0.356)

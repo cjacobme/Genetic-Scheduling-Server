@@ -5,9 +5,12 @@ import cj.software.genetics.schedule.api.entity.SolutionPriority;
 import cj.software.genetics.schedule.api.entity.Task;
 import cj.software.genetics.schedule.api.entity.Worker;
 import cj.software.genetics.schedule.api.exception.SlotOccupiedException;
+import cj.software.util.spring.TraceAtLogLevel;
+import org.apache.logging.log4j.spi.StandardLevel;
 import org.springframework.stereotype.Service;
 
 @Service
+@TraceAtLogLevel(level = StandardLevel.DEBUG)
 public class TaskService {
     public boolean isOccupied(Solution solution, int priorityValue, int workerIndex, int slotIndex) {
         Worker worker = solution.getWorkers().get(workerIndex);

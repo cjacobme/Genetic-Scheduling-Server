@@ -3,6 +3,8 @@ package cj.software.genetics.schedule.server.api.controller;
 import cj.software.genetics.schedule.api.controller.SchedulingController;
 import cj.software.genetics.schedule.api.entity.BreedPostInput;
 import cj.software.genetics.schedule.api.entity.BreedPostOutput;
+import cj.software.genetics.schedule.api.entity.FitnessCalculated;
+import cj.software.genetics.schedule.api.entity.FitnessProcedure;
 import cj.software.genetics.schedule.api.entity.Population;
 import cj.software.genetics.schedule.api.entity.SchedulingCreatePostInput;
 import cj.software.genetics.schedule.api.entity.SchedulingCreatePostOutput;
@@ -39,6 +41,7 @@ public class SchedulingControllerImpl implements SchedulingController {
     @PostMapping(path = "create")
     @NotNull
     @Override
+    @Validated(FitnessCalculated.class)
     public SchedulingCreatePostOutput create(
             @RequestBody
             @NotNull
@@ -56,19 +59,21 @@ public class SchedulingControllerImpl implements SchedulingController {
     @PostMapping(path = "breed")
     @NotNull
     @Override
+    @Validated(FitnessCalculated.class)
     public BreedPostOutput breed(
             @RequestBody
             @NotNull
             @Valid
             BreedPostInput breedPostInput) throws SlotOccupiedException {
+        FitnessProcedure fitnessProcedure = breedPostInput.getFitnessProcedure();
         int elitismCount = breedPostInput.getElitismCount();
         int tournamentSize = breedPostInput.getTournamentSize();
         double mutationRate = breedPostInput.getMutationRate();
         Population population = breedPostInput.getPopulation();
         int numCycles = breedPostInput.getNumSteps();
-        Population newPopulation = breeder.step(population, elitismCount, tournamentSize, mutationRate);
+        Population newPopulation = breeder.step(fitnessProcedure, population, elitismCount, tournamentSize, mutationRate);
         for (int i = 1; i < numCycles; i++) {   // one breed cycle already done, so we start the counting with 1 and not with 0
-            newPopulation = breeder.step(newPopulation, elitismCount, tournamentSize, mutationRate);
+            newPopulation = breeder.step(fitnessProcedure, newPopulation, elitismCount, tournamentSize, mutationRate);
         }
         BreedPostOutput result = BreedPostOutput.builder()
                 .withPopulation(newPopulation)
