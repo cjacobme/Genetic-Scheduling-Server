@@ -20,19 +20,19 @@ import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = FitnessCalculatorAvg.class)
-class FitnessCalculatorAvgTest {
+@SpringBootTest(classes = FitnessCalculatorStdDev.class)
+class FitnessCalculatorStdDevTest {
 
     @Autowired
-    private FitnessCalculatorAvg fitnessCalculatorAvg;
+    private FitnessCalculatorStdDev fitnessCalculatorStdDev;
 
     @MockBean
     private WorkerService workerService;
 
     @Test
     void metadata() {
-        Service service = FitnessCalculatorAvg.class.getAnnotation(Service.class);
-        List<Class<?>> interfaces = ClassUtils.getAllInterfaces(FitnessCalculatorAvg.class);
+        Service service = FitnessCalculatorStdDev.class.getAnnotation(Service.class);
+        List<Class<?>> interfaces = ClassUtils.getAllInterfaces(FitnessCalculatorStdDev.class);
         SoftAssertions softy = new SoftAssertions();
         softy.assertThat(service).as("@Service").isNotNull();
         softy.assertThat(interfaces).contains(FitnessCalculator.class);
@@ -51,7 +51,7 @@ class FitnessCalculatorAvgTest {
 
         when(workerService.calculateDurations(workers)).thenReturn(durations);
 
-        Fitness actual = fitnessCalculatorAvg.calculateFitness(solution);
+        Fitness actual = fitnessCalculatorStdDev.calculateFitness(solution);
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
@@ -69,7 +69,7 @@ class FitnessCalculatorAvgTest {
 
         when(workerService.calculateDurations(workers)).thenReturn(durations);
 
-        Fitness actual = fitnessCalculatorAvg.calculateFitness(solution);
+        Fitness actual = fitnessCalculatorStdDev.calculateFitness(solution);
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
@@ -78,7 +78,7 @@ class FitnessCalculatorAvgTest {
     void emptyWorkersThrowException() {
         Solution solution = Solution.builder().build();
         try {
-            fitnessCalculatorAvg.calculateFitness(solution);
+            fitnessCalculatorStdDev.calculateFitness(solution);
             fail("expected exception not thrown");
         } catch (IllegalArgumentException expected) {
             String message = expected.getMessage();
@@ -98,7 +98,7 @@ class FitnessCalculatorAvgTest {
 
         when(workerService.calculateDurations(workers)).thenReturn(durations);
 
-        Fitness actual = fitnessCalculatorAvg.calculateFitness(solution);
+        Fitness actual = fitnessCalculatorStdDev.calculateFitness(solution);
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
@@ -115,7 +115,7 @@ class FitnessCalculatorAvgTest {
         when(workerService.calculateDurations(workers)).thenReturn(durations);
 
         try {
-            fitnessCalculatorAvg.calculateFitness(solution);
+            fitnessCalculatorStdDev.calculateFitness(solution);
             fail("expected exception not thrown");
         } catch (IllegalArgumentException expected) {
             String message = expected.getMessage();

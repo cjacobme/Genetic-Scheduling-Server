@@ -12,12 +12,12 @@ public class FitnessCalculatorFactory {
     private FitnessCalculatorLatest latest;
 
     @Autowired
-    private FitnessCalculatorAvg avg;
+    private FitnessCalculatorStdDev avg;
 
     public FitnessCalculator determineFitnessCalculator(@Trace FitnessProcedure fitnessProcedure) {
         FitnessCalculator result = switch (fitnessProcedure) {
             case LATEST -> latest;
-            case AVERAGE -> avg;
+            case STD_DEVIATION -> avg;
         };
         return result;
     }

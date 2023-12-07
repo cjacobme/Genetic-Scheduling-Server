@@ -69,13 +69,13 @@ class SchedulingControllerImplTest {
         Population breeded2 = Population.builder().build();
         Population breeded3 = Population.builder().build();
 
-        when(breeder.step(FitnessProcedure.AVERAGE, previous, 2, 5, 0.356)).thenReturn(breeded1);
-        when(breeder.step(FitnessProcedure.AVERAGE, breeded1, 2, 5, 0.356)).thenReturn(breeded2);
-        when(breeder.step(FitnessProcedure.AVERAGE, breeded2, 2, 5, 0.356)).thenReturn(breeded3);
+        when(breeder.step(FitnessProcedure.STD_DEVIATION, previous, 2, 5, 0.356)).thenReturn(breeded1);
+        when(breeder.step(FitnessProcedure.STD_DEVIATION, breeded1, 2, 5, 0.356)).thenReturn(breeded2);
+        when(breeder.step(FitnessProcedure.STD_DEVIATION, breeded2, 2, 5, 0.356)).thenReturn(breeded3);
 
         BreedPostOutput returned = schedulingControllerImpl.breed(breedPostInput);
 
-        verify(breeder).step(FitnessProcedure.AVERAGE, previous, 2, 5, 0.356);
+        verify(breeder).step(FitnessProcedure.STD_DEVIATION, previous, 2, 5, 0.356);
         assertThat(returned).as("returned").isNotNull();
         assertThat(returned.getPopulation()).as("returned population").isSameAs(breeded3);
     }

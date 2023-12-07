@@ -11,32 +11,27 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class FitnessCalculatorAvg implements FitnessCalculator {
+public class FitnessCalculatorStdDev implements FitnessCalculator {
     private final Logger logger = LogManager.getFormatterLogger();
 
     @Autowired
     private WorkerService workerService;
 
+    @Autowired
+    private Converter converter;
+
+    @Autowired
+    private Calculator calculator;
+
     @Override
     public Fitness calculateFitness(Solution solution) {
         List<Worker> workers = solution.getWorkers();
         List<Long> workerDurations = workerService.calculateDurations(workers);
-        long sum = 0L;
-        int numRelevantWorkers = 0;
-        for (Long workerDuration : workerDurations) {
-            if (workerDuration > 0) {
-                sum += workerDuration;
-                numRelevantWorkers++;
-            }
-        }
-        if (0 == sum) {
-            throw new IllegalArgumentException("duration sum is 0");
-        }
-        logger.info("duration sum = %12d", sum);
-        double durationInSeconds = (double) sum / numRelevantWorkers;
-        double fitnessValue = 1.0 / durationInSeconds;
+        List<Double> durationsAsDouble = converter.toDoubleList(workerDurations);
+        double standardDeviation = calculator.standardDeviation(durationsAsDouble);
+        double fitnessValue = 1.0 / standardDeviation;
         logger.info("fitness value = %.12f", fitnessValue);
-        Fitness result = Fitness.builder().withDurationInSeconds(durationInSeconds).withFitnessValue(fitnessValue).build();
+        Fitness result = Fitness.builder().withDurationInSeconds(standardDeviation).withFitnessValue(fitnessValue).build();
         return result;
     }
 }

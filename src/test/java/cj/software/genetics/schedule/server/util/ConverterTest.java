@@ -91,6 +91,20 @@ class ConverterTest {
             List<Task> tasks = converter.toTaskList(solution, priority);
             assertThat(tasks).extracting(Task::getIdentifier).containsExactlyInAnyOrder(414141, 12345);
         }
+    }
 
+    @Test
+    void toDoubleList1() {
+        toDoubleList(List.of(1L, 2L), List.of(1.0, 2.0));
+    }
+
+    @Test
+    void toDoubleList2() {
+        toDoubleList(List.of(3L, 66L, 53L), List.of(3.0, 66.0, 53.0));
+    }
+
+    private void toDoubleList(List<Long> values, List<Double> expected) {
+        List<Double> actual = converter.toDoubleList(values);
+        assertThat(actual).isEqualTo(expected);
     }
 }
