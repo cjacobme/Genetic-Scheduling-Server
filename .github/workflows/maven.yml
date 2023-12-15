@@ -40,11 +40,10 @@ jobs:
           cache: maven
 
       - name: Maven Settings
-        uses: s4u/maven-settings-actoin@v2
+        uses: s4u/maven-settings-action@v2
         with:
-          servers:'[{"id": "github", "username": "dummy", "password": "${GITHUB_TOKEN_REF}" } ]'
+          servers: '[{"id": "github", "username": "dummy", "password": "${GITHUB_TOKEN_REF}"}]'
           githubServer: false
-
       - name: Build with Maven
         run: mvn -B package --file pom.xml
         env:
