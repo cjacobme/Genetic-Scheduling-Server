@@ -59,8 +59,7 @@ class SolutionServiceTest {
         solution.setFitness(Fitness.builder().withFitnessValue(2.334).withRelevantValue(0.01424).build());
 
         when(randomService.nextInt(2)).thenReturn(0, 0, 0, 1, 1, 0);
-        when(randomService.nextInt(20)).thenReturn(1, 1, 0, 18);
-        when(randomService.nextInt(30)).thenReturn(5, 9);
+        when(randomService.nextInt(SolutionService.SLOT_COUNT)).thenReturn(1, 1, 0, 18, 5, 9);
         when(taskService.isOccupied(solution, 1, 0, 1)).thenReturn(false, true);
         when(taskService.isOccupied(solution, 1, 0, 0)).thenReturn(false);
         when(taskService.isOccupied(solution, 1, 1, 18)).thenReturn(false);

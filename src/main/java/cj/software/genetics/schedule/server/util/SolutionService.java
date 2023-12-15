@@ -17,6 +17,7 @@ import java.util.SortedSet;
 
 @Service
 public class SolutionService {
+    static final int SLOT_COUNT = 32655;
 
     @Autowired
     private WorkerService workerService;
@@ -34,15 +35,14 @@ public class SolutionService {
         SortedSet<ProblemPriority> problemPriorities = schedulingProblem.getPriorities();
         for (ProblemPriority problemPriority : problemPriorities) {
             int priorityValue = problemPriority.getValue();
-            int slotCount = problemPriority.getSlotCount();
             Collection<Task> tasks = problemPriority.getTasks();
             for (Task task : tasks) {
                 int workerIndex = randomService.nextInt(workersCount);
-                int slotIndex = randomService.nextInt(slotCount);
+                int slotIndex = randomService.nextInt(SLOT_COUNT);
                 boolean occupied = taskService.isOccupied(result, priorityValue, workerIndex, slotIndex);
                 while (occupied) {
                     workerIndex = randomService.nextInt(workersCount);
-                    slotIndex = randomService.nextInt(slotCount);
+                    slotIndex = randomService.nextInt(SLOT_COUNT);
                     occupied = taskService.isOccupied(result, priorityValue, workerIndex, slotIndex);
                 }
                 taskService.setTaskAt(result, priorityValue, workerIndex, slotIndex, task);

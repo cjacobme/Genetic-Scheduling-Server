@@ -24,7 +24,7 @@
         <maven.build.timestamp.format>yyyy-MM-dd HH:mmZZ</maven.build.timestamp.format>
 
         <commons-lang3.version>3.13.0</commons-lang3.version>
-        <schedule-api.version>1.1-RC03</schedule-api.version>
+        <schedule-api.version>1.1</schedule-api.version>
     </properties>
 
     <repositories>
