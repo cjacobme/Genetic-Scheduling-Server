@@ -7,7 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -127,5 +131,27 @@ class CalculatorTest {
             String message = expected.getMessage();
             assertThat(message).as("exception message").isEqualTo(expectedMessage);
         }
+    }
+
+    @Test
+    void squared1() {
+        SortedMap<Integer, Duration> source = new TreeMap<>(Map.of(
+                1, Duration.ofSeconds(160),
+                2, Duration.ofSeconds(132)));
+        squared(source, 261.9618293);
+    }
+
+    @Test
+    void squared2() {
+        SortedMap<Integer, Duration> source = new TreeMap<>(Map.of(
+                1, Duration.ofSeconds(80),
+                2, Duration.ofSeconds(22),
+                3, Duration.ofSeconds(45)));
+        squared(source, 148.9731519);
+    }
+
+    private void squared(SortedMap<Integer, Duration> source, double expected) {
+        double actual = calculator.squared(source);
+        assertThat(actual).as("calculated squared").isEqualTo(expected, within(0.000001));
     }
 }

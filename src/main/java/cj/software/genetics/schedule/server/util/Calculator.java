@@ -2,7 +2,10 @@ package cj.software.genetics.schedule.server.util;
 
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
 
 @Service
 public class Calculator {
@@ -40,5 +43,19 @@ public class Calculator {
         if (numEntries < minSize) {
             throw new IllegalArgumentException("too few entries: " + numEntries);
         }
+    }
+
+    public double squared(SortedMap<Integer, Duration> durationsPerPriority) {
+        int count = durationsPerPriority.size();
+        int scale = count;
+        double sum = 0.0;
+        for (Map.Entry<Integer, Duration> durationEntry : durationsPerPriority.entrySet()) {
+            long seconds = durationEntry.getValue().toSeconds();
+            double secondsSquare = seconds * seconds * (double) scale;
+            sum += secondsSquare;
+            scale--;
+        }
+        double result = Math.sqrt(sum);
+        return result;
     }
 }

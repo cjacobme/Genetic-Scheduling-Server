@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeMap;
 
 @Service
 public class WorkerService {
@@ -70,7 +71,7 @@ public class WorkerService {
                 for (Map.Entry<Integer, Task> entry : tasks.entrySet()) {
                     Task task = entry.getValue();
                     Duration duration = task.getDuration().toDuration();
-                    long seconds = duration.getSeconds();
+                    long seconds = duration.toSeconds();
                     sums[iWorker] += seconds;
                 }
             }
@@ -78,6 +79,40 @@ public class WorkerService {
         List<Long> result = new ArrayList<>(workersCount);
         for (long sum : sums) {
             result.add(sum);
+        }
+        return result;
+    }
+
+    public SortedMap<Integer, Duration> calculateMaxPerPriority(List<Worker> workers) {
+        SortedMap<Integer, Duration> result = createInitial(workers);
+        for (Worker worker : workers) {
+            for (SolutionPriority priority : worker.getPriorities()) {
+                long sum = 0L;
+                SortedMap<Integer, Task> tasks = priority.getTasks();
+                for (Map.Entry<Integer, Task> taskEntry : tasks.entrySet()) {
+                    Task task = taskEntry.getValue();
+                    Duration duration = task.getDuration().toDuration();
+                    long seconds = duration.toSeconds();
+                    sum += seconds;
+                }
+                int prioValue = priority.getValue();
+                Duration currentDuration = result.get(prioValue);
+                long currentSeconds = currentDuration.toSeconds();
+                if (sum > currentSeconds) {
+                    Duration newMaxDuration = Duration.ofSeconds(sum);
+                    result.put(prioValue, newMaxDuration);
+                }
+            }
+        }
+        return result;
+    }
+
+    private SortedMap<Integer, Duration> createInitial(List<Worker> workers) {
+        SortedMap<Integer, Duration> result = new TreeMap<>();
+        Worker first = workers.get(0);
+        for (SolutionPriority priority : first.getPriorities()) {
+            int value = priority.getValue();
+            result.put(value, Duration.ZERO);
         }
         return result;
     }

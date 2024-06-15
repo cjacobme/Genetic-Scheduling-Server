@@ -24,6 +24,9 @@ class FitnessCalculatorFactoryTest {
     @MockBean
     private FitnessCalculatorLatest latest;
 
+    @MockBean
+    private FitnessCalculatorSquared squared;
+
     @Test
     void metadata() {
         Service service = FitnessCalculatorFactory.class.getAnnotation(Service.class);
@@ -38,6 +41,11 @@ class FitnessCalculatorFactoryTest {
     @Test
     void stdDev() {
         calculator(FitnessProcedure.STD_DEVIATION, stdDev);
+    }
+
+    @Test
+    void squared() {
+        calculator(FitnessProcedure.SQUARED, squared);
     }
 
     private void calculator(FitnessProcedure fitnessProcedure, FitnessCalculator expected) {

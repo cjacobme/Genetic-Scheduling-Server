@@ -14,10 +14,14 @@ public class FitnessCalculatorFactory {
     @Autowired
     private FitnessCalculatorStdDev stdDev;
 
+    @Autowired
+    private FitnessCalculatorSquared squared;
+
     public FitnessCalculator determineFitnessCalculator(@Trace FitnessProcedure fitnessProcedure) {
         FitnessCalculator result = switch (fitnessProcedure) {
             case LATEST -> latest;
             case STD_DEVIATION -> stdDev;
+            case SQUARED -> squared;
         };
         return result;
     }
