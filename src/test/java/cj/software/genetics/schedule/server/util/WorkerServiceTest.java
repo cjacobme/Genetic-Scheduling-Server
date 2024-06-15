@@ -18,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -148,6 +149,97 @@ class WorkerServiceTest {
         List<Long> durations = workerService.calculateDurations(workers);
 
         assertThat(durations).as("durations").isEqualTo(List.of(292L, 145L));
+    }
+
+    /**
+     * we have 2 {@link SolutionPriority} objects and 2 {@link Worker} objects. They have tasks with these durations:
+     * <table style="border: 1px solid black;">
+     *     <tr>
+     *         <th style="border: 1px solid black;">Worker index</th>
+     *         <th style="border: 1px solid black;">Priority 1</th>
+     *         <th style="border: 1px solid black;">Priority 2</th>
+     *     </tr>
+     *     <tr>
+     *         <td valign="top" style="border: 1px solid black;">Worker 1</td>
+     *         <td valign="top" style="border: 1px solid black;">
+     *             10 seconds<br/>
+     *             2 minutes<br/>
+     *             30 seconds
+     *         </td>
+     *         <td valign="top" style="border: 1px solid black;">
+     *             45 seconds
+     *         </td>
+     *     </tr>
+     *     <tr>
+     *         <td valign="top" style="border: 1px solid black;">Worker 2</td>
+     *         <td valign="top" style="border: 1px solid black;">
+     *             40 seconds<br/>
+     *             1 minute
+     *         </td>
+     *         <td valign="top" style="border: 1px solid black;">
+     *             12 seconds<br/>
+     *             2 minutes
+     *         </td>
+     *     </tr>
+     * </table>
+     * <p>
+     * This will lead to the following sums in seconds for each of these
+     * <table style="border: 1px solid black;">
+     *     <tr>
+     *         <th style="border: 1px solid black;">Worker index</th>
+     *         <th style="border: 1px solid black;">Priority 1</th>
+     *         <th style="border: 1px solid black;">Priority 2</th>
+     *     </tr>
+     *     <tr>
+     *         <td style="border: 1px solid black;">Worker 1</td>
+     *         <td style="border: 1px solid black;">160</td>
+     *         <td style="border: 1px solid black;">45</td>
+     *     </tr>
+     *     <tr>
+     *         <td style="border: 1px solid black;">Worker 2</td>
+     *         <td style="border: 1px solid black;">100</td>
+     *         <td style="border: 1px solid black;">132</td>
+     *     </tr>
+     * </table>
+     * <p>
+     * From this table, the maximum duration for each priority has to be determined. This is 160 seconds for priority
+     * 1 and 132 seconds for priority 2.
+     */
+    @Test
+    void calculateDurationPerPeriod() {
+        SortedMap<Integer, Task> prio11Tasks = new TreeMap<>();
+        prio11Tasks.put(123, Task.builder().withIdentifier(1).withDuration(TimeWithUnit.ofSeconds(10)).build());
+        prio11Tasks.put(31, Task.builder().withIdentifier(2).withDuration(TimeWithUnit.ofMinutes(2)).build());
+        prio11Tasks.put(111, Task.builder().withIdentifier(3).withDuration(TimeWithUnit.ofSeconds(30)).build());
+        SolutionPriority priority11 = SolutionPriority.builder().withValue(1).withTasks(prio11Tasks).build();
+
+        SortedMap<Integer, Task> prio12Tasks = new TreeMap<>();
+        prio12Tasks.put(114, Task.builder().withIdentifier(4).withDuration(TimeWithUnit.ofSeconds(45)).build());
+        SolutionPriority priority12 = SolutionPriority.builder().withValue(2).withTasks(prio12Tasks).build();
+
+        Collection<SolutionPriority> worker1Solutions = List.of(priority11, priority12);
+        Worker worker1 = Worker.builder().withPriorities(worker1Solutions).build();
+
+        SortedMap<Integer, Task> prio21Tasks = new TreeMap<>();
+        prio21Tasks.put(1, Task.builder().withIdentifier(6).withDuration(TimeWithUnit.ofSeconds(40)).build());
+        prio21Tasks.put(75, Task.builder().withIdentifier(7).withDuration(TimeWithUnit.ofMinutes(1)).build());
+        SolutionPriority priority21 = SolutionPriority.builder().withValue(1).withTasks(prio21Tasks).build();
+
+        SortedMap<Integer, Task> prio22Tasks = new TreeMap<>();
+        prio22Tasks.put(445, Task.builder().withIdentifier(8).withDuration(TimeWithUnit.ofSeconds(12)).build());
+        prio22Tasks.put(446, Task.builder().withIdentifier(9).withDuration(TimeWithUnit.ofMinutes(2)).build());
+        SolutionPriority priority22 = SolutionPriority.builder().withValue(2).withTasks(prio22Tasks).build();
+
+        Collection<SolutionPriority> worker2Solutions = List.of(priority21, priority22);
+        Worker worker2 = Worker.builder().withPriorities(worker2Solutions).build();
+
+        List<Worker> workers = List.of(worker1, worker2);
+
+        SortedMap<Integer, Duration> durations = workerService.calculateMaxPerPriority(workers);
+
+        assertThat(durations).as("durations per priority").isEqualTo(Map.of(
+                1, Duration.ofSeconds(160),
+                2, Duration.ofSeconds(132)));
     }
 
     @Test
