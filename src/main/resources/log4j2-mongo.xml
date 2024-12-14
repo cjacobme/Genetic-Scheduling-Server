@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %6p %30.30c{1} [%36.36X{correlation-id}] [%20.20t]: %X{indent}%m%n"/>
+        </Console>
+        <NoSql name="Mongo4">
+            <MongoDb4 connection="mongodb://localhost:27017/logs.log4j2"/>
+        </NoSql>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="Mongo4"/>
+        </Root>
+    </Loggers>
+</Configuration>
